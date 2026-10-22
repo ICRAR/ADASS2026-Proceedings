@@ -1,0 +1,161 @@
+name: Report paper builds
+
+on:
+  workflow_run:
+    workflows:
+      - Build papers
+    types:
+      - completed
+
+permissions:
+  actions: read
+  pull-requests: write
+
+jobs:
+  report:
+    # Only report successful builds for pull requests.
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # workflow_run.pull_requests is empty for PRs from forks, so Build papers
+      # saves the number as an artifact.
+      - name: Download PR number
+        uses: actions/download-artifact@v4
+        with:
+          name: pr-number
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Find pull request
+        id: pr
+        shell: bash
+        run: |
+          # The artifact was written by a run on the author's code, so accept only
+          # a plain number.
+          number=$(tr -d '[:space:]' < pr-number)
+
+          if ! [[ "$number" =~ ^[0-9]+$ ]]; then
+            echo "::error::pr-number artifact doesn't hold a PR number"
+            exit 1
+          fi
+
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+
+      - name: Find PDF artifacts
+        id: artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runId = context.payload.workflow_run.id;
+
+            const { data } =
+              await github.rest.actions.listWorkflowRunArtifacts({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: runId,
+                per_page: 100
+              });
+
+            const artifacts = data.artifacts
+              .filter(a => !a.expired)
+              .filter(a => a.name.endsWith('-pdf'))
+              .sort((a, b) => a.name.localeCompare(b.name));
+
+            const result = artifacts.map(a => ({
+              name: a.name.replace(/-pdf$/, ''),
+              url:
+                `${context.serverUrl}/${context.repo.owner}/` +
+                `${context.repo.repo}/actions/runs/${runId}/artifacts/${a.id}`
+            }));
+
+            core.setOutput('artifacts', JSON.stringify(result));
+
+      - name: Update PR comment
+        uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          ARTIFACTS: ${{ steps.artifacts.outputs.artifacts }}
+        with:
+          script: |
+            const prNumber = Number(process.env.PR_NUMBER);
+            const artifacts = JSON.parse(process.env.ARTIFACTS);
+
+            const marker = '<!-- paper-build-report -->';
+
+            const run = context.payload.workflow_run;
+
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+
+            // Also true when the author pushed again before this build finished;
+            // the newer build reports instead.
+            if (pr.head.sha !== run.head_sha) {
+              core.notice(
+                `Not reporting: PR #${prNumber} is at ${pr.head.sha.slice(0, 7)}, ` +
+                `but this build was of ${run.head_sha.slice(0, 7)}.`
+              );
+              return;
+            }
+
+            let body;
+
+            if (artifacts.length === 0) {
+              body = [
+                marker,
+                '### 📄 Paper builds',
+                '',
+                'No PDF artifacts were produced.',
+                '',
+                `[Workflow run](${run.html_url})`
+              ].join('\n');
+            } else {
+              const links = artifacts.map(a =>
+                `- [📄 ${a.name}.pdf](${a.url})`
+              );
+
+              body = [
+                marker,
+                '### 📄 Paper previews',
+                '',
+                ...links,
+                '',
+                `_Built from commit \`${run.head_sha.slice(0, 7)}\` · ` +
+                `[workflow run](${run.html_url})_`
+              ].join('\n');
+            }
+
+            const comments =
+              await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                per_page: 100
+              });
+
+            const existing = comments.data.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body
+              });
+            }

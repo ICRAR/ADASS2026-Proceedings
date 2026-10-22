@@ -1,0 +1,85 @@
+software
+    notebooks
+    frameworks
+        Bifrost
+frameworks
+    HTCondor
+applications
+    ADMIT
+observatories
+    ground-based
+        NRT
+algorithm
+    machine learning
+        reinforcement learning
+libraries
+    Specutils
+data centers
+    Data Central
+astronomy
+    !x-ray
+archives
+    individual
+        JCMT Science Archive (JSA)
+        Integral Science Legacy Archive (ISLA)
+data
+    processing
+        ESO Data Processing System (EDPS)
+instruments
+    ACA Spectrometer Control (ASC)
+    ACA Spectrometer Module (ASM)
+    Atacama Compact Array (ACA)
+    camera
+        Compton
+    individual
+        MOONS
+observatories
+    ground-based
+        Atacama Large Millimeter/submillimeter Array (ALMA)
+organisations
+    Korea Astronomy and Space Science Institute (KASI)
+    National Astronomical Observatory of Japan (NAOJ)
+applications
+    JupyterLab
+science platform
+techniques
+    sonification
+    transfer learning
+    incoherent dedispersion
+    Generative Adversarial Network (GAN)
+Unified Astronomy Thesaurus (UAT)
+web
+    Apache NiFi
+    proposal
+        hedwig
+computing
+    resources
+        European Open Science Cloud (EOSC)
+    pre-exascale
+    OpenACC
+observatories
+    H.E.S.S.
+    ground-based
+        Rubin
+protocols
+    GCP
+    GKE
+databases
+    individual
+        SIMPLE
+    Apache
+        Cassandra
+    Redis
+    Bucardo
+protocols
+    UDP
+    EPN-TAP
+Internet of Things (IoT)
+Virtual Observatory (VO)
+    standards
+        Registry Interfaces
+open science
+projects
+    Gamma-Flash
+computer languages
+    WebAssembly

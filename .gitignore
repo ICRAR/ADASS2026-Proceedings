@@ -1,0 +1,27 @@
+# LaTeX build products
+*.aux
+*.log
+*.out
+*.blg
+*.bbl
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+papers/*/[A-Z][0-9][0-9][0-9].pdf
+papers/*/*_inc.tex
+papers/*/*.check
+papers/*/*.tex_[0-9]*
+*.dvi
+*.toc
+*.bak
+*~
+
+# signed copyright forms carry a signature: authors email them to the editors
+papers/*/copyrightForm_*.pdf
+
+# old upload route, not needed with PRs
+papers/*/*.tar.gz
+papers/*/*.zip
+
+__pycache__/
+.DS_Store

@@ -1,0 +1,46 @@
+name: PaperCheck
+
+# The ADASS PaperCheck ("make check"): PID and file names, packages, unprintable
+# characters, BibTeX references against citations, figures, author index and
+# running heads. It reads only the source files, so it needs no LaTeX build.
+# The signed copyright form is the one check left out (see below).
+
+on:
+  pull_request:
+    paths:
+      - 'papers/**'
+  workflow_dispatch:
+
+jobs:
+  changes:
+    uses: ./.github/workflows/find-papers.yml
+
+  papercheck:
+    needs: changes
+    if: needs.changes.outputs.pids != '[]'
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pid: ${{ fromJSON(needs.changes.outputs.pids) }}
+
+    name: ${{ matrix.pid }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: PaperCheck ${{ matrix.pid }}
+        working-directory: papers/${{ matrix.pid }}
+        run: |
+          # authors email their signed copyright forms, so none is in the repo; give
+          # PaperCheck the blank form under the expected name, or it always fails
+          author=$(sed -n 's/^A *= *//p' makedefs)
+          form="copyrightForm_${{ matrix.pid }}_${author}.pdf"
+          [ -f "$form" ] || cp copyrightform.pdf "$form"
+
+          if ! make check; then
+            echo "::error file=papers/${{ matrix.pid }}/${{ matrix.pid }}.tex::PaperCheck reported problems for ${{ matrix.pid }}; the job log lists them"
+            exit 1
+          fi

@@ -1,0 +1,74 @@
+name: Build papers
+
+on:
+  pull_request:
+    paths:
+      - 'papers/**'
+  workflow_dispatch:
+
+jobs:
+  changes:
+    uses: ./.github/workflows/find-papers.yml
+
+  # Report paper builds needs the PR number, and GitHub leaves it out of the
+  # workflow_run event when the PR comes from a fork, so pass it on here.
+  pr-number:
+    if: github.event_name == 'pull_request'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Save the PR number
+        run: echo "${{ github.event.pull_request.number }}" > pr-number
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr-number
+          path: pr-number
+          retention-days: 1
+
+  build:
+    needs: changes
+    if: needs.changes.outputs.pids != '[]'
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pid: ${{ fromJSON(needs.changes.outputs.pids) }}
+
+    name: ${{ matrix.pid }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile ${{ matrix.pid }}.tex
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: papers/${{ matrix.pid }}
+          root_file: ${{ matrix.pid }}.tex
+          args: >-
+            -pdf
+            -file-line-error
+            -halt-on-error
+            -interaction=nonstopmode
+
+      - name: Show LaTeX errors
+        if: failure()
+        working-directory: papers/${{ matrix.pid }}
+        run: |
+          echo "::error file=papers/${{ matrix.pid }}/${{ matrix.pid }}.tex::LaTeX build failed for ${{ matrix.pid }}"
+
+          if [ -f "${{ matrix.pid }}.log" ]; then
+            grep -n -A4 -E '^!|:[0-9]+: ' \
+              "${{ matrix.pid }}.log" || true
+          fi
+
+      - name: Upload PDF
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.pid }}-pdf
+          path: papers/${{ matrix.pid }}/${{ matrix.pid }}.pdf
+          if-no-files-found: error

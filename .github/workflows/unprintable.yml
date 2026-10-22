@@ -1,0 +1,62 @@
+name: Unprintable characters
+
+# Runs the ADASS FixUnprintable ("make fix") on the paper. Accented letters,
+# dashes and other non-ASCII characters are not supported by every LaTeX
+# installation, so they must be written as LaTeX sequences (\'{e}, ---, ...).
+# If any are found, the job fails, shows the changes FixUnprintable would make,
+# and uploads the fixed .tex file for the author to copy into their PR.
+
+on:
+  pull_request:
+    paths:
+      - 'papers/**'
+  workflow_dispatch:
+
+jobs:
+  changes:
+    uses: ./.github/workflows/find-papers.yml
+
+  unprintable:
+    needs: changes
+    if: needs.changes.outputs.pids != '[]'
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pid: ${{ fromJSON(needs.changes.outputs.pids) }}
+
+    name: ${{ matrix.pid }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: FixUnprintable ${{ matrix.pid }}.tex
+        id: fix
+        working-directory: papers/${{ matrix.pid }}
+        run: |
+          tex=${{ matrix.pid }}.tex
+          make fix | tee fix.out
+
+          if grep -q "Nothing needs doing" fix.out; then
+            exit 0
+          fi
+
+          # FixUnprintable keeps the original as <PID>.tex_1 when it changes the file
+          if [ -f "${tex}_1" ]; then
+            echo "Changes FixUnprintable makes:"
+            diff -u "${tex}_1" "$tex" || true
+            echo "fixed=true" >> "$GITHUB_OUTPUT"
+            echo "::error file=papers/${{ matrix.pid }}/$tex::$tex has non-ASCII characters; replace them as shown in the job log, or use the fixed $tex from the run's ${{ matrix.pid }}-fixed-tex artifact"
+          else
+            echo "::error file=papers/${{ matrix.pid }}/$tex::FixUnprintable could not work out the encoding of $tex; see the job log"
+          fi
+          exit 1
+
+      - name: Upload fixed ${{ matrix.pid }}.tex
+        if: failure() && steps.fix.outputs.fixed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.pid }}-fixed-tex
+          path: papers/${{ matrix.pid }}/${{ matrix.pid }}.tex

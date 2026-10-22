@@ -1,0 +1,56 @@
+name: Find papers
+
+# Shared by the build and check workflows: works out which papers/<PID>/
+# directories a pull request changed (every paper on a manual run).
+
+on:
+  workflow_call:
+    outputs:
+      pids:
+        description: JSON list of the PIDs to build or check
+        value: ${{ jobs.find.outputs.pids }}
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+
+    outputs:
+      pids: ${{ steps.find.outputs.pids }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: find
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            dirs=$(
+              git diff --name-only \
+                "origin/${{ github.base_ref }}...HEAD" \
+                -- papers |
+              cut -d/ -f2 |
+              sort -u
+            )
+          else
+            dirs=$(ls papers)
+          fi
+
+          # Only directories that still exist and are papers.
+          pids=$(
+            for d in $dirs; do
+              [ -f "papers/$d/makedefs" ] && echo "$d"
+            done |
+            jq -R . |
+            jq -sc .
+          )
+
+          echo "Papers: $pids"
+
+          if [ "${{ github.event_name }}" = "pull_request" ] &&
+             [ "$(echo "$pids" | jq length)" -gt 1 ]; then
+            echo "::warning::This PR touches more than one paper: $pids"
+          fi
+
+          echo "pids=$pids" >> "$GITHUB_OUTPUT"

@@ -1,0 +1,7 @@
+# this is where you should define *your* macros, not in the Makefile
+P = P405
+V = 1
+A = Danner
+E = you@example.edu
+# your figures, named P405_f1.eps, P405_f2.png, ...
+FIGS = $(filter-out P405_inc.tex,$(wildcard P405_*))

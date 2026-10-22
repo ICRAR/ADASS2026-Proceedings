@@ -1,0 +1,24 @@
+name: From a fork
+
+# Authors submit from their own fork, so a pull request from a branch in this
+# repository was opened the wrong way and is sent back.
+
+on:
+  pull_request:
+
+jobs:
+  from-fork:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check the pull request comes from a fork
+        shell: bash
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.repository }}
+        run: |
+          if [ "$HEAD_REPO" = "$BASE_REPO" ]; then
+            echo "::error::This pull request comes from a branch in $BASE_REPO. Fork the repository, push your branch to your fork and open the pull request from there (see 'Fixing common mistakes' in the README)."
+            exit 1
+          fi
+          echo "From fork $HEAD_REPO"
