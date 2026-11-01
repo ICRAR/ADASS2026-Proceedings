@@ -2,6 +2,6 @@
 P = C303
 V = 1
 A = Jenness
-E = you@example.edu
+E = tim.jenness@noirlab.edu
 # your figures, named C303_f1.eps, C303_f2.png, ...
 FIGS = $(filter-out C303_inc.tex,$(wildcard C303_*))
