@@ -13,7 +13,7 @@
 
 \documentclass[11pt,twoside]{article}
 
-% Do NOT use ANY packages other than asp2023. 
+% Do NOT use ANY packages other than asp2023.
 \usepackage{asp2023}
 
 \aspSuppressVolSlug
@@ -34,13 +34,13 @@
 % Use mixed case type for the shortened title
 % Ensure shortened title does not cause an overfull hbox LaTeX error
 % See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Jenness}{Using LLMs to Port a Large C Library to Rust}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Using LLMs to Port a Large C Library to Rust}
 
-% Note the position of the comma between the author name and the 
+% Note the position of the comma between the author name and the
 % affiliation number.
 % Authors surnames should come after first names or initials, eg John Smith, or J. Smith.
 % Author names should be separated by commas.
@@ -49,14 +49,13 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+
+\author{Tim~Jenness$^1$}
+\affil{$^1$NSF-DOE Vera C.\ Rubin Observatory / NSF NOIRLab, Tucson, AZ, USA; \email{tim.jenness@noirlab.edu}}
+
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Tim~Jenness}{tim.jenness@noirlab.edu}{0000-0001-5982-167X}{NSF-DOE Vera C.\ Rubin Observatory / NSF NOIRLab}{}{Tucson}{AZ}{85719}{USA}
 
 % There should be one \aindex line (commented out) for each author. These are used to
 % build up the author index for the Proceedings. The surname must come first, followed by
@@ -66,163 +65,106 @@
 % The Aindex.py command willl create them for you after you have constructed the \author
 % The first entry should be the first author, for bold-facing the author index page-reference
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
-
+%\aindex{Jenness,~T.}
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+In 2026 large language model coding agents such as Codex and Claude have developed rapidly and changed the face of software development. They can be used for debugging, performance optimization, and adding features to existing codebases. As the tooling improved we decided to see if we could use these systems to port a large C library to Rust. The library we chose was the Starlink AST library, a library that consists of 200,000 lines of C (not including comments or blank lines) that has been in development for over 30 years and contains some very specific fixes for very rare combinations of FITS headers.
+
+In this paper I will tell the story of agents getting confused (but also agents improving), agents cutting corners and hoping I wouldn't notice, agents finding bugs in the original code but then making sure the Rust had the same bugs, eye-watering token costs, and how the real lesson from this journey is that your ported code is only as good as the test suite of your original library.
 \end{abstract}
 
 % These lines show examples of subject index entries. At this stage these have to commented
 % out, and need to be on separate lines. Eventually, they will be automatically uncommented
 % and used to generate entries in the Subject Index at the end of the Proceedings volume.
 % Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
+%\ssindex{computer languages!RUST}
+%\ssindex{computer languages!C}
+%\ssindex{World Coordinate System (WCS)}
+%\ssindex{Artificial intelligence}
 
 % These lines show examples of ASCL index entries. At this stage these have to commented
 % out, and need to be on separate lines. Eventually, they will be automatically uncommented
 % and used to generate entries in the ASCL Index at the end of the Proceedings volume.
 % The ascl.py command will scan your paper on possible code names.
 % Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
+%\ooindex{AST, ascl:1404.016}
+\section{Introduction}
 
+The Starlink AST library \citep{1998ASPC..145...41W,2016A&C....15...33B} has been in development since 1997 and provides a generalized approach to world coordinate systems (WCS).
+Standard FITS WCS \citep{2002A&A...395.1077C} describes only undistorted celestial coordinates, and every distortion convention, of which SIP \citep{2005ASPC..347..491S} is the only one in common use, needs its own FITS headers.
+AST instead defines a core set of transformations that can be combined in any order, serially or in parallel.
+It is object-oriented C, with virtual dispatch tables, reference counting, and a bespoke memory allocator, and the core library is nearly 475,000 lines including its extensive comments, plus 65,000 lines of vendored WCSLIB, ERFA, and PAL.
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+Rubin Observatory adopted AST for WCS handling in the LSST Science Pipelines in 2016 \citep{DMTN-010}, hiding it behind a C++ \texttt{SkyWcs} class and more recently behind the \texttt{SkyProjection} class of the new image data model \citep{2026SPIE14155E..17B}.
+Long-term support has been a concern ever since, given the single developer, who has now retired, and the steep learning curve imposed by the object-oriented C.
+Rust was approved for use in the pipelines in early 2025, and a Rust port of AST would bring memory safety, a much stronger type system with explicit error handling in place of the AST global status, and native support for the object model that currently requires large amounts of boilerplate.
+A port is not a new idea: a native Java port begun by Starlink in 2002 \citep{2003ASPC..295..445B} was abandoned within the year in favor of a JNI wrapper \citep{2004ASPC..314..412B}.
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+Large language models (LLMs) have been studied as an aid to language translation for some time \citep{10.1145/3729379,10.48550/arXiv.2511.20617}, but the largest C to Rust codebase in the referenced work was of order 15,000 lines and the field moves so fast that results from 2025 are already dated.
+In February 2026, after watching OpenAI Codex modernize the 13,000-line C Python wrapper for AST, I wondered whether a port of the full library was now feasible.
+A port of this size cannot be reviewed line by line, so there is a real danger that a production library ends up effectively ``vibe-coded'' \citep{10.48550/arXiv.2506.23253} but it seemed worth attempting.
+This paper summarizes the experience; a fuller account, including the design specification, is given in \citet{DMTN-349doi}.
 
-\begin{itemize}
-\checklistitemize
+\section{The First Prototype}
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
+On 2026-03-03 I pointed Codex (GPT-5.3) at the C source with a short prompt and a \texttt{TODO.md} file saying that the Rust should drop the boilerplate and focus on the business logic.
+Two days later there were 25,000 lines of Rust library code and 12,000 lines of tests, and my weekly token allocation was exhausted.
+The agent built the C library itself and wrote code against it as an ``oracle'' (its term) with which to compare the Rust.
+After ten days about 15\% of the C logic had been ported, focused on reading a Rubin FITS header with SIP distortions and transforming between pixel and sky coordinates.
+Single point transforms were 3 to 8 times faster than the C, albeit with no bad value support, so this demonstrated that adopting Rust would not necessarily lose performance.
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+Progress then stalled as the agent tied itself in knots on the mapping simplification logic, and when I stepped back it was clear that it had repeatedly cut corners to pass tests.
+It cached the oracle's serialized form of known FITS headers and wrote the cached text back out; it generated ``oracle'' fixtures from the Rust itself; it added special cases for individual test files; and it put all simplification logic in one file rather than in each mapping class as the C does, because that was less work.
+It never implemented bad value handling because no C test exercised it.
+The lesson was that the test coverage of the C library, then mainly in Fortran with no coverage reporting, is what determines the quality of the port.
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+\section{Tests Are Important}
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
+In April 2026 I switched to Claude Opus 4.6 and used it to build a CMake build system for the C library, convert the Fortran tests to C, and add coverage reporting to CI.
+Core coverage was about 50\%, and sanitizer builds immediately found latent buffer overruns.
+Because the FITS reader encodes decades of historical header variants, Claude was then asked to generate headers targeting specific uncovered lines, adding 90 example FITS headers.
+Later, hundreds of generated fixtures provided a reference corpus for the simplification engine.
 
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
+\section{The Second Port}
 
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
+Work restarted from scratch on 2026-04-27 with Claude Opus 4.6, an API key provided by SLAC, and a written design specification covering memory management, mutability, and how Rust traits relate to C methods.
+Work continued through October 2026, interleaved with upstream bug fixes and new fixtures in the C library, with token starvation the main impediment: the monthly API ceiling could be hit in the first week.
+Newer models reached solutions faster, so the net cost per feature can fall even as the price per token rises.
+The port, published as a \href{https://crates.io/crates/starlink-ast}{Rust crate}, now covers all mappings, frames, and regions, and FITS channels, roughly 80\% of the C library, but no C or Python binding.
 
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
+Despite the specification and the better tests, the second port repeated some mistakes.
+Simplification logic was again placed in the wrong files, and different internal logic led to different serialized forms.
+Implementing the FITS channel before \texttt{TimeFrame} existed left time conversion logic in the wrong place, and hundreds of failing fixtures made optional early on were forgotten because the test suite was green.
+Many tokens went on C implementation details which exist only because the C clones mappings on insertion whereas Rust transfers ownership.
 
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
+The port also found around one hundred bugs in the C library, including uninitialized memory reads in \texttt{MatrixMap} splitting, a \texttt{DATE-OBS} parser that dropped leading zeros from fractional seconds, rounding of negative values toward zero at 70 sites, and an infinite loop.
+Several fixes made the native serialization deterministic because byte-exact comparison with the oracle requires predictable output.
+The agent will sometimes notice a bug in the original and then faithfully reproduce it, so I added a standing instruction that suspected upstream bugs must be recorded separately.
 
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
+\section{Lessons Learned}
 
+A port is only as good as the test coverage of the original.
+The agent takes the easiest path to satisfying the prompt, and asking it to be faithful to the source is not enough without tests that demonstrate exactly what is required; adding coverage of edge cases before the port starts pays for itself many times over, and the agent can write those tests.
+Write a plan first, refer to it from \texttt{CLAUDE.md} or equivalent, and keep a bounded ledger of open work, including every original test, so that nobody has to rescan both source trees to see what has been ported.
+Correctness and completeness beat performance: do not optimize until every test passes.
+Port algorithms, not lines, using native features such as \texttt{Option} and \texttt{Result} for status handling, and annotate where each block came from.
+Enforce coding standards with commit hooks since this is far stronger than notes in \texttt{CLAUDE.md}.
+Declare the original to be the source of truth, allow heuristics only where the C has the same heuristic, and when the agent flails have it instrument the oracle to trace the exact code path for a passing test.
+Both ports showed high initial velocity because the core mappings are the quick part; the final 20\% of edge cases and optimizations is where byte-exact output, which a mission critical library needs, becomes hard.
+Finally, it became clear during this work that a Pro or Max Team account is much more cost effective than an API key --- the team accounts have weekly and hourly caps but the high end accounts can get far more work done for much less money than you spend on an API key.
 
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
+\section{Conclusions}
 
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
-\smallskip
-\begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
-\tableline
-\noalign{\smallskip}
-First Column & Second Column & Third Column:\\
-\noalign{\smallskip}
-\tableline
-\noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
-\noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
-\end{tabular}
-}
-\end{center}
-\end{table}
-\noindent These tables can get a little messy, but this format is the most common.
+A coding agent such as Claude Opus or Fable is now capable of porting a large library to another language provided the original is well tested.
+The test suite, a written plan, and a reference oracle mitigate most of the problems seen when agents write large volumes of new code without such boundaries.
+The LSST Science Pipelines contains 150,000 lines of C++ in libraries that are mostly far less complex than AST, and converting them to Rust is now a plausible enterprise.
+% <<< input{body} <<<
 
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
-
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
-
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
-
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
-
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
-
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
-
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
-
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
-
+\acknowledgments This material is based upon work supported in part by the National Science Foundation through Cooperative Agreements AST-1258333 and AST-2241526 and Cooperative Support Agreements AST-1202910 and AST-2211468 managed by the Association of Universities for Research in Astronomy (AURA), and the Department of Energy under Contract No.\ DE-AC02-76SF00515 with the SLAC National Accelerator Laboratory managed by Stanford University.
+Additional Rubin Observatory funding comes from private donations, grants to universities, and in-kind support from LSST-DA Institutional Members.
+I thank David Berry and Jim Bosch for their feedback on the initial design spec and for answering numerous questions.
+I also thank Michael Shehadeh from SLAC IT for his help with the Claude configuration and API key at SLAC, and Cristian Silva for giving me access to a separate Claude Team account.
+The project would not have been possible without the generous allocations of tokens from SLAC IT.
 
 \bibliography{C303}  % For BibTex
 
