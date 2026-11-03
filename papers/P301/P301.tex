@@ -34,8 +34,8 @@ prototype to the team that will own it. We describe the governance framework
 at the SKA Observatory, four ways in which LLMs are used in SRCNet, and the
 practices adopted to keep human review meaningful when code can be generated
 faster than it can be read. Early evidence from our GitLab and SonarQube
-instances suggests that, managed this way, AI-assisted services are delivered
-faster without a loss of measured quality.
+instances suggests that, managed this way, AI-assisted work is associated with
+faster merges and no loss of measured quality.
 \end{abstract}
 
 %\ssindex{Artificial intelligence}
@@ -121,7 +121,8 @@ architecture, tests generated with the code, and documentation for the next
 maintainer.
 
 Table~\ref{tab:mr} compares merge requests labelled as AI-assisted in the
-public SRCNet GitLab group with all other merge requests in 2026.
+public SRCNet GitLab group with random samples of the other merge requests
+merged in 2026.
 AI-assisted work grew sharply in 2026 (Figure~\ref{fig:f1}a). Those merge
 requests are about twice as large and are merged much faster, with the same
 median number of human comments and far more automated AI review. CI pass
@@ -134,7 +135,7 @@ same period, the AI-first services are young, and unlabelled AI-assisted work
 is not counted.
 
 \begin{table}[!ht]
-\caption{AI-labelled merge requests in 2026 against all other merge requests in the SRCNet GitLab group, to 23 October 2026.}
+\caption{Merge requests merged in 2026 in the SRCNet GitLab group, to 23 October 2026. AI-labelled: all 90. Other: random samples of the 1957 other merge requests, 40 per quarter for size and time to merge ($n=160$) and 200 for the remaining rows.}
 \label{tab:mr}
 \smallskip
 \begin{center}
@@ -143,6 +144,7 @@ is not counted.
 \tableline
 \noalign{\smallskip}
 Metric & AI-labelled & Other \\
+ & ($n=90$) & (sample) \\
 \noalign{\smallskip}
 \tableline
 \noalign{\smallskip}
@@ -152,6 +154,7 @@ Median time to merge & 2.5\,h & 22\,h \\
 Median human comments & 2 & 2 \\
 Reviewed by an AI review bot & 84\% & 41\% \\
 CI pipeline passing at merge & 94\% & 93\% \\
+Tests as a share of added lines & 13.6\% & 13.8\% \\
 \noalign{\smallskip}
 \tableline
 \end{tabular}
@@ -159,7 +162,7 @@ CI pipeline passing at merge & 94\% & 93\% \\
 \end{center}
 \end{table}
 
-\articlefigure[width=0.92\textwidth]{P301_f1.png}{fig:f1}{(a) Merge requests labelled as AI-assisted per quarter in the SRCNet GitLab group (Q4 2026 to 23 October). (b) SonarQube medians per project for five services built AI-first (dark) and 27 other SRCNet projects (hatched).}
+\articlefigure[width=0.92\textwidth]{P301_f1.eps}{fig:f1}{(a) Merge requests labelled as AI-assisted per quarter in the SRCNet GitLab group (Q4 2026 to 23 October). (b) SonarQube medians per project for five services built AI-first (dark) and 27 other SRCNet projects (hatched).}
 
 \section{Observations and Conclusions}
 
@@ -169,9 +172,9 @@ the shape of the result in advance. Human judgement remains indispensable for
 module boundaries, cross-team interfaces, security and the decision to merge.
 Two risks need attention: large, quickly merged changes, and AI-assisted work
 concentrated in a few developers. Next, we will label every AI-assisted merge
-request and track its size, review time and quality per quarter. Managed this
-way, AI speeds up SRCNet development without giving up review or
-maintainability: it amplifies good engineering practice rather than replacing it.
+request and track its size, review time and quality per quarter. Our
+comparisons show associations, not causes, but they are consistent with the view
+that AI amplifies good engineering practice rather than replacing it.
 
 \acknowledgements The author thanks the SRCNet development teams and the SKAO Information Security and software quality teams for the practices and data reported here.
 
