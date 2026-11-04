@@ -1,16 +1,29 @@
 % Narrative markers updated 3 November 2026. Target: four pages including references.
 \documentclass[11pt,twoside]{article}
 \usepackage{asp2023}
-\usepackage{placeins}
 \aspSuppressVolSlug
 \resetcounters
 \bibliographystyle{asp2021}
 \markboth{Smallwood et al.}{Spatial Filtering in Practice}
 \begin{document}
 \title{Spatial Filtering in Practice: A GPU Pipeline for Real-Time RFI Mitigation}
-% TODO: confirm the complete author list, affiliations, email, ADS metadata and index entries.
-\author{Justin (Jay) Smallwood et al.}
-\affil{Author details to be confirmed.}
+\author{J.~Smallwood,$^{1,2}$ A.~Deller,$^{1,3}$ C.~Phillips,$^2$ and A.~Jameson$^3$}
+\affil{$^1$Centre for Astrophysics and Supercomputing, Swinburne University, VIC 3122, Australia; \email{jsmallwood@swin.edu.au}}
+\affil{$^2$CSIRO, Space and Astronomy, P.O. Box 76, Epping, NSW 1710, Australia}
+\affil{$^3$Fourier Space, Swinburne University, Hawthorn, VIC 3122, Australia}
+
+\paperauthor{J.~Smallwood}{jsmallwood@swin.edu.au}{}{Swinburne University of Technology}{Centre for Astrophysics and Supercomputing}{Hawthorn}{Victoria}{3122}{Australia}
+\paperauthor{A.~Deller}{}{}{Swinburne University of Technology}{Centre for Astrophysics and Supercomputing}{Hawthorn}{Victoria}{3122}{Australia}
+\paperauthor{C.~Phillips}{}{}{CSIRO}{Space and Astronomy}{Epping}{New South Wales}{1710}{Australia}
+\paperauthor{A.~Jameson}{}{}{Swinburne University of Technology}{Fourier Space}{Hawthorn}{Victoria}{3122}{Australia}
+
+%\aindex{Smallwood,~J.}
+%\aindex{Deller,~A.}
+%\aindex{Phillips,~C.}
+%\aindex{Jameson,~A.}
+%\ssindex{radio frequency interference (RFI)}
+%\ssindex{astronomy!radio!interferometry}
+%\ssindex{computing!GPU}
 
 \begin{abstract}
 \begingroup\setlength{\emergencystretch}{1em}
@@ -20,12 +33,12 @@ through spatial filtering on aperture arrays and phased array
 feeds. The pipeline is currently being used to commission the new Low-frequency Australian Megametre-Baseline Demonstrator
 Array (LAMBDA).
 
-The theory of spatial-filtering-based RFI subtraction is well established,
+Although the theory of spatial-filtering-based RFI subtraction is well established,
 building a working real-time system raises genuine systems engineering
 challenges. starspin offers a flexible testbed for trialling and rapidly iterating on solutions to these challenges.
 We benchmark starspin's throughput, showing
-performance sufficient for processing 56.25 MHz of bandwidth on one NVIDIA RTX 4000
-for the current LAMBDA array. Using LAMBDA data, we then demonstrate the pipeline's RFI subtraction on real
+performance sufficient to process 56.25~MHz of bandwidth on one NVIDIA RTX 4000
+for the current LAMBDA array. We demonstrate the pipeline's RFI subtraction on real LAMBDA
 data.
 \endgroup
 \end{abstract}
@@ -34,8 +47,8 @@ data.
 
 Astronomers want to make as much use of the radio spectrum as possible, but telescopes are often blinded by radio frequency interference (RFI). 
 This RFI leads to contaminated data being flagged and excised. With the increase in satellites in orbit, increasing amounts of data is being contaminated and deleted. 
-New methods are required to see through this RFI as an alternative to data deletion. Recent advances in graphics processing unit (GPU) performance, such as tensor cores, 
-have has made software-based real-time systems viable. In this paper we will consider the application of spatial filtering to adaptively subtract RFI in real-time.
+New methods are required to see through this RFI as an alternative to data deletion. Recent advances in graphics processing unit (GPU) hardware, such as tensor cores,
+have made software-based real-time systems viable. In this paper, we consider the application of spatial filtering to adaptively subtract RFI in real time.
 
 
 \section{Spatial Filtering}
@@ -46,9 +59,9 @@ have has made software-based real-time systems viable. In this paper we will con
 %The interferometer combines these voltages into two main outputs: \textit{visibilities}, where voltages are cross-correlated with each other antenna in the array; and \textit{beams}, where antenna voltages are 
 %weighted and summed to increase the sensitivity of the array to particular directions. While spatial filtering can be applied to both of these products, for brevity, we will focus on visibilities in this paper.
 
-Spatial filtering is a mature theory with applications across many
-fields, and has a long proof-of-concept history within radio astronomy.  
-An interested reader is directed to the following selected papers: \cite{leshem_multichannel_2000}, \cite{kocz_radio_2010}, \cite{chippendale_interference_2017}, \cite{lourenco_mitigation_2024}, \cite{whipple_wideband_2023}.
+Spatial filtering is a mature technique with applications across many
+fields and a long history of proof-of-concept demonstrations within radio astronomy.
+Interested readers are referred to selected studies \citep{leshem_multichannel_2000,kocz_radio_2010,chippendale_interference_2017,lourenco_mitigation_2024,whipple_wideband_2023}.
 %\cite{andrew_spatial_2026}.
 
 %Mathematically, if $X\in \mathbb{C}^{N \times T}$, where $N$ is the number of antennas and $T$ the chosen number of integration time samples,
@@ -75,23 +88,22 @@ Directions of diminished sensitivity are referred to as \textit{nulls}.
 
 Adaptive spatial filtering is generally done using eigendecompositions of the visibility matrix
 \begin{equation}
-R = U \Lambda U^{*}
+R = U \Lambda U^{*},
 \end{equation} 
 where $U$ represents the eigenvectors and $\Lambda$ is a diagonal matrix representing the eigenvalues of $R$.
-This eigendecomposition will give us information on the spatial signatures of strong interfering signals, and a projection matrix calculated to suppress these directions.
+This eigendecomposition provides information about the spatial signatures of strong interfering signals and is used to calculate a projection matrix that suppresses these directions.
 
-Importantly, spatial filtering needs to be done on visibilities of the right timescale to avoid smearing, where one interferer can contaminate many eigenmodes. 
-To quantify this, OSKAR \citep{mort_oskar_2010} was used to simulate a
-low-Earth orbit satellite on various trajectories. %A interference-to-noise ratio of \(+30\) dB was used. 
+%Importantly, spatial filtering needs to be performed on visibilities of the appropriate timescale to avoid smearing, which occurs when one interferer contaminates many eigenmodes.
+%To quantify this, OSKAR \citep{mort_oskar_2010} was used to simulate a
+%low-Earth-orbit satellite on various trajectories. %A interference-to-noise ratio of \(+30\) dB was used.
 %Table~\ref{tab:oskar-smearing}
 %gives the integration-duration intervals in which additional significant
 %eigenmodes first appear at 137.5 MHz. 
 %A bracket \((a,b]\) means that a mode
 %was below the threshold at \(a\) and at or above it at \(b\). 
-To avoid smearing, the visibility integration time needs to become more rapid as 
-elevation or frequency increase. 
-For brevity, a rule-of-thumb of 50 ms integrations
-is assumed.
+%To avoid smearing, the visibility integration cadence needs to become more rapid as
+%either elevation or frequency increases.
+%For brevity, we assume a rule-of-thumb integration time of 50 ms.
 
 %\begin{table}[ht]
 %\centering
@@ -119,29 +131,29 @@ is assumed.
 
 \section{starspin: Mitigation in the Signal Chain}
 
-starspin is an instrument-agnostic, GPU-accelerated correlator and beamformer that is designed for spatial filtering. 
-While configurable, it is designed to form and filter short-term visibility matrices on the order of milliseconds, and also using this information to update beam weights. 
+starspin\footnote{\url{https://github.com/jdgsmallwood/starspin}} is an instrument-agnostic, GPU-accelerated correlator and beamformer that is designed for spatial filtering.
+While configurable, it is designed to form and filter visibility matrices over integrations on the order of milliseconds and to use this information to update beam weights.
 Corrected visibility matrices are then integrated to form long-term visibilities that are output at whatever cadence is feasible for the instrument. 
-starspin is used as the correlator and beamformer from already-channelised data.
+starspin is used as the correlator and beamformer for already-channelised data.
 Figure~\ref{fig:starspin-architecture} shows starspin's place in the signal chain, as well as the architecture of its internals. 
-starspin is written in C++ and CUDA, and makes use of libraries from RadioBlocks such as the tensor-core correlator \citep{romein_tensor-core_2021}, ccglib \citep{oostrum_ccglib}, and an as-yet-unpublished fine channeliser. 
-It also uses various libraries from NVIDIA such as cuSOLVER for eigendecomposition. Front-end packet capture from ethernet is done using libibverbs.
+starspin is written in C++ and CUDA and uses RadioBlocks libraries such as the tensor-core correlator \citep{romein_tensor-core_2021}, ccglib \citep{oostrum_ccglib}, and an as-yet-unpublished fine channeliser.
+It also uses various libraries from NVIDIA, such as cuSOLVER for eigendecomposition. Packet capture over Ethernet uses libibverbs.\footnote{libibverbs is distributed as part of rdma-core: \url{https://github.com/linux-rdma/rdma-core}.}
 
 starspin is being used as a commissioning correlator for the Low-frequency Australian Megametre-Baseline Demonstrator Array (LAMBDA) project. 
 LAMBDA is a low-frequency array operating from
-50–350 MHz, with the goal of adding Very Long Baseline Interferometry (VLBI) capabilities for the Southern
+50--350~MHz, with the goal of adding Very Long Baseline Interferometry (VLBI) capabilities in the Southern
 Hemisphere. At the time of
 submission, a prototype array of 36 antennas is operational at the Paul Wild Observatory near Narrabri,
 New South Wales, Australia.
 
 
 We do not claim that starspin solves all of the many challenges of carrying out real-time spatial filtering. 
-It does, however, provide a flexible framework for rapid testing and iteration of solutions to these 
-challenges to help the community triangulate on a method that works.
+It does, however, provide a flexible framework for rapidly testing and iterating on solutions to these
+challenges, helping the community identify an effective method.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{starspin_architecture.pdf}
+\includegraphics[width=\textwidth]{C802_f1.png}
 \caption{starspin in the LAMBDA signal chain and the two filtering paths inside
 the pipeline. Orange boxes represent operations relevant to filtering.}
 \label{fig:starspin-architecture}
@@ -150,18 +162,18 @@ the pipeline. Orange boxes represent operations relevant to filtering.}
 \section{Benchmarks}
 
 We present selected benchmarks from the LAMBDA production system (one NVIDIA RTX 4000 Ada, two Intel Xeon Silver 4210 CPUs). 
-The server only supports PCIe 3, leading to a theoretical data transfer speed of 16 GB / s
+The server only supports PCIe 3, leading to a theoretical data transfer speed of 16~GB/s
 in each direction. In practice, using pinned memory backed by hugepages, a maximum transfer speed of 
-12 GB / s was reported in benchmarking tests.
+12~GB/s was reported in benchmarking tests.
 
-We report here benchmarks from just the GPU pipeline portion of starspin, including any memory
-transfers. All figures reported here use two CUDA streams, and CUDA graphs to 
+Here, we report benchmarks for only the GPU portion of the starspin pipeline, including memory
+transfers. All reported results use two CUDA streams and CUDA graphs to
 reduce kernel overhead. 
 Correlation and beamforming-only benchmarks both saturate the transfer limit of 
-12 GB / s, corresponding to a processed bandwidth of 56.25 MHz. 
-When filtering is included, this falls to 9.41 GB/s for coarse-channel filtering, and 3.72 GB/s for fine-channel filtering.
-The large drop for fine-channel filtering is due to the 27-fold increase in eigendecompositions required. 
-Either finding the correct balance of frequency resolution and compute capacity, or developing algorithms for more efficiently 
+12~GB/s, corresponding to a processed bandwidth of 56.25~MHz.
+When filtering is included, throughput falls to 9.41~GB/s for coarse-channel filtering and 3.72~GB/s for fine-channel filtering.
+The large drop for fine-channel filtering is due to the 27-fold increase in the number of required eigendecompositions.
+Either finding the correct balance between frequency resolution and compute capacity or developing more efficient algorithms for
 decomposing the visibility matrices is required.
 
 \section{Application}
@@ -177,15 +189,15 @@ decomposing the visibility matrices is required.
 %\end{figure}
 
 Figure~\ref{fig:recorded-data} illustrates spatial filtering of recorded LAMBDA
-data during an Orbcomm satellite pass. The goal of this experiment was to filter the data to reveal the Galactic plane, 
-and compare it to the image from a nearby clean channel. As seen from panel (a), there is no Galactic plane visible in the raw dirty image; however,
-the filtered image in (b) shows Galactic-plane structure similar to the clean channel in (c). Suppression of the satellite source was approximately 20 dB.
+data during an ORBCOMM satellite pass. The goal of this experiment was to filter the data to reveal the Galactic plane
+and compare it with the image from a nearby clean channel. As shown in panel (a), the Galactic plane is not visible in the raw dirty image; however,
+the filtered image in (b) shows Galactic-plane structure similar to the clean channel in (c). Suppression of the satellite source was approximately 20~dB.
 
-The images come from an offline analysis of \citet{smallwood_protecting_2026}, with the methodology detailed in Smallwood et al. (submitted).
-However, this analysis was made possible by starspin's capture and output of visibilities at 17.7 ms. The method developed from the offline analysis
+The images come from the offline analysis presented by \citet{smallwood_protecting_2026}, which also details the methodology.
+This analysis was made possible because starspin captured and output visibilities at a cadence of 17.7~ms. The method developed from the offline analysis
 has since been added to starspin as a real-time mode.
 
-In normal telescope operations, data from this channel would have usually been flagged and excised from analysis. 
+In normal telescope operations, data from this channel would usually have been flagged and excised from analysis.
 We have shown here that it is still possible to recover useful signal from this RFI-contaminated channel.
 % Assets copied unchanged from manim-animations/src/manim_animations/adass/images/
 % adass_window1_{raw,protected,clean}.png, used by AliveGalacticResult in
@@ -196,18 +208,18 @@ We have shown here that it is still possible to recover useful signal from this 
 \centering
 \begin{minipage}[t]{0.32\textwidth}
 \centering
-\small (a) Before: 137.5 MHz\par
-\includegraphics[width=\linewidth]{C802_f3a.png}
+\small (a) Before: 137.5~MHz\par
+\includegraphics[width=\linewidth]{C802_f2a.png}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.32\textwidth}
 \centering
-\small (b) After: 137.5 MHz\par
-\includegraphics[width=\linewidth]{C802_f3b.png}
+\small (b) After: 137.5~MHz\par
+\includegraphics[width=\linewidth]{C802_f2b.png}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.32\textwidth}
 \centering
-\small (c) Reference: 134.375 MHz\par
-\includegraphics[width=\linewidth]{C802_f3c.png}
+\small (c) Reference: 134.375~MHz\par
+\includegraphics[width=\linewidth]{C802_f2c.png}
 \end{minipage}
 \caption{Dirty all-sky images from the same 120-second LAMBDA observing window:
 (a) unfiltered satellite-affected data; (b) two-mode nulling; and (c) a nearby, relatively clean channel. 
@@ -218,16 +230,15 @@ position; the dashed yellow line marks the Galactic plane. Filtering and imaging
 
 \section{Limitations and Further Filtering Work}
 Much work remains to solve the challenges of real-time operation. 
-Algorithms for calculating the number of interfering signals at each point-in-time need to be 
-evaluated. Statistical properties of integrating corrected short-term visibilities such as bias must be
-characterised and corrected. Information must be optimally 
-combined over polarisation, time, and frequency in order to more efficiently place nulls.
-A priori information about the orbit and frequency ranges of 
-publically-known satellites which can also be used to more accurately place spatial nulls.
+Algorithms for calculating the number of interfering signals at each point in time need to be
+evaluated. Statistical properties of integrating corrected short-term visibilities, such as bias, must be
+characterised and corrected. Information must be optimally
+combined over polarisation, time, and frequency to place nulls more efficiently.
+A priori information about the orbits and frequency ranges of
+publicly known satellites can also be used to place spatial nulls more accurately.
 
 
 
-\FloatBarrier
 \bibliography{C802}
 % TODO: acknowledgements and subject/software index entries before submission.
 % \bookpartphoto[width=1.0\textwidth]{foobar.eps}{FooBar Photo (Photo: Any Photographer)}
