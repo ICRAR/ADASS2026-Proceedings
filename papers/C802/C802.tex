@@ -1,232 +1,245 @@
-% This is the ADASS_template.tex LaTeX file, 24 Oct 2025.
-% It is based on the ASP general author template file, but modified to reflect the specific
-% requirements of the ADASS proceedings.
-
-% This is the aspauthor.tex LaTeX file
-% Copyright 2021, Astronomical Society of the Pacific Conference Series
-% Revision:  29 November 2021
-
-% To compile, at the command line positioned at this folder, type:
-% pdflatex ADASS_template
-% pdflatex ADASS_template
-% This will create a file called ADASS_template.pdf
-
+% Narrative markers updated 3 November 2026. Target: four pages including references.
 \documentclass[11pt,twoside]{article}
-
-% Do NOT use ANY packages other than asp2023. 
 \usepackage{asp2023}
-
 \aspSuppressVolSlug
 \resetcounters
-
-% References must all use BibTeX entries in a .bibfile.
-% References must be cited in the text using \citet{} or \citep{}.
-% Do not use \cite{}.
-% See ManuscriptInstructions.pdf for more details
 \bibliographystyle{asp2021}
-
-% The ``markboth'' line sets up the running heads for the paper.
-% 1 author: "Surname"
-% 2 authors: "Surname1 and Surname2"
-% 3 authors: "Surname1, Surname2, and Surname3"
-% >3 authors: "Surname1 et al."
-% Replace ``Short Title'' with the actual paper title, shortened if necessary.
-% Use mixed case type for the shortened title
-% Ensure shortened title does not cause an overfull hbox LaTeX error
-% See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
-
+\markboth{Smallwood et al.}{Spatial Filtering in Practice}
 \begin{document}
+\title{Spatial Filtering in Practice: A GPU Pipeline for Real-Time RFI Mitigation}
+\author{J.~Smallwood,$^{1,2}$ A.~Deller,$^{1,3}$ C.~Phillips,$^2$ and A.~Jameson$^3$}
+\affil{$^1$Centre for Astrophysics and Supercomputing, Swinburne University, VIC 3122, Australia; \email{jsmallwood@swin.edu.au}}
+\affil{$^2$CSIRO, Space and Astronomy, P.O. Box 76, Epping, NSW 1710, Australia}
+\affil{$^3$Fourier Space, Swinburne University, Hawthorn, VIC 3122, Australia}
 
-\title{ADASS Author Template with Long Title}
+\paperauthor{J.~Smallwood}{jsmallwood@swin.edu.au}{}{Swinburne University of Technology}{Centre for Astrophysics and Supercomputing}{Hawthorn}{Victoria}{3122}{Australia}
+\paperauthor{A.~Deller}{}{}{Swinburne University of Technology}{Centre for Astrophysics and Supercomputing}{Hawthorn}{Victoria}{3122}{Australia}
+\paperauthor{C.~Phillips}{}{}{CSIRO}{Space and Astronomy}{Epping}{New South Wales}{1710}{Australia}
+\paperauthor{A.~Jameson}{}{}{Swinburne University of Technology}{Fourier Space}{Hawthorn}{Victoria}{3122}{Australia}
 
-% Note the position of the comma between the author name and the 
-% affiliation number.
-% Authors surnames should come after first names or initials, eg John Smith, or J. Smith.
-% Author names should be separated by commas.
-% The final author should be preceded by "and".
-% Affiliations should not be repeated across multiple \affil commands. If several
-% authors share an affiliation this should be in a single \affil which can then
-% be referenced for several author names. If only one affiliation, no footnotes are needed.
-% See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
-
-% This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
-
-% There should be one \aindex line (commented out) for each author. These are used to
-% build up the author index for the Proceedings. The surname must come first, followed by
-% initials. Note the use of ~ before each initial to control spacing.
-% The \author entries (see above) have surname last. These \aindex entries have
-% surname first.
-% The Aindex.py command willl create them for you after you have constructed the \author
-% The first entry should be the first author, for bold-facing the author index page-reference
-
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
-
+%\aindex{Smallwood,~J.}
+%\aindex{Deller,~A.}
+%\aindex{Phillips,~C.}
+%\aindex{Jameson,~A.}
+%\ssindex{radio frequency interference (RFI)}
+%\ssindex{astronomy!radio!interferometry}
+%\ssindex{computing!GPU}
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+\begingroup\setlength{\emergencystretch}{1em}
+We present \textit{starspin}, a new GPU-accelerated signal processing pipeline for real-time
+beamforming, correlation, and radio frequency interference (RFI) subtraction
+through spatial filtering on aperture arrays and phased array
+feeds. The pipeline is currently being used to commission the new Low-frequency Australian Megametre-Baseline Demonstrator
+Array (LAMBDA).
+
+Although the theory of spatial-filtering-based RFI subtraction is well established,
+building a working real-time system raises genuine systems engineering
+challenges. starspin offers a flexible testbed for trialling and rapidly iterating on solutions to these challenges.
+We benchmark starspin's throughput, showing
+performance sufficient to process 56.25~MHz of bandwidth on one NVIDIA RTX 4000
+for the current LAMBDA array. We demonstrate the pipeline's RFI subtraction on real LAMBDA
+data.
+\endgroup
 \end{abstract}
 
-% These lines show examples of subject index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the Subject Index at the end of the Proceedings volume.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
+\section{Motivation}
 
-% These lines show examples of ASCL index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the ASCL Index at the end of the Proceedings volume.
-% The ascl.py command will scan your paper on possible code names.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
+Astronomers want to make as much use of the radio spectrum as possible, but telescopes are often blinded by radio frequency interference (RFI). 
+This RFI leads to contaminated data being flagged and excised. With the increase in satellites in orbit, increasing amounts of data is being contaminated and deleted. 
+New methods are required to see through this RFI as an alternative to data deletion. Recent advances in graphics processing unit (GPU) hardware, such as tensor cores,
+have made software-based real-time systems viable. In this paper, we consider the application of spatial filtering to adaptively subtract RFI in real time.
 
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+\section{Spatial Filtering}
+\label{sec:beamforming}
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+%Radio interferometers are telescopes made up of an array of $N>1$ antennas placed at different locations.
+%Each antenna senses the electric field at regular time intervals and forms a time-series of complex voltages.
+%The interferometer combines these voltages into two main outputs: \textit{visibilities}, where voltages are cross-correlated with each other antenna in the array; and \textit{beams}, where antenna voltages are 
+%weighted and summed to increase the sensitivity of the array to particular directions. While spatial filtering can be applied to both of these products, for brevity, we will focus on visibilities in this paper.
 
-\begin{itemize}
-\checklistitemize
+Spatial filtering is a mature technique with applications across many
+fields and a long history of proof-of-concept demonstrations within radio astronomy.
+Interested readers are referred to selected studies \citep{leshem_multichannel_2000,kocz_radio_2010,chippendale_interference_2017,lourenco_mitigation_2024,whipple_wideband_2023}.
+%\cite{andrew_spatial_2026}.
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
+%Mathematically, if $X\in \mathbb{C}^{N \times T}$, where $N$ is the number of antennas and $T$ the chosen number of integration time samples,
+%the visibility matrix is formed as
+%\begin{equation}
+%R = XX^{*},
+%\end{equation}
+%where $*$ denotes the conjugate-transpose operation.
+%If $w \in \mathbb{C}^{N \times B}$ is a collection of weights for $B$ beams, beams are formed by 
+%\begin{equation}
+%Y = w^{*} X.
+%\end{equation}
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+When a signal arrives at an interferometer, it arrives at some antennas before others due to its propagation direction.
+This characteristic pattern is called a \textit{spatial signature}.
+\textit{Spatial filtering} combines the voltages from each antenna to find and augment or diminish the telescope's sensitivity to signals arriving from particular directions.
+Directions of diminished sensitivity are referred to as \textit{nulls}.
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+%The generally accepted signal model is that under conditions of linearity of the signal chain, we get the following model of the visibilities:
+%\begin{equation}
+%	R = R_{v} + \sum_{i=1}^{k} \sigma^{2}_{k} a_{k} a_{k}^{*} + \sigma^{2} I
+%\end{equation}
+%where $R_{v}$ is the contribution of astronomical sources to the visibilities, $\sigma^{2}_{k}$ is the power of interferer $k$, $a_{k}$ its spatial signature, and $I$ represents the identity matrix of order $N$.
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
+Adaptive spatial filtering is generally done using eigendecompositions of the visibility matrix
+\begin{equation}
+R = U \Lambda U^{*},
+\end{equation} 
+where $U$ represents the eigenvectors and $\Lambda$ is a diagonal matrix representing the eigenvalues of $R$.
+This eigendecomposition provides information about the spatial signatures of strong interfering signals and is used to calculate a projection matrix that suppresses these directions.
 
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
+%Importantly, spatial filtering needs to be performed on visibilities of the appropriate timescale to avoid smearing, which occurs when one interferer contaminates many eigenmodes.
+%To quantify this, OSKAR \citep{mort_oskar_2010} was used to simulate a
+%low-Earth-orbit satellite on various trajectories. %A interference-to-noise ratio of \(+30\) dB was used.
+%Table~\ref{tab:oskar-smearing}
+%gives the integration-duration intervals in which additional significant
+%eigenmodes first appear at 137.5 MHz. 
+%A bracket \((a,b]\) means that a mode
+%was below the threshold at \(a\) and at or above it at \(b\). 
+%To avoid smearing, the visibility integration cadence needs to become more rapid as
+%either elevation or frequency increases.
+%For brevity, we assume a rule-of-thumb integration time of 50 ms.
 
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
-
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
-
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
-
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
-
-
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
-
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
-\smallskip
-\begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
-\tableline
-\noalign{\smallskip}
-First Column & Second Column & Third Column:\\
-\noalign{\smallskip}
-\tableline
-\noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
-\noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
-\end{tabular}
-}
-\end{center}
-\end{table}
-\noindent These tables can get a little messy, but this format is the most common.
-
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
-
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
-
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
-
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
-
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
-
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
-
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
-
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
+%\begin{table}[ht]
+%\centering
+%\small
+%\caption{Simulated OSKAR results at 137.5 MHz. Entries give the integration
+%duration over which the second and fifth modes reach twice the per-antenna
+%receiver-noise eigenvalue.}
+%\label{tab:oskar-smearing}
+%\renewcommand{\arraystretch}{1.18}
+%\setlength{\tabcolsep}{18pt}
+%\begin{tabular}{@{}ccc@{}}
+%\hline
+%& \multicolumn{2}{c}{Integration-duration bracket (s)} \\
+%\cline{2-3}
+%Midpoint elevation & Second mode & Fifth mode \\
+%\hline
+%\(15^\circ\) & \((2.00,\,2.51]\) & \(>100\) \\
+%\(30^\circ\) & \((0.502,\,0.630]\) & \((39.8,\,50.1]\) \\
+%\(60^\circ\) & \((0.126,\,0.158]\) & \((10.0,\,12.6]\) \\
+%\(85^\circ\) & \((0.080,\,0.100]\) & \((7.94,\,10.0]\) \\
+%\hline
+%\end{tabular}
+%\end{table}
 
 
-\bibliography{C802}  % For BibTex
+\section{starspin: Mitigation in the Signal Chain}
 
-% if we have space left, we might add a conference photograph here. Leave commented for now.
+starspin\footnote{\url{https://github.com/jdgsmallwood/starspin}} is an instrument-agnostic, GPU-accelerated correlator and beamformer that is designed for spatial filtering.
+While configurable, it is designed to form and filter visibility matrices over integrations on the order of milliseconds and to use this information to update beam weights.
+Corrected visibility matrices are then integrated to form long-term visibilities that are output at whatever cadence is feasible for the instrument. 
+starspin is used as the correlator and beamformer for already-channelised data.
+Figure~\ref{fig:starspin-architecture} shows starspin's place in the signal chain, as well as the architecture of its internals. 
+starspin is written in C++ and CUDA and uses RadioBlocks libraries such as the tensor-core correlator \citep{romein_tensor-core_2021}, ccglib \citep{oostrum_ccglib}, and an as-yet-unpublished fine channeliser.
+It also uses various libraries from NVIDIA, such as cuSOLVER for eigendecomposition. Packet capture over Ethernet uses libibverbs.\footnote{libibverbs is distributed as part of rdma-core: \url{https://github.com/linux-rdma/rdma-core}.}
+
+starspin is being used as a commissioning correlator for the Low-frequency Australian Megametre-Baseline Demonstrator Array (LAMBDA) project. 
+LAMBDA is a low-frequency array operating from
+50--350~MHz, with the goal of adding Very Long Baseline Interferometry (VLBI) capabilities in the Southern
+Hemisphere. At the time of
+submission, a prototype array of 36 antennas is operational at the Paul Wild Observatory near Narrabri,
+New South Wales, Australia.
+
+
+We do not claim that starspin solves all of the many challenges of carrying out real-time spatial filtering. 
+It does, however, provide a flexible framework for rapidly testing and iterating on solutions to these
+challenges, helping the community identify an effective method.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{C802_f1.png}
+\caption{starspin in the LAMBDA signal chain and the two filtering paths inside
+the pipeline. Orange boxes represent operations relevant to filtering.}
+\label{fig:starspin-architecture}
+\end{figure}
+
+\section{Benchmarks}
+
+We present selected benchmarks from the LAMBDA production system (one NVIDIA RTX 4000 Ada, two Intel Xeon Silver 4210 CPUs). 
+The server only supports PCIe 3, leading to a theoretical data transfer speed of 16~GB/s
+in each direction. In practice, using pinned memory backed by hugepages, a maximum transfer speed of 
+12~GB/s was reported in benchmarking tests.
+
+Here, we report benchmarks for only the GPU portion of the starspin pipeline, including memory
+transfers. All reported results use two CUDA streams and CUDA graphs to
+reduce kernel overhead. 
+Correlation and beamforming-only benchmarks both saturate the transfer limit of 
+12~GB/s, corresponding to a processed bandwidth of 56.25~MHz.
+When filtering is included, throughput falls to 9.41~GB/s for coarse-channel filtering and 3.72~GB/s for fine-channel filtering.
+The large drop for fine-channel filtering is due to the 27-fold increase in the number of required eigendecompositions.
+Either finding the correct balance between frequency resolution and compute capacity or developing more efficient algorithms for
+decomposing the visibility matrices is required.
+
+\section{Application}
+
+%\begin{figure}[ht]
+%\centering
+%\includegraphics[width=0.96\textwidth]{starspin_two_buffer_throughput.pdf}
+%\caption{Two-buffer throughput on an NVIDIA RTX
+%4000 Ada. Bars show median input-data throughput. Weights-only is the
+%beamforming control; Coarse and Fine each null two modes. Timing includes host-to-device
+%transfer and GPU compute.}
+%\label{fig:starspin-throughput}
+%\end{figure}
+
+Figure~\ref{fig:recorded-data} illustrates spatial filtering of recorded LAMBDA
+data during an ORBCOMM satellite pass. The goal of this experiment was to filter the data to reveal the Galactic plane
+and compare it with the image from a nearby clean channel. As shown in panel (a), the Galactic plane is not visible in the raw dirty image; however,
+the filtered image in (b) shows Galactic-plane structure similar to the clean channel in (c). Suppression of the satellite source was approximately 20~dB.
+
+The images come from the offline analysis presented by \citet{smallwood_protecting_2026}, which also details the methodology.
+This analysis was made possible because starspin captured and output visibilities at a cadence of 17.7~ms. The method developed from the offline analysis
+has since been added to starspin as a real-time mode.
+
+In normal telescope operations, data from this channel would usually have been flagged and excised from analysis.
+We have shown here that it is still possible to recover useful signal from this RFI-contaminated channel.
+% Assets copied unchanged from manim-animations/src/manim_animations/adass/images/
+% adass_window1_{raw,protected,clean}.png, used by AliveGalacticResult in
+% spatial_filtering_alive.py. These are Window 1 panels from Paper1's
+% haslam_fixed2_dirty_protection_120s_sun_shrunk figure, prepared for the talk
+% with only the Sun-position circles and their halos removed.
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.32\textwidth}
+\centering
+\small (a) Before: 137.5~MHz\par
+\includegraphics[width=\linewidth]{C802_f2a.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\textwidth}
+\centering
+\small (b) After: 137.5~MHz\par
+\includegraphics[width=\linewidth]{C802_f2b.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\textwidth}
+\centering
+\small (c) Reference: 134.375~MHz\par
+\includegraphics[width=\linewidth]{C802_f2c.png}
+\end{minipage}
+\caption{Dirty all-sky images from the same 120-second LAMBDA observing window:
+(a) unfiltered satellite-affected data; (b) two-mode nulling; and (c) a nearby, relatively clean channel. 
+The orange track and cross show the satellite ephemeris and midpoint
+position; the dashed yellow line marks the Galactic plane. Filtering and imaging were performed offline.}
+\label{fig:recorded-data}
+\end{figure}
+
+\section{Limitations and Further Filtering Work}
+Much work remains to solve the challenges of real-time operation. 
+Algorithms for calculating the number of interfering signals at each point in time need to be
+evaluated. Statistical properties of integrating corrected short-term visibilities, such as bias, must be
+characterised and corrected. Information must be optimally
+combined over polarisation, time, and frequency to place nulls more efficiently.
+A priori information about the orbits and frequency ranges of
+publicly known satellites can also be used to place spatial nulls more accurately.
+
+
+
+\bibliography{C802}
+% TODO: acknowledgements and subject/software index entries before submission.
 % \bookpartphoto[width=1.0\textwidth]{foobar.eps}{FooBar Photo (Photo: Any Photographer)}
-
 \end{document}
