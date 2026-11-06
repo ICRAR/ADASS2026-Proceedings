@@ -34,11 +34,11 @@
 % Use mixed case type for the shortened title
 % Ensure shortened title does not cause an overfull hbox LaTeX error
 % See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{N. Parmiggiani, A. Femia, A. Bulgarelli}{ARCADIA}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{ARCADIA: AI-based Real-time Analysis for Autonomous Space Systems}
 
 % Note the position of the comma between the author name and the 
 % affiliation number.
@@ -49,9 +49,20 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{N.~Parmiggiani,$^1$ A.~Femia,$^1$ A.~Bulgarelli,$^1$ L.~Castaldini,$^1$ A.~Di Piano,$^1$ E.~Medinaceli,$^1$ M.~Lombardi,$^2$ A.~Luise,$^2$ S.~Salti,$^2$ A.~Argan,$^3$ R.~Campana,$^1$ G.~Cremonese,$^4$ F.~Esposito,$^5$ R.~Falco,$^1$ F.~Fiore,$^6$ V.~Fioretti,$^1$ M.~Maniscalco,$^{1,7}$ G.~Mustafa,$^{1,2}$ G.~Panebianco,$^1$ F.~Pedichini,$^8$ I.C.~Popa,$^5$ A.~Rizzo,$^9$ F.~Tosi,$^{10}$ and A.~Trois$^{11}$}
+\affil{$^1$INAF OAS Bologna, Via P. Gobetti 93/3, 40129 Bologna, Italy \email{nicolo.parmiggiani@inaf.it}}
+\affil{$^2$Computer Science and Engineering - DISI, University of Bologna, Via Zamboni 33, Bologna, Italy}
+\affil{$^3$INAF Central Administration - Viale del Parco Mellini 84 00136 Roma, Italy}
+\affil{$^4$INAF O.A. Padova - Vicolo dell'Osservatorio, 5, 35122 Padova, Italy}
+\affil{$^5$INAF O.A. Capodimonte - Salita Moiariello 16 -- 80131 Napoli, Italy}
+\affil{$^6$INAF O.A. Trieste - Via G.B. Tiepolo, 11 I-34143 Trieste, Italy}
+\affil{$^7$Universit\`{a} degli Studi di Padova, Via VII Febbraio , 2, 35122, Padova, Italy}
+\affil{$^8$INAF/OAR Roma, Via Frascati 33, I-00078 Monte Porzio Catone, Roma, Italy.}
+\affil{$^9$INAF OA Catania, Via Santa Sofia 78, 95123, Catania, Italy.}
+\affil{$^{10}$INAF IAPS Roma - Via del Fosso del Cavaliere, 100, 00133 Roma, Italy}
+\affil{$^{11}$INAF O.A. Cagliari - Via della Scienza, 5, 09047 Cuccuru Angius, Selargius, Italy}
+
+
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
 \paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
@@ -66,15 +77,34 @@
 % The Aindex.py command willl create them for you after you have constructed the \author
 % The first entry should be the first author, for bold-facing the author index page-reference
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+%\aindex{Parmiggiani,~N.}
+%\aindex{Femia,~A.}
+%\aindex{Bulgarelli,~A.}
+%\aindex{Castaldini,~L.}
+%\aindex{Di Piano,~A.}
+%\aindex{Medinaceli,~E.}
+%\aindex{Lombardi,~M.}
+%\aindex{Luise,~A.}
+%\aindex{Salti,~S.}
+%\aindex{Argan,~A.}
+%\aindex{Campana,~R.}
+%\aindex{Cremonese,~G.}
+%\aindex{Esposito,~F.}
+%\aindex{Falco,~R.}
+%\aindex{Fiore,~F.}
+%\aindex{Fioretti,~V.}
+%\aindex{Maniscalco,~M.}
+%\aindex{Mustafa,~G.}
+%\aindex{Panebianco,~G.}
+%\aindex{Pedichini,~F.}
+%\aindex{Popa,~I.~C.}
+%\aindex{Rizzo,~A.}
+%\aindex{Tosi,~F.}
+%\aindex{Trois,~A.}
 
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+The New Space Economy, enabled by the increasing availability of commercial launch vehicles and spacecraft, has renewed interest in lunar exploration. Within the Italian PRORIS program and the HARLOCK project, the Rare-earth \& Heavy Elements Analyzer (RHEA) is being developed. RHEA is a payload comprising a suite of instruments designed for integration onto small rovers, enabling rare earth element (REE) and rare-metal scouting and prospecting through a highly coordinated, synergistic approach based on a progressive, multiscale observation strategy. Artificial intelligence (AI) is a key enabling technology for autonomous scientific operations and onboard data processing. We present the AI-based Real-time Computational Analysis platform for Decision Inference in Autonomous space systems (ARCADIA), which implements the Instrument Control Unit (ICU) and onboard Data Processing Unit (DPU) for the RHEA rover. Real-time onboard processing of scientific data, based on low-power Commercial Off-The-Shelf (COTS) computing platforms, enables ARCADIA to enhance the effectiveness of the scouting process by rapidly guiding the rover toward the most promising sites for further investigation, thereby accelerating target selection and exploration even during short-duration missions.
 \end{abstract}
 
 % These lines show examples of subject index entries. At this stage these have to commented
@@ -92,137 +122,42 @@ modified to reflect the specific ADASS requirements.
 %\ooindex{FOOBAR, ascl:1101.010}
 
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+\section{Introduction}
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+Within the Italian PRORIS \citep{2025epsc.conf.1253T} program and the HARLOCK \citep{2026LPICo3160.1202T} project, a novel approach to lunar resource exploration is being investigated by developing the Rare-earth \& Heavy Elements Analyzer (RHEA). Conceived as a compact scientific payload for small rover platforms, RHEA aims to support the detection and characterization of rare earth elements (REEs) and rare metals by combining complementary analytical techniques within a progressive, multiscale exploration strategy. The payload integrates gamma-ray spectroscopy, hyperspectral imaging, ultraviolet fluorescence screening, and X-ray fluorescence analysis to identify REE-bearing deposits and investigate their associated elemental and mineralogical signatures across different spatial scales. Given the demanding operational conditions of lunar exploration, such as power availability and Earth--Moon communication limitations, AI-based capabilities are being investigated to enhance onboard autonomy, optimize scientific data processing, and support decision-making during exploration activities \citep{2025Parti...8..102B}.
 
-\begin{itemize}
-\checklistitemize
+\section{ARCADIA}
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
+The AI-based Real-time Computational Analysis platform for Decision Inference in Autonomous space systems (ARCADIA), is a software system that implements the Instrument Control Unit (ICU) and onboard Data Processing Unit (DPU) for the RHEA rover. The ICU controls and monitors the scientific payload, while the DPU performs AI-enhanced onboard data analysis, including spectral identification of REEs \citep{luise_adass_2026}, real-time multi-instrument data fusion, and data reduction. ARCADIA shall operate in a demanding lunar environment with stringent requirements such as extreme temperature variations, radiation exposure (higher than in LEO), and limited bandwidth for data transmission. In this complex environment the main ARCADIA tasks are:
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+\begin{enumerate}
+    \item Control and monitor the payloads during the observations.
+    \item Analyze data from different instruments in real time (Data Fusion), providing better scientific results, even in low-statistics contexts.
+    \item Efficient data filtering for transmission to the Earth.
+    \item Communication with the rover to retrieve the status of the rover such as moving direction.
+    \item Perform automated decision-making, crucial for long-distance missions with communication latency.
+    \item Determine the rover's travel direction and duration based on onboard analysis results. After each movement, new observations will guide the next maneuver. Once a target is reached, a new destination will be selected either autonomously or via ground command.
+\end{enumerate}
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+\section{ARCADIA Architecture}
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
+The ARCADIA architecture (Fig. \ref{arcadia_arch}) includes interfaces with the rover to receive power and housekeeping data. ARCADIA sends movement commands to the rover after an onboard decision-making process that accounts for the results of real-time data analysis. The rover's movements are handled by the rover itself since ARCADIA sends only indications of the final destination. The rover has to optimize the route and take into account possible risks using its sensors. ARCADIA interfaces with the instruments (payloads) to provide power and commands, and to receive data and housekeeping. The ICU manages the life cycle of the instruments along with the power supply. The data produced by the instruments are stored in ARCADIA's temporary memory for real-time analysis by the DPU. The results are then sent to the rover's mass memory unit, where they await transmission to Earth.
 
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
+\articlefigure[width=0.8\textwidth]{P209_f1.png}{arcadia_arch}{ARCADIA high-level architecture and interfaces with the rover.}
 
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
+\subsection{State Machine}
 
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
-
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
-
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
-
-
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
-
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
-\smallskip
-\begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
-\tableline
-\noalign{\smallskip}
-First Column & Second Column & Third Column:\\
-\noalign{\smallskip}
-\tableline
-\noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
-\noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
-\end{tabular}
-}
-\end{center}
-\end{table}
-\noindent These tables can get a little messy, but this format is the most common.
-
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
-
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
-
+We are developing a mission simulator to validate the ARCADIA state machine, including the onboard decision-making and data-handling logic, before starting implementation of the flight software. This method reduces the overall time required to obtain a working ARCADIA by allowing issues to be verified and resolved in advance. We prepared a JSON configuration file listing use cases (extracted from the mission's ConOps) that the simulator can execute. The configuration file also contains information about the surface, such as thorium and uranium abundance fields, and a set of rock targets. The input parameters are used to simulate noisy instrument measurements for the decision-making process. The rover path is not defined a priori and emerges during the simulations through autonomous decisions based on measurements. The functional units of the simulator, such as the generation of noisy measurements, will be substituted with real software as it becomes available (e.g we can use the DH analysis algorithm to analyze the simulated data and obtain results). Following this strategy, the simulator will become as close as possible to the real system. Finally, the simulator allows the injection of failures on the hardware and software systems to verify how ARCADIA handles these failures and if they are well covered in the use cases.
  
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
+\section{Edge Computers for AI}
 
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
+One of the main ARCADIA challenges is deploying the AI models on a computing board that meets the demanding requirements of the lunar environment. We conducted a market survey of low-power Commercial Off-The-Shelf (COTS) computing platforms to identify solutions that meet the project requirements for power consumption (< 5 W), computational capability, and environmental constraints. During this evaluation, we also searched for COTS boards designed to run AI models. Once we identified possible solutions, we tested AI algorithms for onboard data analysis on these low-power edge computing platforms, including the NVIDIA Jetson Nano and RISC-V processors, representative of flight-proven hardware. We are also testing compression methods, such as pruning and quantization, to optimize AI models for edge devices.
 
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
+\section{Conclusions}
 
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
+ARCADIA enables real-time onboard processing of scientific data without the downlink to Earth, enabling autonomous rover operations. ARCADIA enhances the scouting process by rapidly guiding the rover toward the most promising sites for further investigation, thereby accelerating target selection and exploration. The technologies and methodologies developed within ARCADIA are designed to be transferable to other autonomous space systems.
 
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
-
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
-
+\acknowledgements We acknowledge support from INAF grant Progetto Strategico Programma di Ricerca Spaziale di Base (PRORIS) DM 789/2023 CUP C53C24001850005.
 
 \bibliography{P209}  % For BibTex
 
