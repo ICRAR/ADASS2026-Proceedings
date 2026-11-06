@@ -1,0 +1,167 @@
+% This is the ADASS_template.tex LaTeX file, 24 Oct 2025.
+% It is based on the ASP general author template file, but modified to reflect the specific
+% requirements of the ADASS proceedings.
+
+% This is the aspauthor.tex LaTeX file
+% Copyright 2021, Astronomical Society of the Pacific Conference Series
+% Revision:  29 November 2021
+
+% To compile, at the command line positioned at this folder, type:
+% pdflatex ADASS_template
+% pdflatex ADASS_template
+% This will create a file called ADASS_template.pdf
+
+\documentclass[11pt,twoside]{article}
+
+% Do NOT use ANY packages other than asp2023. 
+\usepackage{asp2023}
+
+\aspSuppressVolSlug
+\resetcounters
+
+% References must all use BibTeX entries in a .bibfile.
+% References must be cited in the text using \citet{} or \citep{}.
+% Do not use \cite{}.
+% See ManuscriptInstructions.pdf for more details
+\bibliographystyle{asp2021}
+
+% The ``markboth'' line sets up the running heads for the paper.
+% 1 author: "Surname"
+% 2 authors: "Surname1 and Surname2"
+% 3 authors: "Surname1, Surname2, and Surname3"
+% >3 authors: "Surname1 et al."
+% Replace ``Short Title'' with the actual paper title, shortened if necessary.
+% Use mixed case type for the shortened title
+% Ensure shortened title does not cause an overfull hbox LaTeX error
+% See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
+\markboth{N. Parmiggiani, A. Femia, A. Bulgarelli}{ARCADIA}
+
+\begin{document}
+
+\title{ARCADIA: AI-based Real-time Analysis for Autonomous Space Systems}
+
+% Note the position of the comma between the author name and the 
+% affiliation number.
+% Authors surnames should come after first names or initials, eg John Smith, or J. Smith.
+% Author names should be separated by commas.
+% The final author should be preceded by "and".
+% Affiliations should not be repeated across multiple \affil commands. If several
+% authors share an affiliation this should be in a single \affil which can then
+% be referenced for several author names. If only one affiliation, no footnotes are needed.
+% See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
+\author{N.~Parmiggiani,$^1$ A.~Femia,$^1$ A.~Bulgarelli,$^1$ L.~Castaldini,$^1$ A.~Di Piano,$^1$ E.~Medinaceli,$^1$ M.~Lombardi,$^2$ A.~Luise,$^2$ S.~Salti,$^2$ A.~Argan,$^3$ R.~Campana,$^1$ G.~Cremonese,$^4$ F.~Esposito,$^5$ R.~Falco,$^1$ F.~Fiore,$^6$ V.~Fioretti,$^1$ M.~Maniscalco,$^{1,7}$ G.~Mustafa,$^{1,2}$ G.~Panebianco,$^1$ F.~Pedichini,$^8$ I.C.~Popa,$^5$ A.~Rizzo,$^9$ F.~Tosi,$^{10}$ and A.~Trois$^{11}$}
+\affil{$^1$INAF OAS Bologna, Via P. Gobetti 93/3, 40129 Bologna, Italy \email{nicolo.parmiggiani@inaf.it}}
+\affil{$^2$Computer Science and Engineering - DISI, University of Bologna, Via Zamboni 33, Bologna, Italy}
+\affil{$^3$INAF Central Administration - Viale del Parco Mellini 84 00136 Roma, Italy}
+\affil{$^4$INAF O.A. Padova - Vicolo dell'Osservatorio, 5, 35122 Padova, Italy}
+\affil{$^5$INAF O.A. Capodimonte - Salita Moiariello 16 – 80131 Napoli, Italy}
+\affil{$^6$INAF O.A. Trieste - Via G.B. Tiepolo, 11 I-34143 Trieste, Italy}
+\affil{$^7$Università degli Studi di Padova, Via VII Febbraio , 2, 35122, Padova, Italy}
+\affil{$^8$INAF/OAR Roma, Via Frascati 33, I-00078 Monte Porzio Catone, Roma, Italy.}
+\affil{$^9$INAF OA Catania, Via Santa Sofia 78, 95123, Catania, Italy.}
+\affil{$^{10}$INAF IAPS Roma - Via del Fosso del Cavaliere, 100, 00133 Roma, Italy}
+\affil{$^{11}$INAF O.A. Cagliari - Via della Scienza, 5, 09047 Cuccuru Angius, Selargius, Italy}
+
+
+
+% This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
+\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+
+% There should be one \aindex line (commented out) for each author. These are used to
+% build up the author index for the Proceedings. The surname must come first, followed by
+% initials. Note the use of ~ before each initial to control spacing.
+% The \author entries (see above) have surname last. These \aindex entries have
+% surname first.
+% The Aindex.py command willl create them for you after you have constructed the \author
+% The first entry should be the first author, for bold-facing the author index page-reference
+
+%\aindex{Parmiggiani,~N.}
+%\aindex{Femia,~A.}
+%\aindex{Bulgarelli,~A.}
+%\aindex{Castaldini,~L.}
+%\aindex{Di Piano,~A.}
+%\aindex{Medinaceli,~E.}
+%\aindex{Lombardi,~M.}
+%\aindex{Luise,~A.}
+%\aindex{Salti,~S.}
+%\aindex{Argan,~A.}
+%\aindex{Campana,~R.}
+%\aindex{Cremonese,~G.}
+%\aindex{Esposito,~F.}
+%\aindex{Falco,~R.}
+%\aindex{Fiore,~F.}
+%\aindex{Fioretti,~V.}
+%\aindex{Maniscalco,~M.}
+%\aindex{Mustafa,~G.}
+%\aindex{Panebianco,~G.}
+%\aindex{Pedichini,~F.}
+%\aindex{Popa,~I.~C.}
+%\aindex{Rizzo,~A.}
+%\aindex{Tosi,~F.}
+%\aindex{Trois,~A.}
+
+
+\begin{abstract}
+The New Space Economy, enabled by the increasing availability of commercial launch vehicles and spacecraft, has renewed interest in lunar exploration. Within the Italian PRORIS program and the HARLOCK project, the Rare-earth \& Heavy Elements Analyzer (RHEA) is being developed. RHEA is a payload comprising a suite of instruments designed for integration onto small rovers, enabling rare earth element (REE) and rare-metal scouting and prospecting through a highly coordinated, synergistic approach based on a progressive, multiscale observation strategy. Artificial intelligence (AI) is a key enabling technology for autonomous scientific operations and onboard data processing. We present the AI-based Real-time Computational Analysis platform for Decision Inference in Autonomous space systems (ARCADIA), which implements the Instrument Control Unit (ICU) and onboard Data Processing Unit (DPU) for the RHEA rover. Real-time onboard processing of scientific data, based on low-power Commercial Off-The-Shelf (COTS) computing platforms, enables ARCADIA to enhance the effectiveness of the scouting process by rapidly guiding the rover toward the most promising sites for further investigation, thereby accelerating target selection and exploration even during short-duration missions.
+\end{abstract}
+
+% These lines show examples of subject index entries. At this stage these have to commented
+% out, and need to be on separate lines. Eventually, they will be automatically uncommented
+% and used to generate entries in the Subject Index at the end of the Proceedings volume.
+% Don't leave these in! - replace them with ones relevant to your paper.
+%\ssindex{FOOBAR!conference!ADASS 2019}
+%\ssindex{FOOBAR!organisations!ASP}
+
+% These lines show examples of ASCL index entries. At this stage these have to commented
+% out, and need to be on separate lines. Eventually, they will be automatically uncommented
+% and used to generate entries in the ASCL Index at the end of the Proceedings volume.
+% The ascl.py command will scan your paper on possible code names.
+% Don't leave these in! - replace them with ones relevant to your paper.
+%\ooindex{FOOBAR, ascl:1101.010}
+
+
+\section{Introduction}
+
+Within the Italian PRORIS \citep{2025epsc.conf.1253T} program and the HARLOCK \citep{2026LPICo3160.1202T} project, a novel approach to lunar resource exploration is being investigated by developing the Rare-earth \& Heavy Elements Analyzer (RHEA). Conceived as a compact scientific payload for small rover platforms, RHEA aims to support the detection and characterization of rare earth elements (REEs) and rare metals by combining complementary analytical techniques within a progressive, multiscale exploration strategy. The payload integrates gamma-ray spectroscopy, hyperspectral imaging, ultraviolet fluorescence screening, and X-ray fluorescence analysis to identify REE-bearing deposits and investigate their associated elemental and mineralogical signatures across different spatial scales. Given the demanding operational conditions of lunar exploration, such as power availability and Earth–Moon communication limitations, AI-based capabilities are being investigated to enhance onboard autonomy, optimize scientific data processing, and support decision-making during exploration activities \citep{2025Parti...8..102B}.
+
+\section{ARCADIA}
+
+The AI-based Real-time Computational Analysis platform for Decision Inference in Autonomous space systems (ARCADIA), is a software system that implements the Instrument Control Unit (ICU) and onboard Data Processing Unit (DPU) for the RHEA rover. The ICU controls and monitors the scientific payload, while the DPU performs AI-enhanced onboard data analysis, including spectral identification of REEs \citep{luise_adass_2026}, real-time multi-instrument data fusion, and data reduction. ARCADIA shall operate in a demanding lunar environment with stringent requirements such as extreme temperature variations, radiation exposure (higher than in LEO), and limited bandwidth for data transmission. In this complex environment the main ARCADIA tasks are:
+
+\begin{enumerate}
+    \item Control and monitor the payloads during the observations.
+    \item Analyze data from different instruments in real time (Data Fusion), providing better scientific results, even in low-statistics contexts.
+    \item Efficient data filtering for transmission to the Earth.
+    \item Communication with the rover to retrieve the status of the rover such as moving direction.
+    \item Perform automated decision-making, crucial for long-distance missions with communication latency.
+    \item Determine the rover’s travel direction and duration based on onboard analysis results. After each movement, new observations will guide the next maneuver. Once a target is reached, a new destination will be selected either autonomously or via ground command.
+\end{enumerate}
+
+\section{ARCADIA Architecture}
+
+The ARCADIA architecture (Fig. \ref{arcadia_arch}) includes interfaces with the rover to receive power and housekeeping data. ARCADIA sends movement commands to the rover after an onboard decision-making process that accounts for the results of real-time data analysis. The rover's movements are handled by the rover itself since ARCADIA sends only indications of the final destination. The rover has to optimize the route and take into account possible risks using its sensors. ARCADIA interfaces with the instruments (payloads) to provide power and commands, and to receive data and housekeeping. The ICU manages the life cycle of the instruments along with the power supply. The data produced by the instruments are stored in ARCADIA's temporary memory for real-time analysis by the DPU. The results are then sent to the rover's mass memory unit, where they await transmission to Earth.
+
+\articlefigure[width=0.8\textwidth]{P209_f1.png}{arcadia_arch}{ARCADIA high-level architecture and interfaces with the rover.}
+
+\subsection{State Machine}
+
+We are developing a mission simulator to validate the ARCADIA state machine, including the onboard decision-making and data-handling logic, before starting implementation of the flight software. This method reduces the overall time required to obtain a working ARCADIA by allowing issues to be verified and resolved in advance. We prepared a JSON configuration file listing use cases (extracted from the mission's ConOps) that the simulator can execute. The configuration file also contains information about the surface, such as thorium and uranium abundance fields, and a set of rock targets. The input parameters are used to simulate noisy instrument measurements for the decision-making process. The rover path is not defined a priori and emerges during the simulations through autonomous decisions based on measurements. The functional units of the simulator, such as the generation of noisy measurements, will be substituted with real software as it becomes available (e.g we can use the DH analysis algorithm to analyze the simulated data and obtain results). Following this strategy, the simulator will become as close as possible to the real system. Finally, the simulator allows the injection of failures on the hardware and software systems to verify how ARCADIA handles these failures and if they are well covered in the use cases.
+ 
+\section{Edge Computers for AI}
+
+One of the main ARCADIA challenges is deploying the AI models on a computing board that meets the demanding requirements of the lunar environment. We conducted a market survey of low-power Commercial Off-The-Shelf (COTS) computing platforms to identify solutions that meet the project requirements for power consumption (< 5 W), computational capability, and environmental constraints. During this evaluation, we also searched for COTS boards designed to run AI models. Once we identified possible solutions, we tested AI algorithms for onboard data analysis on these low-power edge computing platforms, including the NVIDIA Jetson Nano and RISC-V processors, representative of flight-proven hardware. We are also testing compression methods, such as pruning and quantization, to optimize AI models for edge devices.
+
+\section{Conclusions}
+
+ARCADIA enables real-time onboard processing of scientific data without the downlink to Earth, enabling autonomous rover operations. ARCADIA enhances the scouting process by rapidly guiding the rover toward the most promising sites for further investigation, thereby accelerating target selection and exploration. The technologies and methodologies developed within ARCADIA are designed to be transferable to other autonomous space systems.
+
+\acknowledgements We acknowledge support from INAF grant Progetto Strategico Programma di Ricerca Spaziale di Base (PRORIS) DM 789/2023 CUP C53C24001850005.
+
+\bibliography{P209}  % For BibTex
+
+% if we have space left, we might add a conference photograph here. Leave commented for now.
+% \bookpartphoto[width=1.0\textwidth]{foobar.eps}{FooBar Photo (Photo: Any Photographer)}
+
+\end{document}
