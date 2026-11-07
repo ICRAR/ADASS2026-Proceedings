@@ -1,227 +1,291 @@
-% This is the ADASS_template.tex LaTeX file, 24 Oct 2025.
-% It is based on the ASP general author template file, but modified to reflect the specific
-% requirements of the ADASS proceedings.
-
-% This is the aspauthor.tex LaTeX file
-% Copyright 2021, Astronomical Society of the Pacific Conference Series
-% Revision:  29 November 2021
-
-% To compile, at the command line positioned at this folder, type:
-% pdflatex ADASS_template
-% pdflatex ADASS_template
-% This will create a file called ADASS_template.pdf
-
 \documentclass[11pt,twoside]{article}
 
 % Do NOT use ANY packages other than asp2023. 
 \usepackage{asp2023}
+\usepackage{comment}
 
 \aspSuppressVolSlug
 \resetcounters
 
-% References must all use BibTeX entries in a .bibfile.
-% References must be cited in the text using \citet{} or \citep{}.
-% Do not use \cite{}.
-% See ManuscriptInstructions.pdf for more details
 \bibliographystyle{asp2021}
 
-% The ``markboth'' line sets up the running heads for the paper.
-% 1 author: "Surname"
-% 2 authors: "Surname1 and Surname2"
-% 3 authors: "Surname1, Surname2, and Surname3"
-% >3 authors: "Surname1 et al."
-% Replace ``Short Title'' with the actual paper title, shortened if necessary.
-% Use mixed case type for the shortened title
-% Ensure shortened title does not cause an overfull hbox LaTeX error
-% See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Femia et al.}{Event Classification of Terrestrial Gamma-ray Flashes}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Machine-Learning-Based Event Classification \\ of Terrestrial Gamma-ray Flashes \\ with a Segmented Scintillator Detector}
 
-% Note the position of the comma between the author name and the 
-% affiliation number.
-% Authors surnames should come after first names or initials, eg John Smith, or J. Smith.
-% Author names should be separated by commas.
-% The final author should be preceded by "and".
-% Affiliations should not be repeated across multiple \affil commands. If several
-% authors share an affiliation this should be in a single \affil which can then
-% be referenced for several author names. If only one affiliation, no footnotes are needed.
-% See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{
+A.~Femia,$^{1}$ 
+N.~Parmiggiani,$^{1}$ 
+A.~Bulgarelli,$^{1}$ 
+V.~Fioretti,$^{1}$ 
+L.~Castaldini,$^{1}$ 
+M.~Maniscalco,$^{1,5}$ 
+G.~Panebianco,$^{1}$ 
+A.~Di~Piano,$^{1}$ 
+R.~Falco,$^{1}$ 
+G.~Mustafa,$^{1}$ 
+A.~Rizzo,$^{2}$ 
+A.~De~Rosa,$^{1}$ 
+E.~Virgilli,$^{1}$ 
+C.~Labanti,$^{1}$ 
+M.~Marisaldi,$^{3}$ 
+F.~Calzolari,$^{4}$ 
+A.Marinoni,$^{4}$
+C.Pittori $^{6}$
+}
+
+
+\affil{$^{1}$INAF/OAS Bologna, Via P. Gobetti 93/3, 40129 Bologna, Italy;
+\email{antonio.femia@inaf.it}}
+
+\affil{$^2$INAF - Osservatorio Astrofisico di Catania, Via Santa Sofia 78, Catania, 95123, Italy}
+
+\affil{$^3$Birkeland Centre for Space Science, Department of Physics and Technology, University of Bergen, Norway}
+
+\affil{$^4$CNR-ISAC, Via P. Gobetti 101, I-40129 Bologna, Italy}
+
+\affil{$^5$Università degli Studi di Padova, Via VII Febbraio , 2, 35122, Padova, Italy}
+
+\affil{$^6$INAF/OAR Roma, Via di Frascati 33, I-00078 Monte Porzio Catone, Italy}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{A.~Femia}{antonio.femia@inaf.it}{0000-0001-5978-4784}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
 
-% There should be one \aindex line (commented out) for each author. These are used to
-% build up the author index for the Proceedings. The surname must come first, followed by
-% initials. Note the use of ~ before each initial to control spacing.
-% The \author entries (see above) have surname last. These \aindex entries have
-% surname first.
-% The Aindex.py command willl create them for you after you have constructed the \author
-% The first entry should be the first author, for bold-facing the author index page-reference
+\paperauthor{N.~Parmiggiani}{nicolo.parmiggiani@inaf.it}{0000-0002-4535-5329}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+\paperauthor{A.~Bulgarelli}{andrea.bulgarelli@inaf.it}{0000-0001-6347-0649}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{V.~Fioretti}{valentina.fioretti@inaf.it}{0000-0002-6082-5384}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{L.~Castaldini}{luca.castaldini@inaf.it}{0009-0000-5501-4328}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{M.~Maniscalco}{mattia.maniscalco@inaf.it}{0009-0004-0219-1282}
+{INAF/OAS Bologna}{Univerity of Padova}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{G.~Panebianco}{gabriele.panebianco@inaf.it}{0000-0002-3410-8613}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{A.~Di~Piano}{ambra.dipiano@inaf.it}{0000-0002-9894-7491}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{R.~Falco}{luca.castaldini@inaf.it}{0009-0004-1676-7596}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{G.~Mustafa}{luca.castaldini@inaf.it}{0009-0005-1088-9119}
+{University of Bologna}{Department of Computer Science and Engineering}
+{Bologna}{BO}{40126}{Italy}
+
+\paperauthor{A.~Rizzo}{alessandro.rizzo@inaf.it}{0009-0003-4341-2988}
+{INAF/OA Catania}{}
+{Catania}{CT}{95123}{Italy}
+
+\paperauthor{E.~Virgilli}{enrico.virgilli@inaf.it}{0000-0003-2279-9119}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{C.~Labanti}{enrico.virgilli@inaf.it}{0000-0002-5086-3619}
+{INAF/OAS Bologna}{}
+{Bologna}{BO}{40129}{Italy}
+
+\paperauthor{M.~Marisaldi}{martino.marisaldi@inaf.it}{0000-0002-4000-3789}
+{Birkeland Centre for Space Science}{Department of Physics and Technology}
+{Bergen}{NO}{5007}{Norwey}
+
+\paperauthor{F.P.~Calzolari}{francescopiero.calzolari@cnr.it}{0000-0003-4535-9626} {CNR-ISAC}
+{Bologa}{BO}{-40129}{Italy}
+
+\paperauthor{C.~Pittori}{carlotta.pittori@inaf.it}{0000-0001-6661-9779} {INAF/OAR Roma}{}
+{Roma}{RM}{I-00078}{Italy}
+
 
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+The detection of Terrestrial Gamma-ray Flashes (TGFs) from CubeSat-class spacecraft presents significant challenges due to their sub-millisecond duration, the presence of backgrounds, and stringent onboard computational and power constraints. This work investigates a machine-learning-based approach for charged-particle background rejection in a compact, segmented gamma-ray detector designed for CubeSat-class missions. The detector consists of $500$ GAGG scintillator crystals, providing three-dimensional spatial and energy-deposition information. Monte Carlo simulations are performed using MEGAlib/Geant4 to model the response of the segmented GAGG detector to TGF photons and charged particles. A dedicated machine-learning classifier is developed to discriminate TGF photons from charged-particle backgrounds. %Quantization and pruning techniques are applied to reduce computational and memory requirements for embedded deployment.
+Preliminary results, obtained without modelling atmospheric attenuation of TGF photons, demonstrate the potential of combining detector segmentation and machine-learning classification for future space-based TGF observations.
 \end{abstract}
 
-% These lines show examples of subject index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the Subject Index at the end of the Proceedings volume.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
-
-% These lines show examples of ASCL index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the ASCL Index at the end of the Proceedings volume.
-% The ascl.py command will scan your paper on possible code names.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
 
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+\section{Introduction}
+Terrestrial Gamma-ray Flashes (TGFs) are sub-millisecond bursts of atmospheric gamma rays associated with thunderstorms. Their observation provides valuable insights into high-energy particle acceleration processes in the Earth's atmosphere, and TGFs have been extensively studied through satellite observations. Observations by Fermi-GBM, AGILE-MCAL, and ASIM have demonstrated that TGF photon energies can extend to several tens of MeV, providing valuable information on the acceleration processes occurring within thunderstorms \citep{Lindanger2021,Marisaldi2010,Ursi2019}.
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+Space-based TGF observations are challenged by the extremely short duration, which can lead to detector dead time and pulse pile-up, affecting their measured temporal and spectral properties \citep{Briggs2010}. Electromagnetic radiation and charged particles interact with scintillators through different physical processes, potentially producing distinguishable energy-deposition patterns. Segmented scintillator architectures enable the measurement of energy deposits in individual detector elements, providing information on hit multiplicity, energy sharing, and the three-dimensional spatial distribution of deposited energy \citep{SalehNatur2026}. These observables can be exploited by machine-learning algorithms to support background discrimination.
 
+As part of the GammaSky project \citep{Castaldini2026}, this study investigates the response of a segmented scintillator detector to photons in the 10 keV--40 MeV energy range. The detector consists of 500 GAGG (Gadolinium Aluminum Gallium Garnet, $\mathrm{Gd_3Al_2Ga_3O_{12}}$) scintillator crystals, each measuring $1 \times 1 \times 0.8\ \mathrm{cm^3}$.
+The crystals are separated by $0.2\ \mathrm{cm}$ gaps
+along the $Z$-axis, and the detector has a volume filling factor of 50\% (see the left panel of
+Figure~\ref{fig:geometry_occupancy}).  The high density ($6.63\ \mathrm{g/cm^3}$) and effective atomic number of GAGG provide high gamma-ray interaction probability within a compact volume, while the inter-crystal gaps house the readout cables and associated electronics.
+
+%As part of the GammaSky project \citep{Castaldini2026}, this study investigates the ability of a segmented scintillator detector to discriminate TGF photons from charged-particle backgrounds using Monte Carlo simulations and machine-learning-based event classification.
+
+
+%The study also addresses the computational constraints associated with onboard processing, aiming to develop an efficient classification strategy suitable for future CubeSat-class high-energy instruments.
+
+\section{Methodology}
+\label{sec:methodology}
+
+All simulations were performed using MEGAlib (Medium Energy Gamma-ray Astronomy Library), an open-source framework based on Geant4 for modelling particle transport and interactions in gamma-ray detectors \citep{Zoglauer2006}. % over the keV–GeV energy range.
+ %MEGAlib relies on Geant4 for modelling particle transport
+%and interactions with matter.
+
+The simulated charged-particle background \citep{Cumani2019, Gallego2026} includes primary and secondary electrons ($e^-$), primary and secondary positrons ($e^+$), primary alpha particles
+(${}^{4}\mathrm{He}^{2+}$), and primary and secondary
+protons ($p^+$). Secondary protons are further distinguished into upward-going particles (originating from Earth) and downward-going particles (arriving from the sky). Background simulations were based on the integral particle flux expected in low Earth orbit (LEO), considering an observation time of $1000\,\mathrm{s}$ at an orbital altitude of $550\,\mathrm{km}$. The energy spectra for each charged-particle background component are depicted in the right panel of Figure \ref{fig:geometry_occupancy}. 
+The incident TGF photon spectrum was modeled, neglecting the atmospheric attenuation,  using an RREA (Relativistic Runaway Electron Avalanche)-like exponentially cut-off power law:
+
+\begin{equation}
+\frac{dN_\gamma}{dE}
+\propto E^{-1}
+\exp\left(-\frac{E}{7.3\,\mathrm{MeV}}\right),
+\label{eq:tgf_spectrum}
+\end{equation}
+
+\noindent
+with photon energies spanning from $10\,\mathrm{keV}$ to $40\,\mathrm{MeV}$.
+
+\begin{figure}[!ht]
+    \centering
+
+    \begin{minipage}[t]{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{3dView.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.55\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{charged_background_spectra.pdf}
+    \end{minipage}
+
+    \caption{Detector geometry and energy spectrum.
+    \textit{Left:} Three-dimensional view of the segmented
+    GAGG detector geometry.
+    \textit{Right:} Differential energy spectra, for charged-particle backgrounds, assuming a solar modulation potential
+    of 650 MV.}
+
+    \label{fig:geometry_occupancy}
+\end{figure}
+
+\begin{comment}
+    
+\begin{figure}[!ht]
+    \centering
+
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{charged_background_spectra.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{background_rate_hz_charged.pdf}
+    \end{minipage}
+
+    \caption{Charged-particle background at an orbital altitude of 550 km.
+    \textit{Left:} Differential energy spectra assuming a solar modulation potential
+    of 650 MV.
+    \textit{Right:} Event rates.}
+
+    \label{fig:charged_background}
+\end{figure}
+\end{comment}
+
+\begin{figure}[!ht]
+    % \caption{Simulated detector response to TGF photons and
+charged-particle backgrounds.
+\textit{Left:} Mean number of lit GAGG pixels and pixel
+multiplicity distributions for each particle component.
+\textit{Right:} Event rates and hit rates for the different
+charged-particle background components. %, with total rates
+%of 82.2 Hz and 507.1 Hz, respectively.
+
+    \label{fig:background_characterization}
+\end{figure}
+
+\section{Classifier Architecture}
+\label{sec:classifier_architecture}
+
+The classifier is based on a fully connected feed-forward neural network, taking 49 standardised physics-inspired features as input. The architecture consists of two hidden dense layers with 128 and 64 neurons, respectively, employing ReLU activation functions and dropout regularisation (p = 0.1). Batch normalisation is applied after the first dense layer to improve training stability. The output layer contains two neurons for binary classification between TGF photons and charged-particle background. To exploit the spatial information provided by the segmented
+detector, only events activating at least three pixels
+($n_{\mathrm{pixels}} \geq 3$) were selected for machine-learning classification. %This requirement retains 54.83\% of charged-particle background events and 5.23\% of TGF events. 
+%Since low-energy TGF photons generally activate fewer than three pixels, this selection mainly excludes low-energy interactions. 
+%A total of 49 physics-inspired features were extracted from the simulated detector response and organized into five categories.
+\begin{comment}
 \begin{itemize}
-\checklistitemize
+    \item Energy deposition and multiplicity: pixel multiplicity, total deposited energy, statistical moments, energy percentiles, and dispersion measures.
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
+    \item Energy sharing and concentration:
+    energy entropy, Gini coefficient, active-pixel
+    fractions, and energy concentration.
+
+    \item Spatial geometry and topology:
+    energy-weighted center of mass, radius of gyration,
+    spatial covariance eigenvalues, linearity, planarity,
+    sphericity, asymmetry, and spatial extent.
+
+    \item Hit statistics:
+    total hit count, mean hits per active pixel,
+    and energy--hit correlations.
+
+    \item Morphological complexity:
+    fractal dimension, connectivity, maximum path
+    length, branching structure, and skeleton length.
 \end{itemize}
+\end{comment}
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+%These features characterise the energetic and geometrical signatures of particle interactions, providing complementary information for distinguishing TGF photons from charged-particle backgrounds.
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+\section{Results}
+\label{sec:results}
+The left panel of Figure \ref{fig:background_classification} shows the pixel-hit multiplicity distributions obtained for TGF photons and charged-particle background events. TGF photons exhibit a mean pixel multiplicity of 1.25, with most events activating a single pixel. Charged-particle backgrounds show higher mean multiplicities, ranging from 3.37--3.40 for secondary protons to 28.60 for primary electrons, with primary alpha particles and protons averaging 16.53 and 10.35 pixels, respectively.
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
-
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
-
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
-
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
-
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
-
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
+The classifier achieves a receiver operating characteristic area under the curve (ROC AUC) of 0.981 on the selected test dataset, with an overall classification accuracy of 92.3\%. A TGF recall of 97.8\% is obtained, corresponding to 6,725 correctly identified signal events out of 6,876, with a signal precision of 82.6\%. Simultaneously, 89.6\% of charged-particle background events are correctly rejected (see the right panel of Figure \ref{fig:background_classification}). %As a representative example, the results for electrons are presented in Figure \ref{fig:background_characterization}. In the 10--30 MeV range, the classifier achieves a signal recall of 88.1\%, an electron-background rejection of 93.4\%, and a macro-averaged F1 score of 0.879. For energies above 30 MeV, electron-background rejection increases to 98.9\%, while retaining 90.0\% of TGF events.
+Overall, these results highlight the potential of combining energy-deposition statistics and spatial topology for charged-particle background rejection. %, particularly in the high-energy TGF regime.
 
 
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
 
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
-\smallskip
-\begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
-\tableline
-\noalign{\smallskip}
-First Column & Second Column & Third Column:\\
-\noalign{\smallskip}
-\tableline
-\noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
-\noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
-\end{tabular}
-}
-\end{center}
-\end{table}
-\noindent These tables can get a little messy, but this format is the most common.
+\begin{figure}[!ht]
+    \centering
 
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
+    \begin{minipage}[t]{0.6\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{mean_n_voxels_by_component.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{tab_confusion_matrix.pdf}
+    \end{minipage}
 
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
+    \caption{Hit distributions and machine learning classification performance.
+    \textit{Left:} Mean number of lit pixels and pixel
+    multiplicity distributions for TGF photons and
+    charged-particle background components.
+    \textit{Right:} Confusion matrix for events with
+    $n_{\mathrm{pixels}}\geq 3$.}
 
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
+    \label{fig:background_classification}
+\end{figure}
 
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
 
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
 
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
-
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
-
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
+\section{Conclusions}
+In this work, a segmented GAGG scintillator detector was proposed for TGF observations. The high density and effective atomic number of GAGG enable efficient gamma-ray absorption, while the segmented design provides a mass-efficient architecture suitable for CubeSat-class missions. Furthermore, the modular architecture offers improved fault tolerance, as failures of scintillator channels do not necessarily compromise the entire instrument, allowing continued operation. A fully connected neural network was developed to discriminate TGF photons from charged-particle backgrounds, achieving a ROC AUC of 0.981, a TGF recall of 97.8\%, and a charged-particle background rejection of 89.6\% on the preselected test dataset. These findings highlight the potential of combining segmented scintillator detectors with machine learning for future CubeSat-class TGF observations and motivate further optimisation and onboard validation.
 
 
 \bibliography{P207}  % For BibTex
