@@ -2,6 +2,6 @@
 P = P204
 V = 1
 A = Rizzo
-E = you@example.edu
+E = alessandro.rizzo@inaf.it
 # your figures, named P204_f1.eps, P204_f2.png, ...
 FIGS = $(filter-out P204_inc.tex,$(wildcard P204_*))
