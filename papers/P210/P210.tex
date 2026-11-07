@@ -1,232 +1,114 @@
-% This is the ADASS_template.tex LaTeX file, 24 Oct 2025.
-% It is based on the ASP general author template file, but modified to reflect the specific
-% requirements of the ADASS proceedings.
-
-% This is the aspauthor.tex LaTeX file
-% Copyright 2021, Astronomical Society of the Pacific Conference Series
-% Revision:  29 November 2021
-
-% To compile, at the command line positioned at this folder, type:
-% pdflatex ADASS_template
-% pdflatex ADASS_template
-% This will create a file called ADASS_template.pdf
-
 \documentclass[11pt,twoside]{article}
-
-% Do NOT use ANY packages other than asp2023. 
-\usepackage{asp2023}
-
+\usepackage{./asp2023}
 \aspSuppressVolSlug
 \resetcounters
 
-% References must all use BibTeX entries in a .bibfile.
-% References must be cited in the text using \citet{} or \citep{}.
-% Do not use \cite{}.
-% See ManuscriptInstructions.pdf for more details
 \bibliographystyle{asp2021}
 
-% The ``markboth'' line sets up the running heads for the paper.
-% 1 author: "Surname"
-% 2 authors: "Surname1 and Surname2"
-% 3 authors: "Surname1, Surname2, and Surname3"
-% >3 authors: "Surname1 et al."
-% Replace ``Short Title'' with the actual paper title, shortened if necessary.
-% Use mixed case type for the shortened title
-% Ensure shortened title does not cause an overfull hbox LaTeX error
-% See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{G. Mustafa, N. Parmiggiani, C. Sartori, A. Bulgarelli}{Machine-Learning Prediction of the COSI Background}
 
+\urlstyle{same}
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Machine Learning Models for Predicting the COSI Background for Gamma-Ray Burst Detection}
 
-% Note the position of the comma between the author name and the 
-% affiliation number.
-% Authors surnames should come after first names or initials, eg John Smith, or J. Smith.
-% Author names should be separated by commas.
-% The final author should be preceded by "and".
-% Affiliations should not be repeated across multiple \affil commands. If several
-% authors share an affiliation this should be in a single \affil which can then
-% be referenced for several author names. If only one affiliation, no footnotes are needed.
-% See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{G.~Mustafa,$^{1,2}$ N.~Parmiggiani,$^{2}$ C.~Sartori,$^{1}$ A.~Bulgarelli,$^{2}$ F.~Fenu,$^{3}$ 
+V.~Fioretti,$^{2}$ E.~Cavazzuti,$^{3}$ E.~Burns,$^{11}$ L.~Castaldini,$^{2}$ L.~Di~Gesu,$^{3}$
+A.~Di~Piano,$^{2}$ R.~Falco,$^{2}$ A.~Femia,$^{2}$ S.~Gallego,$^{7}$ P.~Janowski,$^{7}$ J.~Lommler,$^{7}$
+M.~Maniscalco,$^{2,4}$ I.~Martinez-Castellanos,$^{5,6}$ U.~Oberlack,$^{7}$ G.~Panebianco,$^{2}$ A.~Rizzo,$^{12}$
+S.~E.~Boggs,$^{8}$ D.~H.~Hartmann,$^{9}$ C.~A.~Kierans,$^{5}$ J.~A.~Tomsick,$^{10}$
+and A.~Zoglauer$^{10}$}
 
-% This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\affil{$^{1}$Department of Computer Science and Engineering, University of Bologna, Italy}
 
-% There should be one \aindex line (commented out) for each author. These are used to
-% build up the author index for the Proceedings. The surname must come first, followed by
-% initials. Note the use of ~ before each initial to control spacing.
-% The \author entries (see above) have surname last. These \aindex entries have
-% surname first.
-% The Aindex.py command willl create them for you after you have constructed the \author
-% The first entry should be the first author, for bold-facing the author index page-reference
+\affil{$^{2}$INAF/OAS Bologna, Bologna, Italy}
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+\affil{$^{3}$Agenzia Spaziale Italiana (ASI), Rome, Italy}
+
+\affil{$^{4}$University of Padova, Padova, Italy}
+
+\affil{$^{5}$NASA Goddard Space Flight Center, Greenbelt, MD, USA}
+
+\affil{$^{6}$Department of Astronomy, University of Maryland, College Park, MD, USA}
+
+\affil{$^{7}$Institute of Physics, Johannes Gutenberg University Mainz, Germany}
+
+\affil{$^{8}$Astronomy and Astrophysics, University of California, San Diego, CA, USA}
+
+\affil{$^{9}$Department of Physics and Astronomy, Clemson University, Clemson, USA}
+
+\affil{$^{10}$Space Sciences Laboratory, University of California, Berkeley, CA, USA}
+
+\affil{$^{11}$Department of Physics and Astronomy, Louisiana State University, LA, USA}
+
+\affil{$^{12}$INAF/OA Catania, Catania, Italy}
+
+
 
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+The Compton Spectrometer and Imager (COSI) is a NASA Small Explorer mission designed to observe the 0.2--5 MeV gamma-ray sky. Background variations make it difficult to detect transient sources such as gamma-ray bursts (GRBs). We use the COSI Data Challenge 4 (DC4) simulation to study the background for one HEALPix sky direction. Events are selected using the Angular Resolution Measure (ARM) and binned at 1 s to construct a background light curve. We apply supervised machine learning to predict the expected background count rate from spacecraft pointing and orbital information. We compare Poisson regression and Gaussian Mixture Regression (GMR) on a random 30\% evaluation set (1,800,308 1-s bins). Their mean Poisson deviances are 1.0550 and 1.0553, with biases of $-4.9\times10^{-4}$ and $-0.0534$ counts\,s$^{-1}$, respectively. We select Poisson regression because it directly models photon counts and has a lower absolute bias. Its Pearson-residual standard deviation is 1.000 at 1 s. Future work will test the method with simulated GRBs and extend it to blind transient searches across the COSI field of view.
 \end{abstract}
 
-% These lines show examples of subject index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the Subject Index at the end of the Proceedings volume.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
 
-% These lines show examples of ASCL index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the ASCL Index at the end of the Proceedings volume.
-% The ascl.py command will scan your paper on possible code names.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
+\section{Introduction}
 
+The Compton Spectrometer and Imager (COSI) is a wide-field gamma-ray telescope designed to observe the 0.2--5 MeV sky
+\citep{Tomsick2023}. We use simulated data from the COSI Germanium Compton Telescope (GCT) to study its background. 
+Our goal is to predict the background light curve using supervised machine learning. We use spacecraft pointing and orbital information as inputs and simulated background counts as training targets. We compare Poisson regression and Gaussian Mixture Regression (GMR) to estimate the expected background count rate. These predictions can support future gamma-ray burst (GRB) searches by comparing observed counts with the expected background. We evaluate the models for one HEALPix sky direction as a first step
+toward blind GRB searches.
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+\section{Dataset and Feature Engineering}
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
-
-\begin{itemize}
-\checklistitemize
-
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
-
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
-
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
-
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
-
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
-
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
-
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
-
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
-
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
+We use the three-month COSI Data Challenge~4 (DC4) simulation \citep{Karwin2026,Gallego2026}, produced with MEGAlib \citep{Zoglauer2006}, containing simulated GCT background events and a spacecraft orientation file with time-stamped orbital position and pointing information. HEALPix divides the sky into equal-area pixels \citep{Gorski2005}. Our method is designed to construct a background light curve for each HEALPix direction within the GCT field of view; here, we analyze one reference direction at $N_{\mathrm{side}}=32$. Events are selected using the Angular Resolution Measure (ARM) \citep{Kierans2024}, defined as $\Delta\phi_{\mathrm{ARM}}=\phi^{\mathrm{geo}}-\phi^{\mathrm{kin}}$, where $\phi^{\mathrm{geo}}$ is the geometric scatter angle relative to the tested sky direction and $\phi^{\mathrm{kin}}$ is the Compton scatter angle calculated from the measured energy deposits. For the selected direction, we apply $|\Delta\phi_{\mathrm{ARM}}|\leq13^\circ$ and count the accepted events in 1-s bins to construct its background light curve. 
+The $\pm13^\circ$ ARM cut was selected by optimizing the signal-to-noise ratio (SNR) using DC3 Crab source and background simulations. We exclude invalid and SAA-affected intervals with a 7-s guard, together with the first 100 orbits to reduce early activation effects. Event times (\texttt{TimeTags}) are aligned with spacecraft orientation timestamps (\texttt{TimeStamp}) on the 1-s timeline. The model uses 11 spacecraft features: altitude; sine and cosine of the Earth-zenith latitude and longitude; and Cartesian coordinates of the spacecraft X- and Z-axis pointing directions. Five two-orbit blocks are excluded from the random split and reserved for visualization. The remaining 6,001,024 valid 1-s bins are randomly split into training (70\%; 4,200,716) and evaluation (30\%; 1,800,308). Feature standardization is fitted only on the training data. We report model performance on the 30\% evaluation set and use orbits 699--700 for Figure~1. 
 
 
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
+\section{Background Models}
 
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
-\smallskip
-\begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
-\tableline
-\noalign{\smallskip}
-First Column & Second Column & Third Column:\\
-\noalign{\smallskip}
-\tableline
-\noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
-\noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
+We use two machine-learning regression methods implemented in Python with scikit-learn, trained on 4,200,716 one-second background bins. The 11 spacecraft features form the input vector $\mathbf{x}_t$, and $N_t$ is the observed count at time $t$. Poisson regression \citep{McCullagh1989} assumes $N_t\mid\mathbf{x}_t\sim\mathrm{Poisson}(\lambda_t)$, with $\log(\lambda_t)=\beta_0+\boldsymbol{\beta}^{T}\mathbf{x}_t$, where $\lambda_t$ is the expected count and $\beta_0,\boldsymbol{\beta}$ are fitted coefficients. We use \texttt{PoissonRegressor} without regularization.
+
+
+Four-component Gaussian Mixture Regression (GMR) \citep{Ghahramani1994} models standardized features $\mathbf{x}_t$ and $z_t$, the standardized $\log(1+N_t)$, jointly:
+\[
+p(\mathbf{x}_t,z_t)=\sum_{k=1}^{4}\pi_k\mathcal{N}\!\left(\begin{bmatrix}\mathbf{x}_t\\z_t\end{bmatrix};\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k\right).
+\]
+Here, $\mathcal{N}$ is a multivariate Gaussian density, $k$ indexes the components, $\pi_k$ is the mixture weight, and $\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k$ are the component mean and covariance. We fit \texttt{GaussianMixture} with full covariance. Conditioning on $\mathbf{x}_t$ gives the log-count mean $m_k$ and variance $v_k$ after reversing standardization. We combine $\exp(m_k+v_k/2)-1$ with conditional mixture weights to obtain $\hat{N}_t=\mathbb{E}[N_t\mid\mathbf{x}_t]$. For both models, $r_t=(N_t-\hat{N}_t)/\sqrt{\hat{N}_t}$ denotes the Pearson residual, where $\hat{N}_t$ is the predicted count ($\lambda_t$ for Poisson regression). 
+
+
+\section{Results}
+
+
+We evaluate both models on the random 30\% evaluation set described in Section~2, containing 1,800,308 one-second bins. Poisson regression gives a mean Poisson deviance of 1.0550, a bias of $-4.9\times10^{-4}$ counts\,s$^{-1}$, and a Pearson-residual standard deviation of 1.000. GMR gives 1.0553, $-0.0534$ counts\,s$^{-1}$, and 0.994, respectively (Table~1). We select Poisson regression as the reference model because it directly models photon counts and has a lower absolute bias. Figure~1 shows a representative background light curve from reserved orbits 699--700. SAA intervals divide the light curve into three valid segments. The upper panel shows the illustrative time-dependent $3\sigma$ threshold, $\lambda_t+3\sqrt{\lambda_t}$, computed for each 1-s bin.
+
+
+\articlefigure[width=0.81\textwidth]{P210_f1.png}{fig:calib}{Background prediction for held-out orbits 699--700. Upper panel: observed 1-s counts (gray), 60-s moving average (blue), Poisson prediction (red), and illustrative $3\sigma$ anomaly threshold (green dashed), $\lambda_t+3\sqrt{\lambda_t}$, computed per 1-s bin. Gray bands mark SAA intervals. Lower panel: Pearson residuals and their 60-s moving average.}
+
+
+
+\begin{table}
+\caption{Model performance on the random 30\% evaluation set. $N$ is the number of 1-s bins, Bias is the mean observed minus predicted count rate (counts $\mathrm{s}^{-1}$), $\bar{D}$ is mean Poisson deviance, and $\sigma_r$ is Pearson-residual standard deviation.}
+\vspace{0.1in}
+\centering
+\begin{tabular}{l r r r r}
+\hline
+Model & $N$ & Bias & $\bar{D}$ & $\sigma_r$ \\
+\hline
+Poisson & 1,800,308 & $-4.9\times10^{-4}$ & 1.0550 & 1.000 \\
+GMR & 1,800,308 & $-0.0534$ & 1.0553 & 0.994 \\
+\hline
 \end{tabular}
-}
-\end{center}
 \end{table}
-\noindent These tables can get a little messy, but this format is the most common.
-
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
-
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
-
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
-
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
-
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
-
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
-
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
-
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
 
 
-\bibliography{P210}  % For BibTex
+\section{Discussion and Conclusions}
 
-% if we have space left, we might add a conference photograph here. Leave commented for now.
-% \bookpartphoto[width=1.0\textwidth]{foobar.eps}{FooBar Photo (Photo: Any Photographer)}
+On the random 30\% evaluation set, Poisson regression achieves a mean Poisson deviance of 1.0550, a bias of $-4.9\times10^{-4}$ counts\,s$^{-1}$, and a Pearson-residual standard deviation of 1.000. GMR gives a deviance of 1.0553, a bias of $-0.0534$ counts\,s$^{-1}$, and a residual standard deviation of 0.994. Both models show comparable predictive performance, with Pearson-residual standard deviations close to one at 1 s.  We select Poisson regression as the reference model because it directly models photon counts and has a lower absolute bias. Although GMR offers a more flexible probabilistic representation, it shows no clear improvement in the reported metrics. These results support the use of a regression model for predicting the simulated background from spacecraft pointing and orbital information. This study is limited to one HEALPix direction and background-only simulations. The random evaluation split does not establish generalization to independent observing periods, and GRB detection has not yet been tested. Future work will add simulated GRB counts to background light curves and test transient detection by comparing observed counts with model predictions. We will then extend the analysis to other sky directions within the COSI field of view.
+
+
+\acknowledgments
+COSI is a NASA Small Explorer mission supported under NASA contract 80GSFC21C0059. This work is partially supported by the Italian Space Agency under contract ASI/INAF No.~2024-11-HH.0.
+
+\bibliography{P210}
 
 \end{document}
