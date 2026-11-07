@@ -1,228 +1,257 @@
-% This is the ADASS_template.tex LaTeX file, 24 Oct 2025.
-% It is based on the ASP general author template file, but modified to reflect the specific
-% requirements of the ADASS proceedings.
-
-% This is the aspauthor.tex LaTeX file
-% Copyright 2021, Astronomical Society of the Pacific Conference Series
-% Revision:  29 November 2021
-
-% To compile, at the command line positioned at this folder, type:
-% pdflatex ADASS_template
-% pdflatex ADASS_template
-% This will create a file called ADASS_template.pdf
+% ADASS 2026 proceedings, paper C301 (contributed talk, track 3).
+% DRAFT of 2026-11-07. Based on the ADASS_template.tex LaTeX file, 24 Oct 2025,
+% itself based on the ASP general author template (Copyright 2021, ASP
+% Conference Series, revision 29 November 2021).
+%
+% Build with pdflatex, bibtex, pdflatex, pdflatex (or "make pdf", or Overleaf
+% with the pdfLaTeX compiler and C301.tex as main document).
+%
+% Template rules kept in this draft:
+%  - no package other than asp2023; no \renewcommand or \renewenvironment;
+%  - references only as BibTeX entries in C301.bib, cited with \citet/\citep;
+%  - figures are C301_f<n>.png in this folder; no non-ASCII characters;
+%  - 4-page limit for contributed talks, references included.
 
 \documentclass[11pt,twoside]{article}
 
-% Do NOT use ANY packages other than asp2023. 
+% Do NOT use ANY packages other than asp2023.
 \usepackage{asp2023}
 
 \aspSuppressVolSlug
 \resetcounters
 
-% References must all use BibTeX entries in a .bibfile.
-% References must be cited in the text using \citet{} or \citep{}.
-% Do not use \cite{}.
-% See ManuscriptInstructions.pdf for more details
 \bibliographystyle{asp2021}
 
-% The ``markboth'' line sets up the running heads for the paper.
-% 1 author: "Surname"
-% 2 authors: "Surname1 and Surname2"
-% 3 authors: "Surname1, Surname2, and Surname3"
-% >3 authors: "Surname1 et al."
-% Replace ``Short Title'' with the actual paper title, shortened if necessary.
-% Use mixed case type for the shortened title
-% Ensure shortened title does not cause an overfull hbox LaTeX error
-% See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+% Running head. More than 3 authors: "Surname1 et al."
+\markboth{Lacopo et al.}{Multi-Agent Loop Engineering for Radio Imaging}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Multi-Agent Loop Engineering for Radio Astronomy Pipelines: Autonomous Refactoring and Scientific Validation}
 
-% Note the position of the comma between the author name and the 
-% affiliation number.
-% Authors surnames should come after first names or initials, eg John Smith, or J. Smith.
-% Author names should be separated by commas.
-% The final author should be preceded by "and".
-% Affiliations should not be repeated across multiple \affil commands. If several
-% authors share an affiliation this should be in a single \affil which can then
-% be referenced for several author names. If only one affiliation, no footnotes are needed.
-% See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+% Five authors; Giovanni Lacopo is the first and presenting author.
+% [PLACEHOLDER: affiliations of co-authors] Only the first author's affiliation
+% is given in this draft. Before the final deadline add one \affil per
+% institution (not repeated), the matching $^n$ superscripts after each name in
+% \author, and complete the \paperauthor lines below. Do not guess institutions.
+\author{Giovanni~Lacopo,$^1$ Emanuele~De~Rubeis, Claudio~Gheller, Giuliano~Taffoni, and Luca~Tornatore}
+\affil{$^1$INAF -- Osservatorio Astronomico di Trieste, Via G.B. Tiepolo 11, 34143 Trieste, Italy; \email{giovanni.lacopo@inaf.it}}
+% [PLACEHOLDER: affiliations of co-authors] \affil{$^2$...}
 
-% This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+% One line per author; 9 arguments. [PLACEHOLDER: ORCID] third argument left
+% blank for all authors. [PLACEHOLDER: co-author email, institution, department,
+% city, state, postal code, country] left blank for the four co-authors.
+\paperauthor{Giovanni~Lacopo}{giovanni.lacopo@inaf.it}{}{INAF -- Osservatorio Astronomico di Trieste}{}{Trieste}{}{34143}{Italy}
+\paperauthor{Emanuele~De~Rubeis}{}{}{}{}{}{}{}{}
+\paperauthor{Claudio~Gheller}{}{}{}{}{}{}{}{}
+\paperauthor{Giuliano~Taffoni}{}{}{}{}{}{}{}{}
+\paperauthor{Luca~Tornatore}{}{}{}{}{}{}{}{}
 
-% There should be one \aindex line (commented out) for each author. These are used to
-% build up the author index for the Proceedings. The surname must come first, followed by
-% initials. Note the use of ~ before each initial to control spacing.
-% The \author entries (see above) have surname last. These \aindex entries have
-% surname first.
-% The Aindex.py command willl create them for you after you have constructed the \author
-% The first entry should be the first author, for bold-facing the author index page-reference
-
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+%\aindex{Lacopo,~G.}
+%\aindex{De~Rubeis,~E.}
+%\aindex{Gheller,~C.}
+%\aindex{Taffoni,~G.}
+%\aindex{Tornatore,~L.}
 
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+We report the human-led refactoring of RICK, a distributed w-stacking dirty
+imager built on MPI, OpenMP offload and HeFFTe, with large language model
+(LLM) agents from two engines, Claude and OpenAI Codex. The researcher set
+contracts and tolerances, ran every job on the Leonardo supercomputer and
+judged the results; the agents implemented, reviewed and diagnosed. With one
+writing agent, cross-engine review, no local execution and evidence-labelled
+claims, the loop removed a
+sign-inverting off-axis flux ramp and most of the radial droop with respect to
+WSClean on a MeerKAT field, leaving a residual edge deficit, and produced a
+streaming engine that splits work before it exceeds a known memory budget. On
+VLA data of Abell~2255, CPU and GPU images differ in 34 of 81 million stored
+pixels; agreement with WSClean is reported metric by metric.
 \end{abstract}
 
-% These lines show examples of subject index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the Subject Index at the end of the Proceedings volume.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
+%\ssindex{astronomy!radio!interferometry}
+%\ssindex{algorithm!imaging}
+%\ssindex{Artificial intelligence}
+%\ssindex{software!development}
+%\ssindex{software!testing}
+%\ssindex{computing!high-performance computing (HPC)}
+%\ssindex{computing!GPU}
+%\ssindex{computing!OpenMP}
+%\ssindex{libraries!MPI}
+%\ssindex{observatories!ground-based!MeerKAT}
+%\ssindex{observatories!ground-based!VLA}
+%\ssindex{observatories!ground-based!SKA}
 
-% These lines show examples of ASCL index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the ASCL Index at the end of the Proceedings volume.
-% The ascl.py command will scan your paper on possible code names.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
+%\ooindex{WSClean, ascl:1408.023}
+%\ooindex{casacore, ascl:1912.002}
 
+\section{Introduction}
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+SKA-era imaging software must be correct, scalable and maintainable: a
+refactor that is faster but two per cent wrong in flux is a scientific
+failure. LLM agents can now modify real code bases \citep[e.g.][]{Jimenez2024},
+but no unit test certifies a sky image. We asked whether agents can refactor
+an HPC radio imager when every change is held to scientific gates set by a
+human.
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+RICK \citep{DeRubeis2025,Lacopo2025,Lacopo2026} reads a MeasurementSet through
+casacore \citep{2015A&C....12..174V}, grids weighted visibilities on w-planes
+with a Kaiser--Bessel kernel \citep{Jackson1991}, transforms them with HeFFTe
+\citep{Ayala2020}, corrects the w-term by w-stacking
+\citep{2014MNRAS.444..606O}, and writes dirty images, PSFs and fitted beams to
+FITS, combining MPI, OpenMP, an OpenMP-offload GPU build and optional NCCL
+transport. The work, done in June--October 2026 on Leonardo \citep{Turisini2024},
+covers dirty imaging only (no CLEAN or calibration); the reference is the
+WSClean dirty image \citep{2014MNRAS.444..606O}.
 
-\begin{itemize}
-\checklistitemize
+\section{Method: Engineering the Loop}
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
+Every change follows one loop. The researcher writes a contract: what must
+stay invariant and which tolerance counts as a pass. One agent implements it,
+the same engine and then the other review it statically, and only then does
+the researcher run it on Leonardo. The agents never build or run RICK locally;
+they diagnose from logs and FITS files copied back. Each iteration leaves a
+design note and a commit stating its validation status, and every claim is
+labelled \emph{code}, \emph{measurement} or \emph{unproven}.
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+The agents are versioned persona profiles: only an
+\texttt{hpc-ska-specialist} (Claude and Codex profiles from one brief) writes
+code; \texttt{cpp-hpc-reviewer}, \texttt{parallel-io-expert} and
+\texttt{radioastronomy-expert} are read-only. One agent writes at a time:
+parallel writers would produce conflicting edits in the gridding loops, where
+a plausible but wrong change is hardest to spot. Three gates apply: agreement
+with WSClean within 1\%, metric by metric; the same image for any MPI rank
+count, so far enforced only on printed summaries (MeerKAT runs on 8, 12 and 32
+ranks print the same peak and RMS); and execution choices such as chunking or
+transport changing only floating-point evaluation order.
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+\section{Results}
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
+\subsection{Reducing the Flux Gap on MeerKAT}
 
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
+In earlier validation runs on the MeerKAT field PSZ2~G008.31 (4096$^2$ pixels
+of 1$^{\prime\prime}$, uniform weighting), the peak ratio RICK/WSClean fell
+off-axis, with a cosine ramp along $l-m$ that inverted the sign of 3 of 61
+sources and a smooth radial droop. Five diagnoses, each re-checked against
+WSClean, removed the ramp and most of the droop. The uniform-weighting density was binned per w-plane
+instead of in 2D as in WSClean. The Kaiser--Bessel correction used the
+analytic transform instead of inverting the sampled, truncated kernel. The
+w-phase sign was wrong: code review found nothing, but replacing the w-phase
+screen by the identity reproduced the single-plane image to floating-point
+precision, clearing gridding, FFT and normalisation; the sign fix raised the
+off-axis peak ratio from 0.35 to about 0.93. The ramp came from a half-cell
+FFT offset shared by each visibility and its synthetic Hermitian conjugate,
+giving a factor $\cos(\pi (l-m)/N_{\rm pad})$; a symmetric shift removed it
+and all three sign inversions (Fig.~\ref{fig:meerkat}, left). Finally, 128
+w-planes instead of 20, as in WSClean, reduced the droop coefficient 3.1-fold,
+to a median ratio of 0.992 and a minimum of 0.967 (Fig.~\ref{fig:meerkat},
+right). The minimum ratio of 0.967 is 3.3\% low, outside the 1\% gate; the
+remaining deficit is under investigation. One fix often hid the next; we did
+not record which engine proposed each.
 
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
+\articlefiguretwo{C301_f1.png}{C301_f2.png}{fig:meerkat}{MeerKAT PSZ2~G008.31,
+same-pixel peak ratio RICK/WSClean for sources above 50$\sigma$ (earlier
+validation runs). \emph{Left:} against $l-m$; crosses and fitted cosine before
+the Hermitian half-cell fix, filled circles after it. \emph{Right:} against
+radius with 20 (light) and 128 (dark) w-planes, with quadratic fits.}
 
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
+\subsection{Memory-Adaptive Streaming}
 
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
+The most surprising development was not a speed-up: RICK now adapts to
+the MeasurementSet instead of running out of memory. The contract is
+\emph{count first, allocate second}: before allocating payload buffers, all
+ranks exchange the numbers of samples they will read, send and receive and
+compare them with every rank's known budget; if any rank would exceed it, all
+ranks refuse the interval and split it. All stages are charged, including FFT
+workspace and PSF, and an unknown budget stops the job at start-up. A static
+Codex review challenged the first, Claude-written design before any run, and
+its fixes shaped the final architecture. In the VLA GPU run below, one
+interval of 16.6 million rows would have needed 80.1~GB on one GPU against a
+57.5~GB ceiling; it was split, and the run completed with 16 intervals (4
+planned). The 254~GB MeerKAT MeasurementSet also completed on 2 and 8 nodes.
+This is a contract within our allocation model, not a proof against every
+out-of-memory case: vendor FFT and NCCL allocations are only estimated.
 
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
+\subsection{VLA Abell~2255: CPU, GPU and WSClean}
 
-
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
+We imaged VLA data of Abell~2255 (circular feeds, 4500$^2$ pixels of
+0.4$^{\prime\prime}$, 26 w-planes, Briggs robust $-0.5$ \citep{Briggs1995},
+Stokes I, Q, U, V) on two nodes of each Leonardo partition
+(Table~\ref{tab:vla}). With relative $L_2 = \|A-B\|_2/\|B\|_2$ over all
+pixels, CPU and GPU images agree to $\leq1.54\times10^{-11}$ and the float64
+PSFs to $\leq5.8\times10^{-15}$. The 2.22 time ratio comes from single runs on
+different dates, with different toolchains, layouts, transports, interval
+counts and timer scopes: it compares two configurations, not a general GPU
+speed-up. Q, U and V agreement is a consistency check, not a polarimetric
+validation.
 
 \begin{table}[!ht]
-\caption{Tables in \LaTeXe}
+\caption{VLA Abell~2255, single two-node runs. Times from RICK timers; pixel
+metrics over all 20.25 million pixels of each float32 Stokes image.}
+\label{tab:vla}
 \smallskip
 \begin{center}
 {\small
-\begin{tabular}{llc}  % l = left, c = centered
+\begin{tabular}{lcc}
 \tableline
 \noalign{\smallskip}
-First Column & Second Column & Third Column:\\
+ & CPU: 32 ranks $\times$ 7 threads & GPU: 8 ranks, 8 A100 \\
 \noalign{\smallskip}
 \tableline
 \noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
+Total [s] & 1011.5 & 455.2 \\
+Gridding, dirty + PSF [s] & 535.8 & 27.9 \\
+Reading and preparation [s] & 261.8 & 319.5 \\
+Unequal pixels, I/Q/U/V & \multicolumn{2}{c}{34 of $8.1\times10^{7}$ (30 by one float32 step)} \\
+Max.\ $|$CPU$-$GPU$|$ [Jy\,beam$^{-1}$] & \multicolumn{2}{c}{$4.55\times10^{-13}$} \\
 \noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
+\tableline
 \end{tabular}
 }
 \end{center}
 \end{table}
-\noindent These tables can get a little messy, but this format is the most common.
 
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
+Against the WSClean dirty image (Stokes I), both backends give the same
+result, so the differences are not a CPU-versus-GPU effect. Within 1\%: the
+peak, at the same pixel ($-0.10\%$); the robust noise $\sigma$ ($-0.17\%$); the
+median ratio of the 4915 pixels above $10\sigma$ (1.0001); and 15 of the 24
+local maxima above $50\sigma$. The other 9 deviate by 1.0--4.7\%, the largest
+being the three sources beyond 2000 pixels from the centre
+(Fig.~\ref{fig:vla}). The whole-image relative $L_2$ of 0.197 reflects coherent
+rings and fringes in the residual map, not a flux error. The cause of the
+edge droop remains open. Taken together, the 1\% gate is met by the global
+metrics but not by all bright sources on either dataset (MeerKAT minimum ratio
+0.967; 9 of 24 VLA maxima at 1.0--4.7\%), so the science gate is only
+partially passed.
 
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
+\articlefigure[width=0.5\textwidth]{C301_f3.png}{fig:vla}{VLA Abell~2255,
+Stokes I: RICK/WSClean against radius. Line and band: median and interquartile
+range per radial bin of the 4915 positive pixels above $10\sigma$, with
+$\sigma = 1.4826\,{\rm MAD}$ of the WSClean image
+(6.17~$\mu$Jy\,beam$^{-1}$). Dots: 24 local maxima above $50\sigma$ (same pixel). Shaded strip: $\pm1\%$.}
 
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
+\section{Discussion and Conclusions}
 
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
+Invariance tests (identity phase screen, rank counts, backends) found faults
+that code review missed; a second-engine review of a design before any
+GPU-hour was cheap insurance; and evidence labels told us how far to trust a
+statement. Agents also produced plausible but wrong code, as the w-phase sign
+shows, and the Leonardo round trip set the pace of the loop. Contracts,
+tolerances, runs and the judgement of evidence stayed human. The evidence
+comes from one project and one researcher, without a controlled comparison
+against development without agents. Within these limits, LLM agents can
+refactor a production HPC radio imager when held to scientific gates
+(invariants, tolerances and a reference imager) rather than to code style, but
+validation against WSClean on Leonardo remained essential for every result, and showed that the 1\% gate is not yet met everywhere. The researcher's role shifted from writing kernels to designing the
+loop and judging its evidence.
 
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
-
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
-
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
-
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
-
+% [PLACEHOLDER: ACKNOWLEDGEMENTS] e.g. Leonardo/CINECA computing allocation,
+% funding, providers of the MeerKAT and VLA data, and any AI-use statement the
+% editors may require. Co-authors are now listed in \author, so thank only
+% people and institutions who are not authors. Keep the text on the same line
+% as \acknowledgements, just before the bibliography. Do not invent grant
+% numbers or project names.
+%\acknowledgements [PLACEHOLDER]
 
 \bibliography{C301}  % For BibTex
 
