@@ -34,11 +34,11 @@
 % Use mixed case type for the shortened title
 % Ensure shortened title does not cause an overfull hbox LaTeX error
 % See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Kettenis et al}{RADIOBLOCKS}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{RADIOBLOCKS: Using GPUs for signal processing in the AI era}
 
 % Note the position of the comma between the author name and the 
 % affiliation number.
@@ -49,14 +49,14 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{Mark~Kettenis,$^1$ Aard~Keimpema,$^1$ and John~Romein$^2$}
+\affil{$^1$Joint Institute for VLBI ERIC, Dwingeloo, The Netherlands; \email{kettenis@jive.eu}}
+\affil{$^2$ASTRON, Dwingeloo, The Netherlands}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Mark~Kettenis}{kettenis@jive.eu}{ORCID_Or_Blank}{Joint Institute for VLBI ERIC}{}{Dwingeloo}{}{7991 PD}{The Netherlands}
+\paperauthor{Aard~Keimpema}{keimpema@jive.eu}{ORCID_Or_Blank}{Joint Institute for VLBI ERIC}{}{Dwingeloo}{}{7991 PD}{The Netherlands}
+\paperauthor{John~Romein}{romein@astron.nl}{ORCID_Or_Blank}{ASTRON}{}{Dwingeloo}{}{7991 PD}{The Netherlands}
 
 % There should be one \aindex line (commented out) for each author. These are used to
 % build up the author index for the Proceedings. The surname must come first, followed by
@@ -66,15 +66,28 @@
 % The Aindex.py command willl create them for you after you have constructed the \author
 % The first entry should be the first author, for bold-facing the author index page-reference
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+%\aindex{Kettenis,~M.~M.}
+%\aindex{Keimpema,~K.}
+%\aindex{Romein,~J.}
 
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+In this contribution we present a collection of highly optimized GPU
+signal-processing libraries that form the building blocks for a new
+generation of radio-astronomical correlator and beam-former
+applications. This collection was developed by several partners in
+the EU-funded RADIOBLOCKS project. It includes, amongst others a
+PolyPhase filter bank, the Tensor-Core Correlator, a Tensor-Core Beam
+Former and a VLBI-capable delay correction module. We describe how
+recent AI driven GPU hardware developments, as well as developments in
+the software ecosystem, have made it possible to achieve significant
+improvements in power-efficiency for these building blocks. We
+discuss briefly how these "radio blocks" will be deployed in (upgrades
+of) correlator/beam-former applications for a variety of radio
+telescopes such as LOFAR, the Effelsberg radio telescope, the Irbene
+Single Baseline Interferometer (ISBI) and the European VLBI Network
+(EVN). Finally we provide some practical examples of the programming
+techniques that we've used that could be used in other applications.
 \end{abstract}
 
 % These lines show examples of subject index entries. At this stage these have to commented
