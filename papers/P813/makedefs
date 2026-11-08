@@ -2,6 +2,6 @@
 P = P813
 V = 1
 A = Stefano
-E = you@example.edu
+E = simona.distefano@phd.units.it
 # your figures, named P813_f1.eps, P813_f2.png, ...
 FIGS = $(filter-out P813_inc.tex,$(wildcard P813_*))
