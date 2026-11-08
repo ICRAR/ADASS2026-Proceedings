@@ -34,11 +34,11 @@
 % Use mixed case type for the shortened title
 % Ensure shortened title does not cause an overfull hbox LaTeX error
 % See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Jankowsky, Aït Benkhali, and Wagner}{AI Assisted Observatory Management}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{AI Assisted Observatory Management}
 
 % Note the position of the comma between the author name and the 
 % affiliation number.
@@ -49,14 +49,14 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{F.~Jankowsky$^1$, F.~Aït~Benkhali$^1$, and S.~Wagner$^{1,2}$}
+\affil{$^1$German Centre for Astrophysics (DZA), Görlitz, Germany; \email{felix.jankowsky@dzastro.de}}
+\affil{$^2$Heidelberg State Observatory (LSW), Heidelberg, Germany}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Felix~Jankowsky}{felix.jankowsky@dzastro.de}{}{Deutsches Zentrum für Astrophysik}{Astrophysics}{Görlitz}{}{02826}{Germany}
+\paperauthor{Faiçal~Aït~Benkhali}{faical.ait_benkhali@dzastro.de}{}{Deutsches Zentrum für Astrophysik}{Astrophysics}{Görlitz}{}{02826}{Germany}
+\paperauthor{Stefan~Wagner}{swagner@lsw.uni-heidelberg.de}{}{Landessternwarte Heidelberg}{}{Heidelberg}{}{69117}{Germany}
 
 % There should be one \aindex line (commented out) for each author. These are used to
 % build up the author index for the Proceedings. The surname must come first, followed by
@@ -66,165 +66,180 @@
 % The Aindex.py command willl create them for you after you have constructed the \author
 % The first entry should be the first author, for bold-facing the author index page-reference
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+%\aindex{Jankowsky,~F.}
+%\aindex{Aït Benkhali,~F.}
+%\aindex{Wagner,~S.}
 
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+  In the past years the field of observatory operations has seen many technical advances which have predominantly been driven by the need for robotisation. Employing the new opportunities provided by AI agents advances this development. The German Centre for Astrophysics (DZA) has launched several projects in this regard. In this contribution we present (1) MeerKAT+RAG, which enables technical queries in a chatbot-like manner which bases information solely on existing documents, and (2) MARS, a Multi-Agent Review System that serves as support of observatory proposal evaluation.
 \end{abstract}
 
 % These lines show examples of subject index entries. At this stage these have to commented
 % out, and need to be on separate lines. Eventually, they will be automatically uncommented
 % and used to generate entries in the Subject Index at the end of the Proceedings volume.
 % Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
 
 % These lines show examples of ASCL index entries. At this stage these have to commented
 % out, and need to be on separate lines. Eventually, they will be automatically uncommented
 % and used to generate entries in the ASCL Index at the end of the Proceedings volume.
 % The ascl.py command will scan your paper on possible code names.
 % Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
 
+\section{MeerKAT+RAG}
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+MeerKAT+RAG is a domain-specific retrieval-augmented generation (RAG) framework for answering technical and operational questions about the MeerKAT-Extension radio telescopes.
+It makes answer verifiability a central architectural concern, transforming documentation into structured, provenance-aware chunks and combining dense semantic retrieval with lexical search via Reciprocal Rank Fusion (RRF), followed by cross-encoder reranking.
+A deterministic knowledge graph and bounded agentic retrieval support entity-centred and multi-step queries.
+Before delivery, answers undergo two-tier verification using deterministic claim and numeric checks, complemented by an optional language-model-based entailment assessment.
+The framework can withhold answers when evidence is insufficient.
+Evaluation on a 123-question benchmark informs the design and provides an initial assessment of its capabilities and limitations.
+MeerKAT+RAG prioritises traceable evidence and explicit verification over fluent but potentially unsupported responses.
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+\subsection{Motivation}
 
+MeerKAT-Extension commissioning operations depend on precise technical specifications and procedures, including wind limits, antenna pointing ranges, receiver frequency bands, cooldown procedures, equipment identifiers, and safety interlocks etc.
+This knowledge is distributed across technical manuals and datasheets, embedded in prose, tables, lists, and figures.
+Three challenges limit reliable access to this information:
 \begin{itemize}
-\checklistitemize
-
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
+\item Lexical Search: can miss questions phrased differently from the source text 
+\item Semantic retrieval: can overlook exact identifiers or confuse similar specifications and numerical values.
+\item Unconstrained LLMs: can generate plausible but unsupported answers, particularly when evidence is incomplete
 \end{itemize}
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+In telescope operations, a plausible answer is not necessarily a reliable one. Answers must be grounded in authoritative documentation, and insufficient evidence must remain a valid reason not to answer.
+The goal was therefore to develop an end-to-end RAG workflow that makes MeerKAT-Extension technical documentation queryable while preserving source provenance and providing explicit mechanisms to verify answer support. 
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+\subsection{System Architecture}
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
+MeerKAT+RAG separates offline knowledge preparation from online question answering.
+The core retrieval pipeline is extended by a knowledge graph, bounded agentic search, figure-captioning capabilities, and answer-support checks.
+These components are configuration-dependent rather than mandatory in every serving path.
+Current configuration:
+Qwen3-Embedding-4B for embeddings, Qwen3-Reranker-4B for reranking, and MiniMax-M3 for generation, accessed through an OpenAI-compatible endpoint.
+These are implementation choices, not architectural requirements.
 
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
+\begin{enumerate}
+\item Ingestion and provenance: PDF/HTML sources are converted into Markdown with extracted tables, figures,and metadata. Document identity, revision, page context, and source-file hashes preserve links to the original material.
+\item Structure-aware chunking: A section-aware chunker creates passages from prose, tables, lists, procedures, and code or configuration blocks. Stable chunk identifiers and document metadata support traceability across retrieval, agent logs, and evaluation.
+\item Hybrid Indexing: Chunks are embedded and indexed in Qdrant, which also provides the full-text search used by the active lexical retrieval path. Dense semantic search captures paraphrases, while lexical matching helps retain exact identifiers and specifications. BM25 is used as an evaluation baseline, not as the production lexical implementation.
+\item Evidence fusion and reranking: Reciprocal Rank Fusion (RRF) combines dense and full-text rankings without requiring their scores to be calibrated to a common scale. A cross-encoder reranks a bounded set of leading candidates, while the remaining candidates retain their RRF order.
+\item Context-grounded generation: Selected passages and their source references are supplied to an OpenAI-compatible language model. Document, section, revision, content type, and page metadata support source tracing. Retrieval provides evidence for generation but does not guarantee correct interpretation.
+\item Answer-support assessment: Two complementary checks are available
+  \begin{itemize}
+  \item Deterministic checks: examine textual overlap, numeric and unit-aware grounding, and reference validity. These checks are repeatable and inexpensive but cannot detect every semantic or logical error 
+  \item LLM entailment assessment: an optional language-model judge provides an additional, advisory assessment of whether the evidence supports the answer
+  \end{itemize}
+\end{enumerate}
 
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
+\subsection{Knowledge Graph and Agentic Retrieval}
 
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
+\noindent \textbf{KG and Agent Loop:} A lightweight RDF knowledge graph, stored in SQLite, complements document retrieval through deterministic entity extraction and cue-anchored relations (seven node types and eight relation types). An optional agent combines five validated tools: graph-search, vector-search, hybrid-search, entity-extract, and lookup-chunk for multi-step retrieval, bounded to two decision iterations. Graph results use the same evidence representation as retrieved document chunks.
 
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
+\noindent \textbf{Vision and Figure Understanding:} Integrated vision-model capabilities extend the framework beyond text retrieval by extracting information from figures and generating descriptions for downstream use.
 
-\subsection{Itemized Lists}
-Here is an itemized list:
+\noindent \textbf{Interfaces and Operational Design:} MeerKAT+RAG supports CLI/Python, an OpenAI-compatible HTTP API, MCP, and Open WebUI. Stable chunk identifiers, recorded benchmark artefacts, validated tool inputs, bounded execution, and typed failures support traceability and reproducibility. These controls improve operational robustness but do not guarantee answer correctness.
+
+\section{MARS}
+
+MARS (Multi-Agent Review System) is an advisory AI framework that generates structured, evidence-grounded draft assessments for reducing the substantial workload of human reviewers.
+Its five-role pipeline combines three parallel specialist analyses -- scientific merit, technical feasibility, and methodology/statistic -- with adversarial critique and consensus synthesis.
+Substantive findings are linked to typed evidence, including proposal excerpts, verified literature records, and deterministic calculator outputs.
+Unsupported claims are explicitly flagged.
+A facility-configurable evaluation rubric is applied through a deterministic scoring layer separated from generative model judgments, while uncertainty and unresolved disagreements remain visible.
+MARS supports, but does not replace, expert judgment:
+It computes structured assessments and rubric scores.
+Human reviewers retain full authority to inspect, revise, and finalize assessments.
+
+\subsection{Motivation and Challenges}
+
+Reviewers of astronomical proposals need to assess scientific merit, literature context, technical feasibility, observation times, and statistical robustness – while maintaining consistency and transparency. AI assisted review is promising, but generating a convincing review is not the same as producing a reliable one:
 \begin{itemize}
-\item Item 1
-\item Item 2
+\item Potential benefits: AI can support structured assessments, identify weaknesses, assist with first order review
+\item Evaluation bias: LLM-based judges exhibit position, verbosity, and self-preference biases.
+\item Security risks: AI agents using external tools can be vulnerable to malicious instructions in untrusted content. 
+\item Coordination failures: AI systems can share blind spots, converge prematurely, or produce inconsistent findings
 \end{itemize}
 
+Turning promising AI capabilities into a reliable, secure, and auditable scientific review process requires explicit verification, uncertainty management, and human oversight.
 
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
+\subsection{How MARS Addresses These Challenges}
 
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
-\smallskip
+How can AI-generated scientific assessments be made evidence-grounded, auditable, secure, and useful without displacing expert judgment?
+MARS addresses this engineering challenge through five design objectives:
+\begin{enumerate}
+\item Evidence before assertion: Link substantive findings to inspectable proposal passages, verified literature records, or deterministic calculations; explicitly flag unverified claims. 
+\item Structured independent analysis: Combine three specialized reviewers with adversarial critique and synthesis that preserves unresolved disagreements. 
+\item Deterministic verification: Separate numerical calculations and rule-based score aggregation from generative model judgments.
+\item Auditability and security: Record computational provenance, support replay and verification, and protect the pipeline against untrusted inputs and unsafe tool execution.
+\item Human authority: Produce advisory draft reviews for expert inspection, correction, and final decision-making not autonomous allocation decisions.
+\end{enumerate}
+
+MARS shifts the focus from generating reviews to engineering a review process whose evidence, uncertainties, and computational history can be inspected.
+
+\subsection{Evidence-Grounded Claims}
+
+Every substantive claim is linked to typed evidence with an explicit verification status.
+Unverifiable claims are flagged rather than presented as established facts.
+
+\noindent \textbf{Proposal excerpts:} Exact text spans linked to the normalized proposal.
+
+\noindent \textbf{Literature records:} Bibliographic metadata and source quotations verified against the original abstract.
+
+\noindent \textbf{Calculator outputs:} Reproducible numerical checks of visibility, sensitivity, and exposure time.
+
+\noindent \textbf{Unverified inferences:} Explicitly flagged assumptions or claims lacking verified support.
+
+\noindent \textbf{Conflicting evidence:} Contradictory findings and their sources preserved for human review.
+
+\noindent \textbf{Verification boundary:} Verifying a quotation does not verify its scientific interpretation. Evidence grounding improves traceability but does not guarantee correctness.
+
+\subsection{Hierarchical Agent Workflow}
+
 \begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
-\tableline
-\noalign{\smallskip}
-First Column & Second Column & Third Column:\\
-\noalign{\smallskip}
-\tableline
-\noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
-\noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
-\end{tabular}
-}
+  \begin{tabular}[t]{| c | c | c |}
+    \hline
+    \textbf{Agent/Role} & \textbf{Main responsibility} & \textbf{Typical output} \\
+    \hline \hline
+    Scientific & Assess novelty, theoretical soundness & Evidence-linked strengths, \\
+    Reviewer & and braoder scientific impact & weaknesses and criterion \\
+    & & scores \\
+    \hline
+    Technical & Examine observational feasibility & Feasibility finding and \\
+    Reviewer & target visibility, instrument constraints & calculator records \\
+    & sensitivity and exposure time & \\
+    \hline
+    Methodology & Examine analysis readiness, statistical & Findings and calculator \\
+    Reviewer & assumptions, systematic uncertainties & record \\
+    & and robustness & \\
+    \hline
+    Adversarial & Cross-check all three reports for & Critical report, no \\
+    Critic & contradictions, unsupported claims & independent numerical \\
+    & and overconfidence & scores \\
+    \hline
+    Consensus & Combine findings, respond to critique & Structured consensus \\
+    Builder & and retain unresolved disagreement & report and advisory draft \\
+    \hline
+  \end{tabular}
 \end{center}
-\end{table}
-\noindent These tables can get a little messy, but this format is the most common.
 
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
+\subsection{Scoring, Auditability and Human Oversight}
 
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
+MARS combines structured rubric scoring, explicit uncertainty reporting, traceable execution, and human control.
 
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
+\noindent \textbf{Explicitly six-criterion rubric:} Scientific novelty, theoretical soundness, observational feasibility, sensitivity adequacy, data-analysis readiness, and broader scientific impact.
 
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
+\noindent \textbf{Transparent scoring:} Criterion-level scores and justifications are derived from structured agent findings using explicit rubric rules.
 
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
+\noindent \textbf{Visible uncertainty:} Reports expose evidence links, unverified claims, missing information, critic warnings, unresolved disagreements, and measured run-to-run variability.
 
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
+\noindent \textbf{Human oversight:} Reviewers can inspect evidence, edit scores and narratives, record overrides, and optionally assess proposals before seeing AI-generated drafts.
 
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
+\noindent \textbf{Auditable provenance and replay:} Hash-linked records capture pipeline events, model calls, tool executions, scores, and human overrides. Portable run bundles support inspection and replay; discrepancies are flagged.
 
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
+\noindent \textbf{Security and failure visibility:} Prompt-injection checks, restricted tools, sandboxing, and quarantine mitigate risks. Unverifiable citations, tool failures, and ambiguous calculations trigger explicit warnings.
 
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
-
-
-\bibliography{P101}  % For BibTex
+% \bibliography{P101}  % For BibTex
 
 % if we have space left, we might add a conference photograph here. Leave commented for now.
 % \bookpartphoto[width=1.0\textwidth]{foobar.eps}{FooBar Photo (Photo: Any Photographer)}
