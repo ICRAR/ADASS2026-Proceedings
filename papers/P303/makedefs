@@ -2,6 +2,6 @@
 P = P303
 V = 1
 A = Stenborg
-E = you@example.edu
+E = tstenbor@acm.org
 # your figures, named P303_f1.eps, P303_f2.png, ...
 FIGS = $(filter-out P303_inc.tex,$(wildcard P303_*))
