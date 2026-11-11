@@ -34,11 +34,12 @@
 % Use mixed case type for the shortened title
 % Ensure shortened title does not cause an overfull hbox LaTeX error
 % See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Gheller et al.}{Scalable Segmentation with TUNA}
+
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Scalable Deep-Learning Segmentation of Extended and Diffuse Radio Sources with TUNA}
 
 % Note the position of the comma between the author name and the 
 % affiliation number.
@@ -49,14 +50,17 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{Claudio Gheller,$^1$ Nicoletta Sanvitale,$^1$
+Alice Beccati,$^2$ and Franco Vazza,$^3$}
+\affil{$^1$INAF - Institute for Radio Astronomy, Bologna, Italy; \email{claudio.gheller@inaf.it}}
+\affil{$^2$Department of Computer Science and Engineering, University of Bologna, Bologna, Italy}
+\affil{$^3$Department of Physics and Astronomy, University of Bologna, Bologna, Italy}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Claudio Gheller}{claudio.gheller@inaf.it}{}{INAF}{Institute for Radio Astronomy}{Bologna}{Bologna}{40129}{Italy}
+\paperauthor{Nicoletta Sanvitale}{nicoletta.sanvitale@inaf.it}{}{INAF}{Institute for Radio Astronomy}{Bologna}{Bologna}{40129}{Italy}
+\paperauthor{Alice Beccati}{alice.beccati@studio.unibo.it}{}{University of Bologna}{Department of Computer Science and Engineering}{Bologna}{Bologna}{40129}{Italy}
+\paperauthor{Franco Vazza}{franco.vazza2@unibo.it}{}{University of Bologna}{Department of Physics and Astronomy}{Bologna}{Bologna}{40129}{Italy}
 
 % There should be one \aindex line (commented out) for each author. These are used to
 % build up the author index for the Proceedings. The surname must come first, followed by
@@ -66,15 +70,22 @@
 % The Aindex.py command willl create them for you after you have constructed the \author
 % The first entry should be the first author, for bold-facing the author index page-reference
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+%\aindex{Gheller,~C.}
+%\aindex{Sanvitale,~N.}
+%\aindex{Beccati,~A.}
+%\aindex{Vazza,~F.}
 
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+Wide-area radio surveys require automated recovery of extended galaxies
+and faint diffuse emission. We evaluate the segmentation quality and GPU
+performance of TUNA, a convolutional--transformer segmentation network, on high-resolution LoTSS-DR2 images. TUNA identifies 1.76 million
+connected detections, recovers 96.8\% of a reference radio-galaxy sample and
+detects diffuse emission in 94.3\% of selected galaxy-cluster systems. We benchmark strong and weak GPU scaling and FP32, FP16 and BF16 training.
+Two-GPU strong scaling and mixed-precision FP16 achieve speedups of
+approximately $1.9\times$ and $1.98\times$, respectively, without appreciable
+changes in test-set segmentation metrics. These results demonstrate the
+importance of jointly optimizing numerical precision and GPU allocation.
 \end{abstract}
 
 % These lines show examples of subject index entries. At this stage these have to commented
@@ -92,141 +103,177 @@ modified to reflect the specific ADASS requirements.
 %\ooindex{FOOBAR, ascl:1101.010}
 
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+\section{Introduction}
+The LOFAR Two-metre Sky Survey (LoTSS), operating at 120--168 MHz, provides
+841 DR2 pointings at approximately 6 arcsec resolution
+\citep{shimwell2022lofar}. These images contain compact sources, extended radio
+galaxies and diffuse cluster emission whose irregular morphologies challenge
+conventional source finders.
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+TUNA (TransUNet Network for radio Astronomy) was introduced to identify
+low-surface-brightness radio emission \citep{Sanvitale2025} and subsequently
+extended to jointly segment radio galaxies and diffuse cluster emission. Here, we assess its strong and weak GPU scaling and
+the effects of reduced precision on training time and segmentation quality.
 
-\begin{itemize}
-\checklistitemize
+\section{Methodology}
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
+\subsection{Segmentation network and training data}
+TUNA combines a ResNet-50 feature extractor, a 12-layer Vision Transformer encoder and
+a U-Net-like decoder \citep{chen2021transunet,Sanvitale2025}. It has approximately
+105.9 million trainable parameters and uses equally weighted cross-entropy
+and Dice losses.
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+The training data combine diffuse radio maps from numerical simulations
+with observed LoTSS-DR2 radio-galaxy morphologies. A LOFAR-like eight-hour observation, including
+thermal noise, deconvolution and primary-beam correction, is simulated with
+WSClean \citep{offringa-wsclean-2014}.
+Of 300 simulated fields, 250 form the development set and 50 the
+independent test set. This yields approximately 4000 training and 800
+test tiles of $512\times512$ pixels. The training runs use a 5\% validation
+portion; model quality is compared on the unchanged test set. The reference model is trained for
+100 epochs with batch size 24, initial learning rate 0.005 and polynomial
+learning-rate decay. At inference, overlapping tiles are merged by retaining
+the central $128\times128$ pixels to limit edge artefacts. The emission class
+is evaluated through intersection-over-union (IoU), precision, recall and F1.
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+\subsection{Computational experiments}
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
-
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
-
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
-
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
-
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
-
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
+Experiments were performed on the CINECA Leonardo Booster,  whose compute
+nodes each provide four NVIDIA A100 GPUs with 64 GB of memory per GPU. Our TUNA implementation
+was developed in PyTorch, and multi-GPU training was managed using Hugging
+Face Accelerate with PyTorch Distributed Data Parallel. 
+We consider two standard
+data-parallel scaling regimes. In \emph{strong scaling}, the total workload and global batch size are held fixed as the GPU count increases from one to two and four. The speedup and parallel efficiency are
+$S_N=T_1/T_N$ and $E_N^{\mathrm{strong}}=S_N/N$, respectively, where $T_N$ is the execution time for the same workload on $N$ GPUs. In \emph{weak scaling}, the batch size per GPU is held fixed while the global batch size grows in proportion to the GPU count (one, two, four, and eight GPUs). Runs using up to four GPUs were executed within one node, whereas the
+eight-GPU weak-scaling run used two nodes. The weak-scaling efficiency is defined as $E_N^{\mathrm{weak}}=t_1/t_N$, where $t_N$ is the iteration time on $N$ GPUs.
+Strong scaling used a fixed global batch size of 24, corresponding to local
+batch sizes of 24, 12 and 6 on one, two and four GPUs. Weak scaling used a
+fixed local batch size of 24, giving global batch sizes of 24, 48, 96 and 192.
+These tests measure different limits of data-parallel training. 
 
 
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
+
+Single-GPU experiments also compare FP32 with mixed-precision FP16 and BF16. Automatic mixed precision executes computationally intensive operations, such as convolutions and matrix multiplications, in reduced precision when numerically appropriate, while operations requiring greater numerical stability remain in FP32. Model parameters and accumulated gradient buffers remain in FP32. FP16 training employs gradient scaling to reduce gradient underflow, whereas BF16 generally does not require gradient scaling because of its wider dynamic range.
+All experiments compare segmentation quality on held-out test data as
+well as execution time. Each configuration was repeated four times, and results are reported as the
+mean and standard deviation.
+
+\section{Results}
+
+%\subsection{Survey-scale segmentation}
+
+Applied to LoTSS-DR2, TUNA yields 1756628 connected detections after
+structures smaller than two synthesized beams are rejected. Of these,
+498901 have a largest angular size (LAS) above 40 arcsec. TUNA recovers 26733 of
+27623 independently catalogued extended and giant radio galaxies (96.78\%)
+and diffuse emission in 83 of 88 selected galaxy-cluster systems (94.3\%). 
+Components are not necessarily unique physical sources: neighbours
+can merge and galaxies can fragment. Figure~\ref{fig:pointing} illustrates
+the pointing-level segmentation and source detections. On an A100,
+inference processes approximately 28 tiles per second, or a typical
+LoTSS-DR2 pointing in about 30 s.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.9\linewidth]{C202_f1.png}
+\caption{LoTSS-DR2 pointing P42Hetdex07: radio image (left) and TUNA
+detections with LAS $>40$ arcsec (right).}
+\label{fig:pointing}
+\end{figure}
+
+
+%\subsection{Strong and weak scaling}
+
+Figure~\ref{fig:performance} summarizes the GPU benchmarks. For a fixed
+training workload, adding a second GPU yields about 1.9$\times$ speedup
+($\sim95\%$ efficiency), but four GPUs deliver only about 1.7$\times$
+($\sim43\%$ efficiency). The resulting non-monotonic speedup indicates that
+additional GPUs do not necessarily improve computational efficiency for this problem size.
+Weak scaling maintains nearly constant iteration time up to two GPUs,
+but reaches only about 69\% and 63\% efficiency at four and eight GPUs, respectively.
+Nevertheless, the aggregate throughput remains approximately
+$2.76\times$ and $5.04\times$ higher than on one GPU.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1\linewidth]{C202_f2.png}
+\caption{Leonardo GPU benchmarks: (a) strong-scaling speedup,
+(b) weak-scaling efficiency and (c) mixed-precision FP16 and BF16
+speedup relative to FP32. Dashed lines indicate ideal or baseline
+performance. Error bars represent the standard deviation over four
+repeated runs.}
+\label{fig:performance}
+\end{figure}
 
 \begin{table}[!ht]
-\caption{Tables in \LaTeXe}
+\caption{Test-set segmentation metrics (mean $\pm$ standard deviation)
+for the different training configurations. The single-GPU FP32
+run is the common reference. Strong- and weak-scaling runs use FP32.}
+\label{tab:tuna_quality}
 \smallskip
 \begin{center}
 {\small
-\begin{tabular}{llc}  % l = left, c = centered
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcccc}
 \tableline
 \noalign{\smallskip}
-First Column & Second Column & Third Column:\\
+Configuration & IoU & F1 & Recall & Precision \\
 \noalign{\smallskip}
 \tableline
 \noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
+FP32 baseline (1 GPU) & $0.566\pm0.005$ & $0.720\pm0.004$ & $0.654\pm0.012$ & $0.805\pm0.009$ \\
 \noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
+\tableline
 \noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
+Strong scaling (2 GPUs) & $0.566\pm0.003$ & $0.719\pm0.003$ & $0.653\pm0.004$ & $0.805\pm0.003$ \\
+Strong scaling (4 GPUs) & $0.566\pm0.001$ & $0.719\pm0.001$ & $0.653\pm0.009$ & $0.806\pm0.010$ \\
 \noalign{\smallskip}
-\tableline\
+\tableline
+\noalign{\smallskip}
+Weak scaling (2 GPUs) & $0.566\pm0.001$ & $0.718\pm0.001$ & $0.656\pm0.010$ & $0.801\pm0.014$ \\
+Weak scaling (4 GPUs) & $0.564\pm0.002$ & $0.718\pm0.003$ & $0.653\pm0.005$ & $0.803\pm0.004$ \\
+Weak scaling (8 GPUs) & $0.564\pm0.002$ & $0.717\pm0.002$ & $0.655\pm0.009$ & $0.799\pm0.011$ \\
+\noalign{\smallskip}
+\tableline
+\noalign{\smallskip}
+Mixed FP16 (1 GPU) & $0.566\pm0.002$ & $0.718\pm0.002$ & $0.652\pm0.005$ & $0.805\pm0.009$ \\
+Mixed BF16 (1 GPU) & $0.565\pm0.001$ & $0.719\pm0.001$ & $0.652\pm0.004$ & $0.807\pm0.003$ \\
+\noalign{\smallskip}
+\tableline
 \end{tabular}
 }
 \end{center}
 \end{table}
-\noindent These tables can get a little messy, but this format is the most common.
 
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
+%\subsection{Mixed precision and segmentation quality}
 
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
+On a single NVIDIA A100 GPU, mixed-precision FP16 training achieved a mean
+speedup of $1.98\times$ relative to FP32, whereas mixed-precision BF16
+training achieved a mean speedup of $1.08\times$
+(Fig.~\ref{fig:performance}c). The BF16 result should be considered
+preliminary. Although the A100 provides native BF16 support, its limited
+speedup may depend on implementation-specific factors, such as kernel
+selection and operations remaining in FP32. Further investigation is required
+before drawing general conclusions about BF16 performance.
 
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
+The segmentation metrics remain remarkably stable across the different GPU configurations and numerical precision formats (see Table \ref{tab:tuna_quality}). Relative to the single-GPU FP32 baseline, the largest absolute differences are 0.002 in IoU and recall, 0.003 in F1, and 0.006 in precision. These variations indicate that neither increasing the number of GPUs nor adopting mixed-precision training introduces substantial degradation in segmentation performance. In particular, the nearly twofold training acceleration obtained with FP16 is accompanied by essentially unchanged segmentation quality.
 
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
+\section{Conclusions}
 
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
+TUNA enables survey-scale segmentation of extended radio galaxies
+and diffuse cluster emission. FP16
+substantially reduced training time without an observable degradation in segmentation quality, while the BF16 performance result remains
+preliminary. Strong-scaling saturation
+made the allocation of additional GPUs increasingly inefficient. Future work will target
+LoTSS-DR3 and multimodal source classification. Evaluating time to solution
+and scientific quality together is key to resource-efficient survey analysis.
 
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
 
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
 
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
+\acknowledgements This paper has been supported by the Fondazione ICSC, Spoke 3 Astrophysics and Cosmos Observations. National Recovery and Resilience Plan (PNRR) Project ID CN\_00000013 "Italian Research Center for High-Performance Computing, Big Data and Quantum Computing". We acknowledge the CINECA award under the ISCRA programme project IscrC\_SNILV.
 
 
 \bibliography{C202}  % For BibTex
 
-% if we have space left, we might add a conference photograph here. Leave commented for now.
-% \bookpartphoto[width=1.0\textwidth]{foobar.eps}{FooBar Photo (Photo: Any Photographer)}
 
 \end{document}

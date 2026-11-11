@@ -2,6 +2,6 @@
 P = C202
 V = 1
 A = Gheller
-E = you@example.edu
+E = claudio.gheller@inaf.it
 # your figures, named C202_f1.eps, C202_f2.png, ...
 FIGS = $(filter-out C202_inc.tex,$(wildcard C202_*))
