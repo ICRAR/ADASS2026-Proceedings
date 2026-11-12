@@ -69,35 +69,26 @@
 
 
 \begin{abstract}
-Two options exist today, and each falls short in a different direction. Point a commercial AI application at data held on a science platform and the science turns into plumbing: credentials, staging, transfers, all for a dataset that should never have moved. Run a coding CLI inside the platform instead and it sits beside the data but sees only a shell and a filesystem — nothing of the archive, the session lifecycle, or the access rules governing them. The first cannot reach the data; the second cannot see the platform. Neither was built for research.
-The scientific workbenches now appearing run on the researcher's own machine or cluster so the data need not move. But their domain readiness is built for the life sciences, and the integration path is proprietary: the platform arrives as a plug-in inside the vendor's application, and research context accumulates in that vendor's formats. Astronomy already has platforms tuned over decades to its data models, access rules and standards; we should not have to migrate onto a general-purpose workbench to benefit from these models — the models should meet our platforms on our terms.
+Two options exist today, and each falls short in a different direction. Point a commercial AI application at data held on a science platform and the science turns into plumbing: credentials, staging, transfers, all for a dataset that should never have moved. Run a coding CLI inside the platform instead and it sits beside the data but sees only a shell and a filesystem --- nothing of the archive, the session lifecycle, or the access rules governing them. The first cannot reach the data; the second cannot see the platform. Neither was built for research.
+The scientific workbenches now appearing run on the researcher's own machine or cluster so the data need not move. But their domain readiness is built for the life sciences, and the integration path is proprietary: the platform arrives as a plug-in inside the vendor's application, and research context accumulates in that vendor's formats. Astronomy already has platforms tuned over decades to its data models, access rules and standards; we should not have to migrate onto a general-purpose workbench to benefit from these models --- the models should meet our platforms on our terms.
 I illustrate this with a client over CANFAR, Skaha and the CADC archives whose agent tools are not a parallel API: each performs the same action as a control in the interface, so astronomers and agents share one surface. Both launch, monitor and stop interactive and headless sessions, and the agent can task one with a script in an image carrying the astronomy libraries. Retrieved observations collected in a research area, products land in VOSpace, FITS and cube viewers give a fast visual read the model can be asked to assess, and workflows serve as written protocols the agent follows.
-As this work is ongoing, the exact final vision for the user-facing product is still actively taking shape. Rather than presenting a finished system, we present our integration across CANFAR, Skaha, and CADC as the foundation and core of a future AI-enabled science platform. We bring these developments to ADASS to open a dialogue with the community—seeking to learn how researchers envision the natural blend of AI models and research workflows, and how our shared platforms can best deliver that vision.
+As this work is ongoing, the exact final vision for the user-facing product is still actively taking shape. Rather than presenting a finished system, we present our integration across CANFAR, Skaha, and CADC as the foundation and core of a future AI-enabled science platform. We bring these developments to ADASS to open a dialogue with the community --- seeking to learn how researchers envision the natural blend of AI models and research workflows, and how our shared platforms can best deliver that vision.
 \end{abstract}
 
-% These lines show examples of subject index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the Subject Index at the end of the Proceedings volume.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
-
-% These lines show examples of ASCL index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the ASCL Index at the end of the Proceedings volume.
-% The ascl.py command will scan your paper on possible code names.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
-
+%\ssindex{science platform}
+%\ssindex{software}
+%\ssindex{software!notebooks}
+%\ssindex{software!frameworks}
+%\ssindex{applications}
+%\ssindex{data centers}
+%\ssindex{archives}
+%\ssindex{protocols}
 
 \section{AI and Science Platform}
 Last year, we presented a StarAI project developed within Herzberg Astronomy and Astrophysics Research Centre R\&D initiative. StarAI was a pathfinder for the place and role of AI within CANFAR platform and Skaha APIs. The architecture and deployment infrastructure of the CANFAR Science Platform is web based and our last year solution was around that vision where we deployed a set of web services (MCP client, MCP server, RAG database etc).
 
 \newpage 
-\articlefigure[width=1\textwidth]{web_arch_old.png}{ex_fig1}{StarAI architecture as presented at ADASS XXXV.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
-
+\articlefigure[width=1\textwidth]{P105_f1.eps}{ex_fig1}{StarAI architecture as presented at ADASS XXXV.}
 
 There are a few issues that made this architecture questionable:
 \begin{itemize}
@@ -110,17 +101,17 @@ There are a few issues that made this architecture questionable:
 \section{Multiple Ways to Connect AI}
 In the last two years, users have discovered a few ways to integrate artificial intelligence (AI) into their workflows. There are few patterns of connecting AI models:
 \begin{itemize}
-\item Chat box inside the app (web app or native application) – Gmail webapp
-\item Dedicated AI agent inside the app – Slack
-\item Command-line interface (CLI)  based application – Claude Code
-\item Model-context protocol (MCP) based server connected to the app – Blender
-\item Dedicated AI-centred applications – Cursor,  Claude Desktop
+\item Chat box inside the app (web app or native application) -- Gmail webapp
+\item Dedicated AI agent inside the app -- Slack
+\item Command-line interface (CLI)  based application -- Claude Code
+\item Model-context protocol (MCP) based server connected to the app -- Blender
+\item Dedicated AI-centred applications -- Cursor,  Claude Desktop
 \end{itemize}
 
 \section{An AI First Native Architecture}
 To address issues from the last year's implementation of AI model integrations with the CADC services and taking into account the availability of desktop applications and CLIs from major AI model vendors, we present a new architecture of connecting Science Platforms to AI models and agentic workflows. 
 
-\articlefigure[width=1\textwidth]{app_arch.png}{ex_fig2}{AI-Ready Science Platform architecture. All product names and logos are trademarks of their respective owners.}
+\articlefigure[width=1\textwidth]{P105_f2.eps}{ex_fig2}{AI-Ready Science Platform architecture. All product names and logos are trademarks of their respective owners.}
 
 We combined MCP client and server into an operating system native application and moved to user preferred platforms: Windows, macOS, Linux (Omarchy is an Arch based distro, and Ubuntu is Debian based). Secondly, we exposed application supported MCP tools via MCP stdin/stdout bridge (Unix socket underneath), so AI agents can connect to them and invoke procedure calls via JSON-RPC. Finally, we connected the native application with the Science Platform APIs such as Skaha and CANFAR. The application is available in the stores \citep{Zautkin2026Verbinal} today.
 
@@ -164,13 +155,13 @@ Science platform enables logging all agent interactions with application MCP too
 \begin{center}
   \begin{minipage}[t]{0.42\textwidth}
     \centering
-    \includegraphics[width=0.55\linewidth]{presenting.jpg} \\[0.4em]
+    \includegraphics[width=0.55\linewidth]{P105_f3.eps} \\[0.4em]
     \small Presenting at ADASS XXXVI. (Photo: Serhii Zautkin)
   \end{minipage}
   \hspace{0.06\textwidth}
   \begin{minipage}[t]{0.42\textwidth}
     \centering
-    \includegraphics[width=0.8\linewidth]{qr_astore.jpg} \\[0.4em]
+    \includegraphics[width=0.8\linewidth]{P105_f4.eps} \\[0.4em]
     \small Apple App Store link
   \end{minipage}
 \end{center}
