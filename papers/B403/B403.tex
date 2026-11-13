@@ -1,230 +1,196 @@
-% This is the ADASS_template.tex LaTeX file, 24 Oct 2025.
-% It is based on the ASP general author template file, but modified to reflect the specific
-% requirements of the ADASS proceedings.
-
-% This is the aspauthor.tex LaTeX file
-% Copyright 2021, Astronomical Society of the Pacific Conference Series
-% Revision:  29 November 2021
-
-% To compile, at the command line positioned at this folder, type:
-% pdflatex ADASS_template
-% pdflatex ADASS_template
-% This will create a file called ADASS_template.pdf
-
+% ADASS 2026 proceedings, paper B403 (Birds of a Feather)
 \documentclass[11pt,twoside]{article}
 
-% Do NOT use ANY packages other than asp2023. 
+% Do NOT use ANY packages other than asp2023.
 \usepackage{asp2023}
 
 \aspSuppressVolSlug
 \resetcounters
 
-% References must all use BibTeX entries in a .bibfile.
-% References must be cited in the text using \citet{} or \citep{}.
-% Do not use \cite{}.
-% See ManuscriptInstructions.pdf for more details
 \bibliographystyle{asp2021}
 
-% The ``markboth'' line sets up the running heads for the paper.
-% 1 author: "Surname"
-% 2 authors: "Surname1 and Surname2"
-% 3 authors: "Surname1, Surname2, and Surname3"
-% >3 authors: "Surname1 et al."
-% Replace ``Short Title'' with the actual paper title, shortened if necessary.
-% Use mixed case type for the shortened title
-% Ensure shortened title does not cause an overfull hbox LaTeX error
-% See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Salgado et al.}{Science Platforms at Scale}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Science Platforms at Scale: Developing Data Services in the Petabyte Era}
 
-% Note the position of the comma between the author name and the 
-% affiliation number.
-% Authors surnames should come after first names or initials, eg John Smith, or J. Smith.
-% Author names should be separated by commas.
-% The final author should be preceded by "and".
-% Affiliations should not be repeated across multiple \affil commands. If several
-% authors share an affiliation this should be in a single \affil which can then
-% be referenced for several author names. If only one affiliation, no footnotes are needed.
-% See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{Jes\'us~Salgado,$^1$ Christophe~Arviset,$^2$ Javier~Ballester~Arenas,$^2$ Rosie~Bolton,$^1$ Michele~Delli~Veneri,$^1$ Yan~Grange,$^3$ Sandor~Kruk,$^2$ Marcos~L\'opez-Caniego,$^2$ Brian~Major,$^4$ William~O'Mullane,$^5$ and Carmen~Toribio$^6$}
+\affil{$^1$SKA Observatory, Jodrell Bank, Macclesfield, UK; \email{jesus.salgado@skao.int}}
+\affil{$^2$European Space Astronomy Centre (ESAC), European Space Agency, Villanueva de la Ca\~nada, Madrid, Spain}
+\affil{$^3$ASTRON, Netherlands Institute for Radio Astronomy, Dwingeloo, The Netherlands}
+\affil{$^4$Canadian Astronomy Data Centre, NRC Herzberg, Victoria, BC, Canada}
+\affil{$^5$Vera C. Rubin Observatory, Tucson, AZ, USA}
+\affil{$^6$Onsala Space Observatory, Chalmers University of Technology, Onsala, Sweden}
 
-% This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Jes\'us~Salgado}{jesus.salgado@skao.int}{0000-0002-3680-4364}{SKA Observatory}{}{Macclesfield}{Cheshire}{SK11 9FT}{United Kingdom}
+\paperauthor{Christophe~Arviset}{}{}{European Space Agency}{ESAC}{Villanueva de la Canada}{Madrid}{28692}{Spain}
+\paperauthor{Javier~Ballester~Arenas}{}{}{European Space Agency}{ESAC}{Villanueva de la Canada}{Madrid}{28692}{Spain}
+\paperauthor{Rosie~Bolton}{}{}{SKA Observatory}{}{Macclesfield}{Cheshire}{SK11 9FT}{United Kingdom}
+\paperauthor{Michele~Delli~Veneri}{}{}{SKA Observatory}{}{Macclesfield}{Cheshire}{SK11 9FT}{United Kingdom}
+\paperauthor{Yan~Grange}{}{}{ASTRON}{}{Dwingeloo}{}{7991 PD}{The Netherlands}
+\paperauthor{Sandor~Kruk}{}{}{European Space Agency}{ESAC}{Villanueva de la Canada}{Madrid}{28692}{Spain}
+\paperauthor{Marcos~L\'opez-Caniego}{}{}{European Space Agency}{ESAC}{Villanueva de la Canada}{Madrid}{28692}{Spain}
+\paperauthor{Brian~Major}{}{}{National Research Council Canada}{Herzberg Astronomy and Astrophysics}{Victoria}{BC}{}{Canada}
+\paperauthor{William~O'Mullane}{}{}{Vera C. Rubin Observatory}{}{Tucson}{AZ}{}{USA}
+\paperauthor{Carmen~Toribio}{}{}{Chalmers University of Technology}{Onsala Space Observatory}{Onsala}{}{}{Sweden}
 
-% There should be one \aindex line (commented out) for each author. These are used to
-% build up the author index for the Proceedings. The surname must come first, followed by
-% initials. Note the use of ~ before each initial to control spacing.
-% The \author entries (see above) have surname last. These \aindex entries have
-% surname first.
-% The Aindex.py command willl create them for you after you have constructed the \author
-% The first entry should be the first author, for bold-facing the author index page-reference
-
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
-
+%\aindex{Salgado,~J.}
+%\aindex{Arviset,~C.}
+%\aindex{Ballester~Arenas,~J.}
+%\aindex{Bolton,~R.}
+%\aindex{Delli~Veneri,~M.}
+%\aindex{Grange,~Y.}
+%\aindex{Kruk,~S.}
+%\aindex{L\'opez-Caniego,~M.}
+%\aindex{Major,~B.}
+%\aindex{O'Mullane,~W.}
+%\aindex{Toribio,~C.}
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+Science platforms, which bring notebooks, batch processing and visualisation
+to the data instead of moving data to users, are now the main way that large
+astronomy projects expect their communities to work. This Birds of a Feather
+session brought together the teams behind ESA Datalabs and Euclid, the Rubin
+Science Platform, the SKA Regional Centre Network (SRCNet), CADC and CANFAR,
+NASA Fornax, the LOFAR Long Term Archive and ALMA. Each platform described where
+it is today, one design choice it would make again, and its hardest open
+problem, with a question for the other platforms. We summarise the answers,
+the choices that recur across platforms, and the shared open problems: work
+across sites and platforms, efficient use of resources, scaling to petabytes,
+identity, and sustaining services through their full lifecycle.
 \end{abstract}
 
-% These lines show examples of subject index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the Subject Index at the end of the Proceedings volume.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
+%\ssindex{science platform}
+%\ssindex{BoFs}
+%\ssindex{archives!cloud-based}
+%\ssindex{International Virtual Observatory Alliance (IVOA)}
 
-% These lines show examples of ASCL index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the ASCL Index at the end of the Proceedings volume.
-% The ascl.py command will scan your paper on possible code names.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
+\section{Introduction}
 
+Earlier ADASS discussions \citep{2020ASPC..522..363O, 2020ASPC..527..777T}
+established why platforms are needed: data volumes make downloading
+impractical, and analysis environments must be close to the archive. Several of
+the platforms discussed then are now in production, while new facilities bring
+petabytes per year. The focus has therefore moved from \emph{whether} to build a
+platform to \emph{how to operate one for years}, and how platforms can work
+together. The session opened with a platform round: each platform answered three
+prompts (where are you today, what works well, what is the hard problem) on
+three slides, followed by themed discussion and an open floor.
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+\section{Where the Platforms Are Today}
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+Table~\ref{tab:platforms} summarises the answers to the first prompt. The
+platforms span every stage, from a study that has not yet been approved (ALMA)
+to services in production for more than a decade (CADC, LOFAR). They differ in
+hosting model, from a single data centre to commercial cloud or a federation of
+nationally funded centres, but share most building blocks: JupyterLab sessions,
+containers on Kubernetes, and IVOA services such as TAP
+\citep{2019ivoa.spec.0927D}, ADQL \citep{2023ivoa.spec.1215M} and DataLink
+\citep{2023ivoa.spec.1215B}. The platforms are described in more detail
+elsewhere: ESA Datalabs \citep{2024sdm..book....1N} and Euclid
+\citep{2025AA...697A...1E}, the Rubin Science Platform \citep{2024ASPC..535..227O}
+for LSST \citep{2019ApJ...873..111I}, SRCNet \citep{2025ASPC..541...64S},
+CADC and CANFAR \citep{2010SPIE.7740E..1IG, 2019ASPC..523..277M}, Fornax
+\citep{2024HEAD...2120606J}, the LOFAR archive \citep{2013AA...556A...2V,
+2024AC....4800835M} and the ALMA archive \citep{2022Msngr.187...25S}.
 
-\begin{itemize}
-\checklistitemize
-
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
-
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
-
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
-
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
-
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
-
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
-
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
-
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
-
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
-
-
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
-
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
+\begin{table}[!t]
+\caption{Platforms in the round, as reported by their teams in November 2026.}
+\label{tab:platforms}
 \smallskip
 \begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
+{\footnotesize
+\begin{tabular}{p{2.3cm}p{4.8cm}p{3.9cm}}
 \tableline
 \noalign{\smallskip}
-First Column & Second Column & Third Column:\\
+Platform & Status and users & Data and hosting \\
 \noalign{\smallskip}
 \tableline
 \noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
+ESA Datalabs & Production; $>$3000 registered users, about 150 active per day; Euclid the main driver & about 5\,PB accessible, growing to 30\,PB; at ESAC \\
+Rubin Science Platform & Production; $>$3000 users; 24 deployment environments & LSST; commercial cloud preferred, hybrid planned \\
+SRCNet & v0.3 moving into operations; staff and early testers & about 600\,PB per year at full rates; federation of regional centres \\
+CADC / CANFAR & Production since 2013; about 900 users, 250 active, 90 projects & 4608 cores, 112 GPUs in the main instance; about 12 instances across SRCNet \\
+NASA Fornax & Open beta since January 2026, fully open in January 2027; about 400 users & no own archive; next to NASA data in a commercial cloud region \\
+LOFAR LTA & Archive of record since 2010; LOFAR2.0 verification from 2027 & about 50\,PB, over 100\,PB by 2030 \\
+ALMA & Platform not yet approved; ALMA-SPACE study by seven European ALMA Regional Centre nodes & 2.7\,PB, growing by about 270\,TB per year \\
 \noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
+\tableline
 \end{tabular}
 }
 \end{center}
 \end{table}
-\noindent These tables can get a little messy, but this format is the most common.
 
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
+\section{Choices the Teams Would Repeat}
 
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
+Two kinds of choice recurred. The first is \emph{integration with the data}: ESA
+Datalabs is built into the ESA science archives, and for Euclid the platform,
+the Euclid Archive and ESASky form one environment, so that users who cannot
+download pixel data still have discovery, tools and compute in one place. The
+second is \emph{standards and reuse}: CANFAR was multi-mission from the start,
+built around IVOA standards, and uses the container as the unit of software, so
+that the same container runs interactively or in batch. SRCNet reuses Rucio and
+FTS \citep{2019CSBS....3...11B} for its data lake and specifies only the
+interfaces between independently funded sites. Rubin reported IVOA standards
+first, and its Phalanx deployment platform serving 24 environments.
 
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
+Operational choices were also repeated. Fornax deploys fully automatically, so
+the platform can be torn down and redeployed for any upgrade, with no hot fixes;
+this kept configuration under control through the beta. LOFAR pointed to
+involving the community, which began by necessity when processing LOFAR data
+was itself a research problem, and would repeat it in a more planned way, with
+clear expectations on credit and sustainability.
 
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
+\section{Hard Problems and Questions for the Room}
 
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
+\textbf{Working across sites and platforms.} SRCNet asked how to make jobs run
+at independent sites, with the user's identity, quota and data rights, while
+feeling like one platform, and who is accountable when they fail. Fornax asked
+for a standard that lets a user send a notebook or script from their home
+platform to another platform next to a large dataset, run it asynchronously and
+retrieve the result. Both point to execution interfaces that do not yet exist
+as standards.
 
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
+\textbf{Using resources efficiently.} CANFAR reported that interactive sessions
+can sit idle on reserved resources while infrastructure costs rise. Burstable
+jobs increase memory failures, and user feedback from job profiling helps only
+partly; vertical scaling and snapshotting idle sessions are untried. The
+question was how to use a cluster efficiently without exposing that complexity
+to users. Rubin listed operations cost and sustaining the service among its
+open issues.
 
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
+\textbf{Scaling to petabytes.} ESA Datalabs described the work needed to scale
+user-friendly workflows to petabyte data, from cutouts over billions of sources
+to millions of spectra: hybrid on-premises and cloud infrastructure, NFS to
+object storage, FITS to Zarr, Parquet and HATS, and bulk cutout tools. Its
+question was where to draw the line between a common platform that can be run
+sustainably and the flexibility each mission needs. Rubin is also preparing a
+hybrid deployment.
 
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
+\textbf{Identity.} SRCNet must turn global tokens into local accounts and file
+permissions at every site; Rubin uses federated identity through CILogon and
+COmanage. Both rely on token-based access that works across institutions.
 
-\section{Conference Photographs}
+\textbf{Sustaining services.} LOFAR described the cost of legacy systems after
+more than fifteen years of operations: unmanaged service lifecycles make the
+infrastructure fragile, and any change breaks some use case. Its question was
+how to convince funding agencies that systems need managing and funding
+through their complete lifecycle. ALMA showed the other end: interest is high,
+but a platform has not yet been approved because of financial and development
+constraints, and the ALMA-SPACE study is to set up at least one.
 
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
+\section{Outlook}
 
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
+The answers show a common pattern: the hard problems now lie between platforms
+and across years, rather than inside a single deployment. Three follow-ups fit
+existing community work: execution and job-transfer interfaces between
+platforms, taken to the IVOA; shared experience on cost and efficient use of
+compute; and arguments for lifecycle funding that platforms can reuse with
+their agencies. The organisers thank all platform teams for their answers and
+for an open discussion.
 
-
-\bibliography{B403}  % For BibTex
+\bibliography{B403}
 
 % if we have space left, we might add a conference photograph here. Leave commented for now.
 % \bookpartphoto[width=1.0\textwidth]{foobar.eps}{FooBar Photo (Photo: Any Photographer)}
