@@ -1,230 +1,184 @@
-% This is the ADASS_template.tex LaTeX file, 24 Oct 2025.
-% It is based on the ASP general author template file, but modified to reflect the specific
-% requirements of the ADASS proceedings.
-
-% This is the aspauthor.tex LaTeX file
-% Copyright 2021, Astronomical Society of the Pacific Conference Series
-% Revision:  29 November 2021
-
-% To compile, at the command line positioned at this folder, type:
-% pdflatex ADASS_template
-% pdflatex ADASS_template
-% This will create a file called ADASS_template.pdf
-
+% ADASS 2026 proceedings, paper P301
 \documentclass[11pt,twoside]{article}
 
-% Do NOT use ANY packages other than asp2023. 
+% Do NOT use ANY packages other than asp2023.
 \usepackage{asp2023}
 
 \aspSuppressVolSlug
 \resetcounters
 
-% References must all use BibTeX entries in a .bibfile.
-% References must be cited in the text using \citet{} or \citep{}.
-% Do not use \cite{}.
-% See ManuscriptInstructions.pdf for more details
 \bibliographystyle{asp2021}
 
-% The ``markboth'' line sets up the running heads for the paper.
-% 1 author: "Surname"
-% 2 authors: "Surname1 and Surname2"
-% 3 authors: "Surname1, Surname2, and Surname3"
-% >3 authors: "Surname1 et al."
-% Replace ``Short Title'' with the actual paper title, shortened if necessary.
-% Use mixed case type for the shortened title
-% Ensure shortened title does not cause an overfull hbox LaTeX error
-% See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Salgado}{Use of AI for SRCNet Development}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Use of AI for SRCNet Development}
 
-% Note the position of the comma between the author name and the 
-% affiliation number.
-% Authors surnames should come after first names or initials, eg John Smith, or J. Smith.
-% Author names should be separated by commas.
-% The final author should be preceded by "and".
-% Affiliations should not be repeated across multiple \affil commands. If several
-% authors share an affiliation this should be in a single \affil which can then
-% be referenced for several author names. If only one affiliation, no footnotes are needed.
-% See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{Jes\'us~Salgado}
+\affil{SKA Observatory, Jodrell Bank, Lower Withington, Macclesfield, UK; \email{jesus.salgado@skao.int}}
 
-% This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Jes\'us~Salgado}{jesus.salgado@skao.int}{0000-0002-3680-4364}{SKA Observatory}{}{Macclesfield}{Cheshire}{SK11 9FT}{United Kingdom}
 
-% There should be one \aindex line (commented out) for each author. These are used to
-% build up the author index for the Proceedings. The surname must come first, followed by
-% initials. Note the use of ~ before each initial to control spacing.
-% The \author entries (see above) have surname last. These \aindex entries have
-% surname first.
-% The Aindex.py command willl create them for you after you have constructed the \author
-% The first entry should be the first author, for bold-facing the author index page-reference
-
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
-
+%\aindex{Salgado,~J.}
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+The SKA Regional Centre Network (SRCNet) is preparing for SKA-Low Science
+Verification, with tight milestones and many interdependent services that must
+mature quickly and then be maintained for years. We report on the use of AI
+coding assistants and large language models (LLMs) across the SRCNet
+development teams. Our approach relies on structured prompting, in which each
+request encodes the target architecture, module boundaries, documentation
+standards and tests from the outset, followed by an early handoff of the
+prototype to the team that will own it. We describe the governance framework
+at the SKA Observatory, four ways in which LLMs are used in SRCNet, and the
+practices adopted to keep human review meaningful when code can be generated
+faster than it can be read. Early evidence from our GitLab and SonarQube
+instances suggests that, managed this way, AI-assisted work is associated with
+faster merges and no loss of measured quality.
 \end{abstract}
 
-% These lines show examples of subject index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the Subject Index at the end of the Proceedings volume.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
+%\ssindex{Artificial intelligence}
+%\ssindex{observatories!ground-based!SKA}
+%\ssindex{algorithm!machine learning}
+%\ssindex{software}
+%\ssindex{quality control}
+%\ooindex{astroquery, ascl:1708.004}
 
-% These lines show examples of ASCL index entries. At this stage these have to commented
-% out, and need to be on separate lines. Eventually, they will be automatically uncommented
-% and used to generate entries in the ASCL Index at the end of the Proceedings volume.
-% The ascl.py command will scan your paper on possible code names.
-% Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
+\section{Introduction}
 
+The Square Kilometre Array \citep{2009IEEEP..97.1482D} will deliver around
+600\,PB of science data products per year to a federated network of regional
+centres, the SRCNet \citep{2024ASPC..535..399S, 2025ASPC..541...64S}. The
+network is built by about 70 people in 16 countries, organised in several
+development teams, and is now on the road to Science Verification
+\citep{2025ASPC..541..385C}: registration, ingestion, metadata, data access
+over a Rucio data lake \citep{2019CSBS....3...11B}, federated execution and
+accounting all need to mature at the same time.
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+LLMs trained on code \citep{2021arXiv210703374C} have become everyday tools.
+Controlled studies report large speed-ups on bounded tasks
+\citep{2023arXiv230206590P}, but also slowdowns for experienced developers
+working on mature code they know well \citep{2025arXiv250709089B}, and
+industry surveys describe AI as an amplifier of a team's existing practices,
+good or bad \citep{DORA2025}. For SRCNet, the question was therefore not
+whether to use AI, but how to use it without producing code that nobody can
+review or maintain.
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+\section{Governance}
 
-\begin{itemize}
-\checklistitemize
+The SKAO AI policy \citep{SKAO-GOV-0000166} rates every AI use on a
+five-level risk scale. Code generation and chatbots are moderate risk:
+generated code follows the SKA quality-assurance process, with review and
+testing, and must be verified and understood before use. Only Unrestricted
+information (source code and technical documentation) may be shared with
+hosted tools. The SKAO adoption plan \citep{SKAO-GOV-0000194} adds an opt-in,
+three-tier user model and a community of practice. In SKAO developer surveys,
+weekly AI use rose from 62\% (2025) to 86\% (2026), and reported productivity
+gains from 57\% to 78\%.
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
+\section{Four Uses of LLMs in SRCNet}
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+\begin{description}
+\item[Code generation (in use).] Services, clients, notebooks and CI are
+prototyped with an AI assistant and handed to the teams, e.g.\ the
+\texttt{astroquery.srcnet} client \citep{2019AJ....157...98G}: four
+repositories, five notebooks and a three-stage CI from one project brief.
+\item[Reports and artefacts (in use).] Reviews, interface documents and
+presentations are drafted only from source documents and checked by a person;
+grounded drafting also surfaces inconsistencies between documents and code.
+\item[Hiding logic behind language (prototype).] A chat service turns
+plain-language questions into ADQL \citep{2023ivoa.spec.1215M} run over TAP
+\citep{2019ivoa.spec.0927D} with the user's own token; the model is swappable
+and can be self-hosted.
+\item[Agents for operations (under study).] Agents that read Rucio and
+transfer logs and propose actions, behind a sanitisation step, with read-only
+tools and a human approving every action.
+\end{description}
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+\section{Structured Prompting and Handoff}
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
+The work follows five steps: \emph{frame} (an architect writes a shared
+project brief and a structured prompt), \emph{prototype} (the assistant stands
+up skeletons, explores API contracts and validates design choices),
+\emph{hand off} (the prototype, its design decisions and its documentation
+become a feature in a team's backlog), \emph{harden} (integration, SKAO CI/CD,
+at least 80\% coverage, SonarQube and review) and \emph{maintain}
+(by people, with or without AI). Every prompt encodes four
+things: the target architecture and design patterns (for example a singleton
+entry point and factory methods), module boundaries and interfaces,
+documentation for the next human maintainer, and tests written with the code
+rather than after it.
 
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
+\section{The Review Bottleneck and Early Evidence}
 
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
+An assistant can write thousands of lines in one session, but a reviewer cannot
+judge them in one sitting, and review effectiveness is known to depend on
+understanding the change \citep{Bacchelli2013}. Oversized merge requests risk
+becoming a bottleneck or a rubber stamp. We mitigate this with prompt-scoped
+increments (one concern per merge request), review checklists aligned to the
+architecture, tests generated with the code, and documentation for the next
+maintainer.
 
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
-
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
-
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
-
-
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
+Table~\ref{tab:mr} compares merge requests labelled as AI-assisted in the
+public SRCNet GitLab group with random samples of the other merge requests
+merged in 2026.
+AI-assisted work grew sharply in 2026 (Figure~\ref{fig:f1}a). Those merge
+requests are about twice as large and are merged much faster, with the same
+median number of human comments and far more automated AI review. CI pass
+rates and the share of added lines that are tests are unchanged. In SonarQube,
+five core services built AI-first (the software artefact importer, the
+registration orchestrator, two accounting services and the computing broker)
+compare well with 27 other SRCNet projects (Figure~\ref{fig:f1}b). These are
+correlations, not causes: the team grew and a quality campaign started over the
+same period, the AI-first services are young, and unlabelled AI-assisted work
+is not counted.
 
 \begin{table}[!ht]
-\caption{Tables in \LaTeXe}
+\caption{Merge requests merged in 2026 in the SRCNet GitLab group, to 23 October 2026. AI-labelled: all 90. Other: random samples of the 1957 other merge requests, 40 per quarter for size and time to merge ($n=160$) and 200 for the remaining rows.}
+\label{tab:mr}
 \smallskip
 \begin{center}
 {\small
-\begin{tabular}{llc}  % l = left, c = centered
+\begin{tabular}{lcc}
 \tableline
 \noalign{\smallskip}
-First Column & Second Column & Third Column:\\
+Metric & AI-labelled & Other \\
+ & ($n=90$) & (sample) \\
 \noalign{\smallskip}
 \tableline
 \noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
+Median lines changed & 166 & 75 \\
+Merge requests over 1000 lines & 25\% & 7.5\% \\
+Median time to merge & 2.5\,h & 22\,h \\
+Median human comments & 2 & 2 \\
+Reviewed by an AI review bot & 84\% & 41\% \\
+CI pipeline passing at merge & 94\% & 93\% \\
+Tests as a share of added lines & 13.6\% & 13.8\% \\
 \noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
+\tableline
 \end{tabular}
 }
 \end{center}
 \end{table}
-\noindent These tables can get a little messy, but this format is the most common.
 
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
+\articlefigure[width=0.92\textwidth]{P301_f1.eps}{fig:f1}{(a) Merge requests labelled as AI-assisted per quarter in the SRCNet GitLab group (Q4 2026 to 23 October). (b) SonarQube medians per project for five services built AI-first (dark) and 27 other SRCNet projects (hatched).}
 
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
+\section{Observations and Conclusions}
 
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
+AI assistance has been most effective for greenfield prototypes, service
+skeletons, documentation and reports, where a brief and a structured prompt fix
+the shape of the result in advance. Human judgement remains indispensable for
+module boundaries, cross-team interfaces, security and the decision to merge.
+Two risks need attention: large, quickly merged changes, and AI-assisted work
+concentrated in a few developers. Next, we will label every AI-assisted merge
+request and track its size, review time and quality per quarter. Our
+comparisons show associations, not causes, but they are consistent with the view
+that AI amplifies good engineering practice rather than replacing it.
 
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
+\acknowledgements The author thanks the SRCNet development teams and the SKAO Information Security and software quality teams for the practices and data reported here.
 
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
-
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
-
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
-
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
-
-
-\bibliography{P301}  % For BibTex
+\bibliography{P301}
 
 % if we have space left, we might add a conference photograph here. Leave commented for now.
 % \bookpartphoto[width=1.0\textwidth]{foobar.eps}{FooBar Photo (Photo: Any Photographer)}
