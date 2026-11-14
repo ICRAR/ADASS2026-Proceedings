@@ -2,6 +2,6 @@
 P = P305
 V = 1
 A = Mosheva
-E = you@example.edu
+E = tmosheva@ipac.caltech.edu
 # your figures, named P305_f1.eps, P305_f2.png, ...
 FIGS = $(filter-out P305_inc.tex,$(wildcard P305_*))
