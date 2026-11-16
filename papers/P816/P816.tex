@@ -67,9 +67,11 @@
 % The Aindex.py command willl create them for you after you have constructed the \author
 % The first entry should be the first author, for bold-facing the author index page-reference
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+%\aindex{Bryant,~A.}
+%\aindex{Fr\"{u}h,~J.}
+%\aindex{Greiner,~B.}
+%\aindex{Iserlohe,~C.}
+%\aindex{Knieling,~B.}
 
 
 \begin{abstract}
@@ -128,42 +130,46 @@ at a single sky source.
 
 The individual pipeline steps are outlined below, grouped by category:
 
+
 \begin{itemize}
-\item \textbf{Reformatting}
+\setlength{\itemindent}{-1.5em}
+\setlength{\parskip}{2pt}
+\setlength{\parindent}{-1.5em}
+\item \textbf{Reformatting}\smallskip
 
 \emph{Check Headers}: Reads raw data and verifies FITS headers
 
-\emph{Split Grating \& Chop}: Splits and consolidates raw data according to chop phase and grating position
+\emph{Split Grating \& Chop}: Consolidates raw data by chop phase \& grating position
 
 \emph{Fit Ramps}: Fits voltage readout ramps to convert data to units [ADU/s]
-\item \textbf{Demodulation}
+\item \textbf{Demodulation}\smallskip
 
 \emph{Subtract Chops}: Subtracts off chop data from on chop data to remove sky background
 
-\emph{Combine Nods}: Combines nod positions according to nod scheme to remove radiative offset
-\item \textbf{Pixel Calibration}
+\emph{Combine Nods}: Combines nod positions to remove radiative offset
+\item \textbf{Pixel Calibration}\smallskip
 
-\emph{Lambda Calibrate}: Uses grating formulae to generate wavelength extension in units [\textmu m]
+\emph{Lambda Calibrate}: Uses grating formulae to generate wavelength data in units [\textmu m]
 
-\emph{Spatial Calibrate}: Uses optical distortion model to generate sky coordinate extensions
+\emph{Spatial Calibrate}: Uses optical distortion model to generate sky coordinate data
 
 \emph{Apply Flat}: Applies spatial and spectral flat field corrections
 
 \emph{Combine Scans}: Combines grating positions to reconstruct full spectral scan
-\item \textbf{Signal Calibration}
+\item \textbf{Signal Calibration}\smallskip
 
-\emph{Telluric Correct}: Retrieves and applies WV/Ozone-dependent atmospheric transmission models
+\emph{Telluric Correct}: Applies WV/Ozone-dependent atmospheric correction models
 
-\emph{Flux Calibrate}: Uses flux response profiles to convert data to physical flux units [W/$\textup{m\textsuperscript{2}}$/Hz]
+\emph{Flux Calibrate}: Uses flux response to convert data to physical units [W/$\textup{m\textsuperscript{2}}$/Hz]
 
 \emph{Correct Wave Shift}: Corrects for barycentric and solar system velocity shifts
-\item \textbf{Resampling}
+\item \textbf{Resampling}\smallskip
 
 \emph{Resample}: Interpolates data onto regularly spaced 3D spatial-spectral grid
 
 \emph{Linefit}: Attempts to fit superposition of spectral line and continuum emission
 
-\emph{Make Spectral Map}: Generates quicklook thumbnail map and spectrum plot for archive usage
+\emph{Make Spectral Map}: Generates quicklook map and spectrum for archive usage
 \end{itemize}
 
 \section{Algorithm Enhancements}
@@ -213,6 +219,15 @@ algorithms, and to highlight potential caveats in the data reduction process. Fu
 incorporate content from numerous existing archive handbooks, hence consolidating instrument
 documentation and knowhow into a single source. Furthermore, a series of Jupyter notebooks are being developed as tutorials
 to demonstrate the usage of the pipeline and the analysis of FIFI-LS data.
+
+\section{Archival Strategy}
+At the SDC, a complete reprocessing workflow has been developed, which can recreate >99\% of the original
+IRSA-hosted science archive pipeline products. Raw and reprocessed data products will be stored
+at the University of Stuttgart's data repository DaRUS. The next major work package is the ingestion
+of the reprocessed metadata into the SDC's Virtual Observatory (VO), utilising the GAVO Data Center Helper Suite (DaCHS) framework.
+This will enable reprocessed FIFI-LS data to be discoverable and accessible through common VO protocols, such as TAP and SIA.
+After the conclusion of the SDC project, ownership of the VO is planned to be transferred to the German Center for Astrophysics (DZA).
+
 
 \articlefigure[width=0.6\textwidth]{P816_f1.png}{P816_f1}{Example plot of ECMWF water vapour data for a specific timestamp during a SOFIA science flight. The corresponding flight path is displayed in white.}
 
