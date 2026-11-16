@@ -49,15 +49,15 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Aaron Bryant, Jonas Früh, Benjamin Greiner, Christof Iserlohe, and Bastian Knieling}
-\affil{SOFIA Data Center, Institut für Raumfahrtsysteme, Universität Stuttgart, Pfaffenwaldring 31, 70569 Stuttgart, Germany; \email{aaron.bryant@irs.uni-stuttgart.de}}
+\author{Aaron Bryant, Jonas Fr\"{u}h, Benjamin Greiner, Christof Iserlohe, and Bastian Knieling}
+\affil{SOFIA Data Center, Institut f\"{u}r Raumfahrtsysteme, Universit\"{a}t Stuttgart, Pfaffenwaldring 31, 70569 Stuttgart, Germany; \email{aaron.bryant@irs.uni-stuttgart.de}}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Aaron Bryant}{aaron.bryant@irs.uni-stuttgart.de}{0000-0002-9472-2391}{Universität Stuttgart}{Institut für Raumfahrtsysteme}{Stuttgart}{Baden-Württemberg}{70569}{Germany}
-\paperauthor{Jonas Früh}{jonas.frueh@irs.uni-stuttgart.de}{0009-0006-4927-3861}{Universität Stuttgart}{Institut für Raumfahrtsysteme}{Stuttgart}{Baden-Württemberg}{70569}{Germany}
-\paperauthor{Benjamin Greiner}{benjamin.greiner@irs.uni-stuttgart.de}{ORCID_Or_Blank}{Universität Stuttgart}{Institut für Raumfahrtsysteme}{Stuttgart}{Baden-Württemberg}{70569}{Germany}
-\paperauthor{Christof Iserlohe}{christof.iserlohe@irs.uni-stuttgart.de}{0000-0003-4223-7439}{Universität Stuttgart}{Institut für Raumfahrtsysteme}{Stuttgart}{Baden-Württemberg}{70569}{Germany}
-\paperauthor{Bastian Knieling}{bastian.knieling@irs.uni-stuttgart.de}{ORCID_Or_Blank}{Universität Stuttgart}{Institut für Raumfahrtsysteme}{Stuttgart}{Baden-Württemberg}{70569}{Germany}
+\paperauthor{Aaron Bryant}{aaron.bryant@irs.uni-stuttgart.de}{0000-0002-9472-2391}{Universit\"{a}t Stuttgart}{Institut f\"{u}r Raumfahrtsysteme}{Stuttgart}{Baden-W\"{u}rttemberg}{70569}{Germany}
+\paperauthor{Jonas Fr\"{u}h}{jonas.frueh@irs.uni-stuttgart.de}{0009-0006-4927-3861}{Universit\"{a}t Stuttgart}{Institut f\"{u}r Raumfahrtsysteme}{Stuttgart}{Baden-W\"{u}rttemberg}{70569}{Germany}
+\paperauthor{Benjamin Greiner}{benjamin.greiner@irs.uni-stuttgart.de}{ORCID_Or_Blank}{Universit\"{a}t Stuttgart}{Institut f\"{u}r Raumfahrtsysteme}{Stuttgart}{Baden-W\"{u}rttemberg}{70569}{Germany}
+\paperauthor{Christof Iserlohe}{christof.iserlohe@irs.uni-stuttgart.de}{0000-0003-4223-7439}{Universit\"{a}t Stuttgart}{Institut f\"{u}r Raumfahrtsysteme}{Stuttgart}{Baden-W\"{u}rttemberg}{70569}{Germany}
+\paperauthor{Bastian Knieling}{bastian.knieling@irs.uni-stuttgart.de}{ORCID_Or_Blank}{Universit\"{a}t Stuttgart}{Institut f\"{u}r Raumfahrtsysteme}{Stuttgart}{Baden-W\"{u}rttemberg}{70569}{Germany}
 
 % There should be one \aindex line (commented out) for each author. These are used to
 % build up the author index for the Proceedings. The surname must come first, followed by
@@ -73,16 +73,16 @@
 
 
 \begin{abstract}
-The SOFIA Data Center (SDC) was founded in 2024 at the Institut für Raumfahrtsysteme,
-Universität Stuttgart, Germany. Its goal is to preserve the entire scientific and
+The SOFIA Data Center (SDC) was founded in 2024 at the Institut f\"{u}r Raumfahrtsysteme,
+Universit\"{a}t Stuttgart, Germany. Its goal is to preserve the entire scientific and
 technical databank of the former airborne observatory SOFIA, enhance the quality of
 its contents, and support astronomical research through free and accessible data
 distribution. Data reprocessing is enabled by an updated version of the data reduction
 pipeline package "Redux", incorporating the experience of over a decade of science
-mission operations and data analysis. The rich scientific legacy of SOFIA’s observations
+mission operations and data analysis. The rich scientific legacy of SOFIA's observations
 will be consequently made available to the global community in the form of a
 "Virtual Observatory" (VO) hosted by the University of Stuttgart's Data Repository,
-adhering to the “FAIR” principles of data assets.
+adhering to the ``FAIR'' principles of data assets.
 
 Among the science pipelines being actively maintained at the SDC is that of the
 imaging spectrometer FIFI-LS, which operated on SOFIA from 2014-2022, delivering
@@ -104,15 +104,12 @@ data reprocessing \& archival strategy will be outlined.
 % out, and need to be on separate lines. Eventually, they will be automatically uncommented
 % and used to generate entries in the Subject Index at the end of the Proceedings volume.
 % Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
 
 % These lines show examples of ASCL index entries. At this stage these have to commented
 % out, and need to be on separate lines. Eventually, they will be automatically uncommented
 % and used to generate entries in the ASCL Index at the end of the Proceedings volume.
 % The ascl.py command will scan your paper on possible code names.
 % Don't leave these in! - replace them with ones relevant to your paper.
-%\ooindex{FOOBAR, ascl:1101.010}
 
 
 \section{Pipeline Functionality}
@@ -146,7 +143,7 @@ The individual pipeline steps are outlined below, grouped by category:
 \emph{Combine Nods}: Combines nod positions according to nod scheme to remove radiative offset
 \item \textbf{Pixel Calibration}
 
-\emph{Lambda Calibrate}: Uses grating formulae to generate wavelength extension in units [µm]
+\emph{Lambda Calibrate}: Uses grating formulae to generate wavelength extension in units [\textmu m]
 
 \emph{Spatial Calibrate}: Uses optical distortion model to generate sky coordinate extensions
 
@@ -157,7 +154,7 @@ The individual pipeline steps are outlined below, grouped by category:
 
 \emph{Telluric Correct}: Retrieves and applies WV/Ozone-dependent atmospheric transmission models
 
-\emph{Flux Calibrate}: Uses flux response profiles to convert data to physical flux units [W/m²/Hz]
+\emph{Flux Calibrate}: Uses flux response profiles to convert data to physical flux units [W/$\textup{m\textsuperscript{2}}$/Hz]
 
 \emph{Correct Wave Shift}: Corrects for barycentric and solar system velocity shifts
 \item \textbf{Resampling}
@@ -177,9 +174,9 @@ led to several major improvements to the FIFI-LS pipeline.
 \textbf{\emph{Enhanced Telluric Correction}}: Telluric correction is now performed using on-the-fly computation
 of water vapour and ozone column densities, based on the atmospheric conditions at the time and location
 of each observation (\citet{FIFI_Fischer_2021}, \citet{FIFI_Iserlohe_2021}, \citet{FIFI_Iserlohe_2022}).
-Data is sourced from the European Centre for Medium-Range Weather Forecasts (ECMWF), and an example is shown in Figure \ref{fifi_ecmwf}.
+Data is sourced from the European Centre for Medium-Range Weather Forecasts (ECMWF), and an example is shown in Figure \ref{P816_f1}.
 These values are used to select from a pre-computed library of ATRAN\_SDC transmission models, which are
-based on the original ATRAN code, but have been modified to incorporate several fixes and upgrades.
+based on the original ATRAN code, but have been modified to incorporate several fixes and upgrades - see \citet{P809_adassxxxvi} for details.
 Furthermore, the pipeline is now able to interpolate between the selected models to generate
 a synthetic spectrum closely matching the actual atmospheric conditions.\smallskip
 
@@ -198,8 +195,8 @@ linear continuum is defined as:
 M(\lambda) = \frac{A}{\sqrt{2\pi\sigma^2}} \exp\left[-\frac{(\lambda-\mu)^2}{2\sigma^2}\right] + C
 \end{displaymath}
 
-where \textit{A} is the integrated line flux, \textit{µ} is the line central wavelength, $\sigma$ is the line width,
-and \textit{C} is the continuum level. An example plot of this output is shown in Figure \ref{fifi_linefit}.
+where \textit{A} is the integrated line flux, \textit{\textmu} is the line central wavelength, $\sigma$ is the line width,
+and \textit{C} is the continuum level. An example plot of this output is shown in Figure \ref{P816_f2}.
 Default fit parameters should be robust enough for the majority of FIFI-LS science observations where a line
 was detected, while hand-configured parameters will be supplied for several specific projects.\smallskip
 
@@ -217,9 +214,9 @@ incorporate content from numerous existing archive handbooks, hence consolidatin
 documentation and knowhow into a single source. Furthermore, a series of Jupyter notebooks are being developed as tutorials
 to demonstrate the usage of the pipeline and the analysis of FIFI-LS data.
 
-\articlefigure[width=0.6\textwidth]{fifi_ecmwf.png}{fifi_ecmwf}{Example plot of ECMWF water vapour data for a specific timestamp during a SOFIA science flight. The corresponding flight path is displayed in white.}
+\articlefigure[width=0.6\textwidth]{P816_f1.png}{P816_f1}{Example plot of ECMWF water vapour data for a specific timestamp during a SOFIA science flight. The corresponding flight path is displayed in white.}
 
-\articlefigure[width=0.45\textwidth]{fifi_linefit.png}{fifi_linefit}{Example plot of the pipeline linefit product, taken towards the Milky Way Galactic Centre, at the wavelength of the [OI] 63 µm fine structure line.}
+\articlefigure[width=0.45\textwidth]{P816_f2.png}{P816_f2}{Example plot of the pipeline linefit product, taken towards the Milky Way Galactic Centre, at the wavelength of the [OI] 63 \textmu m fine structure line.}
 
 %\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
 
