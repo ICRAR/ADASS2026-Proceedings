@@ -2,6 +2,6 @@
 P = B601
 V = 1
 A = Grange
-E = you@example.edu
+E = grange@astron.nl 
 # your figures, named B601_f1.eps, B601_f2.png, ...
 FIGS = $(filter-out B601_inc.tex,$(wildcard B601_*))
