@@ -2,6 +2,6 @@
 P = P504
 V = 1
 A = Grange
-E = you@example.edu
+E = grange@astron.nl 
 # your figures, named P504_f1.eps, P504_f2.png, ...
 FIGS = $(filter-out P504_inc.tex,$(wildcard P504_*))
