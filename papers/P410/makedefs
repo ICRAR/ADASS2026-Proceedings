@@ -2,6 +2,6 @@
 P = P410
 V = 1
 A = Comrie
-E = you@example.edu
+E = angus@idia.ac.za
 # your figures, named P410_f1.eps, P410_f2.png, ...
 FIGS = $(filter-out P410_inc.tex,$(wildcard P410_*))
