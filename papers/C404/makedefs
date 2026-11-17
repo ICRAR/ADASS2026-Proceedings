@@ -2,6 +2,6 @@
 P = C404
 V = 1
 A = Joshi
-E = you@example.edu
+E = rohini.joshi@fhnw.ch
 # your figures, named C404_f1.eps, C404_f2.png, ...
 FIGS = $(filter-out C404_inc.tex,$(wildcard C404_*))
