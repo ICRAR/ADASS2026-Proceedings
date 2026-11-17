@@ -2,6 +2,6 @@
 P = P817
 V = 1
 A = Muders
-E = you@example.edu
+E = dmuders@mpifr.de
 # your figures, named P817_f1.eps, P817_f2.png, ...
 FIGS = $(filter-out P817_inc.tex,$(wildcard P817_*))
