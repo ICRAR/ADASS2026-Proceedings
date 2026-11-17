@@ -2,6 +2,6 @@
 P = P809
 V = 1
 A = Bryant
-E = you@example.edu
+E = aaron.bryant@irs.uni-stuttgart.de
 # your figures, named P809_f1.eps, P809_f2.png, ...
 FIGS = $(filter-out P809_inc.tex,$(wildcard P809_*))
