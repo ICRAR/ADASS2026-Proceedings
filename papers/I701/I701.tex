@@ -60,10 +60,10 @@
 
 
 \begin{abstract}
-Rubin is now about one year in operations and DM has delivered several Data Previews including DP2 which contains the extensive and good commissioning data.
-We will share some results of our superb pipelines, discuss some of the challenges of moving and processing TBs of data from Chile and to serving Ks of users.
+Rubin is now about one year in operations and Data Management (DM) has delivered several Data Previews including DP2 which contains good commissioning data.
+We will share some results of our pipelines, discuss some of the challenges of moving and processing terabytes of data from Chile and to serving thousands of users.
 We will mention a few lessons learned.
-Rubin has also transitioned from a stand-alone project to being embedded in an organisation - we shall ponder organisational inertia and team vs organisational clashes.
+Rubin has also transitioned from a stand-alone project to being embedded in an organization - we shall ponder organizational inertia and team vs organizational clashes.
 \end{abstract}
 
 
@@ -83,8 +83,8 @@ Rubin has also transitioned from a stand-alone project to being embedded in an o
 \section{Introduction}
 \label{sec:intro}
 
-Rubin entered operations on 26 October 2025 and commenced the Legacy Survey of Space and Time on 30 June 2026.
-The telescope, camera, network, data facilities, pipelines, databases and user services must work together relentlessly for ten years to complete the Legacy Survey Space and Time (LSST).
+Rubin entered operations on 26 October 2025 and commenced the Legacy Survey of Space and Time (LSST) on 30 June 2026.
+The telescope, camera, network, data facilities, pipelines, databases and user services must work together relentlessly for ten years to complete the survey.
 
 First Photon (April 2025), subsequent events and the Data Previews all depended on years of software and operations work.
 All the many moving parts have to work together to keep the images and alerts flowing.
@@ -99,16 +99,16 @@ This paper covers, briefly,  how we built and operate a petascale astronomical d
 \section{Rubin data management system}
 \label{sec:data-system}
 
-Rubin uses an 8.4~m mirror to give a 9.6~deg$^2$ field of view  which needs the largest digital camera built so far to capture the details of the sky.
+Rubin uses an 8.4~m mirror to give a 9.6~deg$^2$ field of view  which uses the largest digital camera built so far to capture the details of the sky.
 Most users will never interact with either the telescope or the camera; they will use calibrated images, catalogs, alerts, APIs, notebooks and query services.
-Data Management (DM) is responsible for data from the back of the camera all the way to delivering science-ready products to the data rights holders.
-That includes the 103,000Km of fibre connecting the camera to SLAC!
+DM is responsible for data from the back of the camera all the way to delivering science-ready products to the data rights holders.
+That includes the 103,000Km of fibre providing a reliable connection betwee the camera to SLAC!
 
 \subsection{From the camera to Prompt Processing}
 \label{sec:prompt}
 
 Camera readout takes three seconds and produces one FITS image per CCD.
-A Header Service subscribes to the Kafka engineering streams and gathers  information the camera does not have, such as pointing metadata to publish a header.
+A Header Service subscribes to the engineering event streams and gathers information the camera does not have, such as pointing metadata, to publish a header.
 Additional metadata are carried in a JSON sidecar.
 Preview and rapid-analysis services on the summit render the data within a few seconds allowing operators a very compressed quick look at the massive image.
 
@@ -116,9 +116,10 @@ Image and metadata are sent to SLAC over encrypted links using persistent HTTPS 
 It took many years to acquire the fibre network between the observatory and SLAC, and a few years to get the performance to where it needs to be.
 
 
-The images contains $\approx$ 8GB of information but with compression this ends up around $\approx 4GB$ on the wire/disk.
+The images contain $\approx$ 8GB of information which compresses to  around $\approx 4GB$ on the wire/disk.
 In normal operation more than 95\% of CCD images arrive at the USDF in two to three seconds, without landing on an intermediate disk.
 The data are ingested into the Butler and made available to Prompt Processing, which produces nightly  products and alerts, where a template is available,  within minutes.
+On the first night Rubin issied about 800K alerts.
 
 This chain involves camera software, control-system services, networking, summit infrastructure, USDF infrastructure, middleware and science pipelines, and so crosses organizational as well as technical boundaries.
 Manual procedures do not scale here; all must be automated.
@@ -130,7 +131,7 @@ The summit hosts a roughly 2200-core, 20-node Kubernetes cluster, about 5~PB of 
 A small Chile DevOps team of seven people (down to four in the last year)  supports the summit infrastructure, base infrastructure, networking and a large set of deployed services.
 This is only possible using an infrastructure as code approach for everything, even the network switches.
 
-Rancher is used to pixie boot and install the baremetal, then puppet configs are pulled from github.
+Rancher is used to PXE boot and install the bare metal, then Puppet configs are pulled from GitHub.
 Network switches are configured with Ansible.
 Applications are mainly deployed using Phalanx \S\ref{sec:deployments}
 
@@ -150,7 +151,7 @@ Over such timescales hardware, software ecosystems, institutions and people all 
 
 Room to experiment is important and prototypes are great - alas occasionally they stay around too long.
 We have at least one summit system which has not been well engineered.
-On the other hand we nimbly switched from the old Data Distribution System (DDS) to Kafka as the control message bus just before bringing the LSST Camera online.
+On the other hand we nimbly switched from the old Data Distribution System (DDS) to a custom library using Kafka as the control message bus just before bringing the LSST Camera online.
 
 Change is needed but needs to be communicated when interfaces are involved.
 In DM we run a weekly Change Control Board (CCB) to assess and approve changes.
@@ -160,7 +161,7 @@ the Request For Comment (RFC) process\footnote{https://developer.lsst.io/communi
 Early systems engineering is important, often under valued and under estimated.
 Rubin verification went perhaps a little too far in terms of requiring tests for every low level requirement.
 Many requirements were not written in a testable manner and some were superseded over the years.
-In the end some larger test had to be used to infer coverage of lower level included requirements.
+In the end some larger tests had to be used to infer coverage of lower level included requirements.
 There was simply not enough effort to define and run all the necessary acceptance tests at the
 level originally intended.
 
@@ -169,7 +170,7 @@ level originally intended.
 \label{sec:butler}
 
 A key architectural choice is to insulate algorithms from physical data location and file format.
-The Data Butler \citep{2022SPIE12189E..11J} provides the access layer,  pipeline code requests a dataset and receives a Python object.
+The Data Butler \citep{2022SPIE12189E..11J} provides the access layer;  pipeline code requests a dataset and receives a Python object.
 It does not need to know whether the backing store is POSIX, S3, Google Cloud Storage or something else, nor whether the registry is SQLite, PostgreSQL or a managed database service.
 
 The same pipeline code therefore runs unchanged on laptops, the summit, cloud systems and the Data Facilities.
@@ -199,20 +200,21 @@ Figure courtesy of T.~Jenness. This is an update of the plot in \citep{2018SPIE1
 \label{fig:loc}
 \end{figure}
 
-Working on open source software is not a given for all institutions its good to have it written into the contracts.
-We did this for Rubin but were too explicit naming a specific license (GPL) in the contracts.
-This made it close to impossible to change during construction when we thought APL may be better.
+Data licensing usually gets left very late or is done as an after thought.
+Working on open source software is not a given for all institutions it's good to have it written into the contracts.
+We did this for Rubin but were too explicit naming a specific license (GNU General Public License) in the contracts.
+This made it close to impossible to change during construction when we thought Apache License may be better.
 Finally we have extracted some packages, like butler, and put them under dual license to allow others use them more easily.
 
-Data licensing  also gets left very late or is done as an after thought.
 
 \subsection{Start performance and integration testing early}
 \label{sec:performance}
 
-As a project, and personally, we have avoided premature optimization, preferring to first get a substantial fraction of the system in place.
+As a project we have avoided premature optimization, preferring to first get a substantial fraction of the system in place.
 Just meet the requirements to start with, then squeeze out extra performance later.
-We do plenty of prototyping; like any project some prototypes hang around too long and need re-engineering.
 With current hardware price trends, and given the maturity of the Rubin code base, now is the time to optimize, including GPU or other hardware speedups which will require code changes.
+
+Good components do not guarantee a good system, so system tests, operational rehearsals and end-to-end exercises were planned as part of construction.
 
 Rubin has used dedicated scale tests, precursor data, cloud experiments and repeated production exercises to flush out issues.
 The Data Previews are the latest of these; DP1 \citep{2026AJ....171..360V} was effectively an operations rehearsal for DM on making a Data Release.
@@ -222,7 +224,6 @@ It has been tested with mixed workloads, not just single benchmark queries.
 
 Cloud proofs of concept deployed Qserv and the Science Platform on Google Cloud \citep{2024ASPC..535..227O}, exercised Prompt Processing components, and ran large batch-processing demonstrations with HTCondor and Pegasus \citep{2019AAS...23324505B}.
 
-Good components do not guarantee a good system, so system tests, operational rehearsals and end-to-end exercises were planned as part of construction.
 
 \section{Building and operating the system}
 \label{sec:software}
@@ -255,8 +256,9 @@ There is routine change: security patches, package updates, hardware replacement
 Change must be controlled, but cheap enough that teams do not put it off.
 
 Each Data Preview put real data through processing, services and user interfaces ahead of the survey.
-DP2 was much closer to survey operations than the construction-era demonstrations though still only around 10\% of DR1.
+DP2 was much closer to survey operations than the construction-era demonstrations though still only around 10\% of Data Release 1 data volume.
 Such a preview is an integration test with real users.
+We already have over four thousand registered users as of Nov 2026.
 
 \section{A team of teams}
 \label{sec:teams}
@@ -269,7 +271,7 @@ Decisions should generally be pushed down to the lowest possible level to speed 
 The RFC process makes technical proposals visible while leaving decisions with the people closest to the work.
 Team leads and managers need to delegate tasks, when delegated they need to let go understanding that it may
 not be done exactly as they would do it but trusting it will be done.
-This is perhaps the hardest management lesson - a risk adverse organization concentrates decisions at the top and paralyzes any lower lever autonomy.
+This is perhaps the hardest management lesson - a risk-adverse organization concentrates decisions at the top and paralyzes any lower level autonomy.
 There is no trust that things will be done correctly.
 
 Real leadership is required for success \citep{bossfactor}, not just pure management, and good scientific/technical leaders are hard to find.
@@ -294,13 +296,13 @@ so phase and organization changed at the same time.
 Long lived organizations exist for good reasons.
 Funding agencies require a certain level of governance, compliance, financial control and other things.
 Long lived organizations, in theory, retain capability across staff turnover and provide a legal and administrative home for the facility.
-They feel more reliable for the agencies, its a known entity.
+They feel more reliable for the agencies, it's a known entity.
 The cost is organizational inertia.
 Organizations spend substantial effort maintaining their structures, and the mechanisms that provide reliability also resist change
 \citep{e6805d07-4fd7-31d0-9779-42b323de329b,10.2307/2094928,10.4102/sajip.v24i2.652,organizationalinertia2023review}.
 This implies making procedures for  everything to remove individual variations and reduce risk,
 however it also stifles innovation and certainly adds delay.
-In some areas this makes sense - broadly applied in a scientific endeavor not necessarily.
+In some areas this makes sense, but not necessarily broadly applied in a scientific endeavor.
 
 \subsection{Matrix organization}
 \label{sec:matrix}
@@ -308,7 +310,7 @@ In some areas this makes sense - broadly applied in a scientific endeavor not ne
 NOIRLab chose to be a matrix organization.
 This works for large organizations with repeatable processes where a template is used to open new branches for example like a bank or hotel.
 It is less obvious that it works for a science driven organization with a few facilities, each of which is quite different.
-The matrix has its own issues  and limitations since inception\citep{Davis1978}.
+The matrix has its own issues  and limitations since inception \citep{Davis1978}.
 With good leadership engineering services does seem to have made this work.
 
 Most DM teams were not broken up in the transition but reporting lines did change.
@@ -318,7 +320,7 @@ making this a dangerous gambit.
 
 There has been little explanation as to how the new structure helps or makes anything more efficient.
 It is certainly not cheaper as our overheads increased significantly with the new structure which introduced new layers of management and oversight.
-We may be in the realm of Parkinsons law \citep{Parkinson1955}.
+We may be in the realm of Parkinson's law \citep{Parkinson1955}.
 
 \subsection{Chile DevOps}
 \label{sec:devops}
@@ -330,7 +332,7 @@ solid foundation.
 
 Recruitment was slow: the first replacement process stalled for about ten months after the departure.
 This is directly attributable to NOIRLab, prior recruitment was slow but did not take a year and the initial departure was
-due to refusal of the new management to award a small and well deserved pay rise.
+due to refusal of the new management to award a small and well-deserved pay rise.
 This was not a money issue - just poor management.
 In an organization which requires approvals from almost the top level for anything the main power that people have remaining is to say no.
 
@@ -342,9 +344,8 @@ by the next night.
 \section{Measuring the organization}
 \label{sec:metrics}
 
-We measure throughput, latency, storage, query performance, alert completeness, processing efficiency and availability.
-We do not  measure the organizational efficiency, the accumulated cost of added process is not seen.
-Actually this is not true, HR introduced hiring metrics but after about a year stopped reporting them as they were so poor and trending in the wrong direction\footnote{It would be nice if someone corrected me and said they just moved, perhaps to the newsletter which we learned recently is the official vehicle for announcing policy.}.
+We measure  many htings on our systems like throughput, latency,  query performance, and availability but not organizational efficiency.
+HR introduced hiring metrics but after about a year stopped reporting them as they were so poor and trending in the wrong direction\footnote{It would be nice if someone corrected me and said they just moved, perhaps to the newsletter which we learned recently is the official vehicle for announcing policy.}.
 Shared services should have a service level, even an informal one: what is provided, to whom, how quickly, and what happens when demand exceeds capacity.
 
 At ADASS I suggested we may like to track some metrics in all of our organizations, there were many nods as I spoke of delays
@@ -388,6 +389,7 @@ Rubin does not have a single convention document like Gaia's but has various doc
 In both cases we have seen short lived misunderstandings due to instrument and astronomy teams adopting different coordinate systems for the same focal plane.
 
 Both Rubin\footnote{\url{developer.lsst.io}} and Gaia \citep{LL:WOM-011} started extensive developer guides early on and maintained them.
+In particular, Rubin coding styles guides made it easier for any developer to understand the code and eased cross team collaboration.
 
 Requirements, traceability and test reports are useful at the right level (\S\ref{sec:architecture}).
 Requirements management should not become an end in itself, and not every requirement needs its own test
@@ -404,10 +406,10 @@ These days it is really patch or get hacked.\par}
 
 Put technically credible people in leadership, give teams explicit responsibility and push decisions as low in the organization as possible.
 It sounds simple but of course it is not.
-One must also  a dispute resolution/escalation path for the occasions that a deadlock occurs between teams or team members.
+One must also have a dispute resolution/escalation path for the occasions that a deadlock occurs between teams or team members.
 Such resolution requires that technically competent manager to arbitrate and actually make a decision, this inevitably makes some or all team members unhappy but, if done infrequently, provides a stable environment.
 
-We all struggle with recognition for technical work oe simply keeping everything running.
+We all struggle with recognition for technical work or simply keeping everything running.
 Science driven projects are often driven by recognition by publication which does not fit well with service.
 Acknowledgment often goes a long way, promotions go further but are not always available of course.
 Allowing a certain amount of time for experimentation and having an open decision making process,
@@ -417,9 +419,9 @@ really helps keep team members engaged.
 \subsection{Expect the organization to change}
 
 A good software architecture is designed for change but, as mentioned earlier, organizations resist change.
-It is a paradox that, if we consider it, out organization seem to constantly advertise they are in a state of reorganization.
+It is a paradox that, if we consider it, our organization seem to constantly advertise they are in a state of reorganization.
 Yet it feels like nothing changes ever.
-Personally it seems like it takes about decade of this for real change to happen.
+It seems like it takes about decade of this for real change to happen.
 This is also about the lifetime of a useful organization so the change is needed to remain relevant.
 We lack good published metrics to know if our changes are effective.
 
