@@ -11,21 +11,33 @@
 
 \bibliographystyle{asp2021}
 
-\markboth{Joshi}{Platform Strategy and SV Readiness at the Swiss SRC}
+\markboth{Joshi et al.}{Platform Strategy and SV Readiness at the Swiss SRC}
 
 \begin{document}
 
-\title{Making the Most of What You Have: Platform Strategy and Science Verification Readiness at the Swiss SRC}
+\title{Platform Strategy and Science Verification Readiness at the Swiss SRC}
 
-\author{Rohini~Joshi}
-\affil{University of Applied Sciences and Arts Northwestern Switzerland (FHNW), Windisch, Switzerland; \email{rohini.joshi@fhnw.ch}}
+\author{Rohini~Joshi,$^1$ Yves~B\"{a}chtiger,$^1$ Pascal~Herzog,$^1$ Carolina~Lindqvist,$^2$ Pablo~Llopis,$^2$ and Jean-Daniel~Rouveyrol$^3$}
+\affil{$^1$Institute for Data Science, School of Computer Science, University of Applied Sciences and Arts Northwestern Switzerland (FHNW), Windisch, Switzerland; \email{rohini.joshi@fhnw.ch}}
+\affil{$^2$\'Ecole Polytechnique F\'ed\'erale de Lausanne (EPFL), Lausanne, Switzerland}
+\affil{$^3$HES-SO University of Applied Sciences and Arts Western Switzerland, Del\'emont, Switzerland}
 
-\paperauthor{Rohini~Joshi}{rohini.joshi@fhnw.ch}{}{University of Applied Sciences and Arts Northwestern Switzerland (FHNW)}{}{Windisch}{}{5210}{Switzerland}
+\paperauthor{Rohini~Joshi}{rohini.joshi@fhnw.ch}{}{University of Applied Sciences and Arts Northwestern Switzerland (FHNW)}{Institute for Data Science, School of Computer Science}{Windisch}{}{5210}{Switzerland}
+\paperauthor{Yves~B\"{a}chtiger}{}{}{University of Applied Sciences and Arts Northwestern Switzerland (FHNW)}{Institute for Data Science, School of Computer Science}{Windisch}{}{5210}{Switzerland}
+\paperauthor{Pascal~Herzog}{}{}{University of Applied Sciences and Arts Northwestern Switzerland (FHNW)}{Institute for Data Science, School of Computer Science}{Windisch}{}{5210}{Switzerland}
+\paperauthor{Carolina~Lindqvist}{}{}{Ecole Polytechnique Federale de Lausanne (EPFL)}{}{Lausanne}{}{1015}{Switzerland}
+\paperauthor{Pablo~Llopis}{}{}{Ecole Polytechnique Federale de Lausanne (EPFL)}{}{Lausanne}{}{1015}{Switzerland}
+\paperauthor{Jean-Daniel~Rouveyrol}{}{}{HES-SO University of Applied Sciences and Arts Western Switzerland}{}{Delemont}{}{2800}{Switzerland}
 
 %\aindex{Joshi,~R.}
+%\aindex{B\"{a}chtiger,~Y.}
+%\aindex{Herzog,~P.}
+%\aindex{Lindqvist,~C.}
+%\aindex{Llopis,~P.}
+%\aindex{Rouveyrol,~J.-D.}
 
 \begin{abstract}
-SKA Regional Centres (SRCs) operating at a modest scale face a distinct question in the petabyte era: not how to store everything, but how to extract the most science from the data and hardware they do have. The Swiss SRC (CHSRC), hosted at the Swiss National Supercomputing Centre (CSCS), answers this by leaning into its strengths and complementing, rather than competing with, larger SRCNet nodes. We describe the CHSRC node architecture as it stands today: a GitOps-managed, Kubernetes-native platform in which flexibility lives in the software layer, with FirecREST providing pay-per-use access to Grace Hopper (GH200) nodes on the Alps infrastructure, and Keycloak providing a complementary, standards-based access route alongside SRCNet authentication. We discuss the architectural consequences of fixed hardware constraints, the role of instrument simulations with Karabo, and user support as a first-class activity. We close with CHSRC's preparation for SKAO Science Verification and lessons for other small nodes and national platforms.
+SKA Regional Centres (SRCs) operating at a modest scale face a distinct question in the petabyte era: not how to store everything, but how to extract the most science from the data and hardware they do have. The Swiss SRC (CHSRC), hosted at the Swiss National Supercomputing Centre (CSCS), leans into its strengths and complements, rather than competes with, larger SRCNet nodes. We describe its GitOps-managed, Kubernetes-native platform, in which flexibility lives in software: FirecREST gives pay-per-use access to Grace Hopper (GH200) nodes on Alps, and Keycloak adds a standards-based access route alongside SRCNet authentication. We discuss instrument simulations with Karabo, user support as a first-class activity, preparation for SKAO Science Verification, and lessons for other small nodes.
 \end{abstract}
 
 %\ssindex{observatories!ground-based!SKA}
@@ -37,49 +49,46 @@ SKA Regional Centres (SRCs) operating at a modest scale face a distinct question
 
 \section{Introduction}
 
-The Square Kilometre Array Observatory (SKAO) will deliver its science data products through SRCNet, a global network of SKA Regional Centres \citep{2009IEEEP..97.1482D}. Before routine operations, SKAO Science Verification (SV) acts as a full dress rehearsal of the end-to-end system for each mode of operation. Modes and capabilities are rolled out over time, the data are publicly available for scrutiny, and the primary goal is verification, with science secondary. Feedback from SV users is crucial for both SKAO and SRCNet, and SV is the point at which SRCNet starts serving real users doing real work.
+The Square Kilometre Array Observatory (SKAO) will deliver its science data products through SRCNet, a global network of SKA Regional Centres \citep{2009IEEEP..97.1482D}. SKAO Science Verification (SV) will be the first time users interact with and see SKA data, which will be public; verification comes first and science second. Feedback from SV users will be crucial for SKAO and SRCNet.
 
-CHSRC is the Swiss contribution to SRCNet. It is hosted at CSCS in Lugano on the Alps infrastructure, operated by a distributed DevOps team, and serves the SKACH consortium of ten Swiss institutions, comprising astronomers, data scientists and software developers. Its current goals are SV readiness and support for CHSRC users. For a node of this size the binding constraint is not storage volume but the scientific value obtained per byte and per GPU-hour, and that framing drives the decisions described below.
+CHSRC is the Swiss contribution to SRCNet. Hosted at CSCS in Lugano and operated by a distributed DevOps team, it serves the SKACH consortium\footnote{\url{https://skach.org}} of ten Swiss institutions. Its current goals are SV readiness and support for CHSRC users. Its user documentation is public.\footnote{\url{https://docs.src.skach.org/}} For a node of this size the binding constraint is not storage volume but scientific value per byte and per GPU-hour.
 
 \section{Node Architecture}
 
-The node is organised in four layers (Fig.~\ref{fig:arch}). At the bottom, the Kubernetes cluster runs on Alps CPU nodes (256 cores and 512\,GB of RAM each) with 400\,TB of Ceph storage. Orchestration uses Kubernetes, ArgoCD and Rancher, with Vault and an artefact registry. The software platform layer hosts the science platform, a storage manager, the authentication and authorisation infrastructure (AAI), observability, data services and SRCNet applications. Users bring the top layer: Jupyter notebooks, continuum imaging scripts, simulation tools and their own Python packages.
+The node has four layers (Fig.~\ref{fig:arch}): a Kubernetes cluster on Alps CPU nodes (256 cores and 512\,GB RAM each) with 400\,TB of Ceph storage; GitOps orchestration; a software platform with the science platform, storage manager, authentication and authorisation infrastructure (AAI), observability, data services and SRCNet applications; and the notebooks, scripts, simulation tools and packages that users bring.
 
-\articlefigure[width=0.95\textwidth]{C404_f1.png}{fig:arch}{The CHSRC node architecture. The Kubernetes cluster at CSCS hosts four layers, from hardware to user software. Specialised GH200 nodes are not part of the cluster: the software platform reaches them on demand, and pay-per-use, through the FirecREST API.}
+\articlefigure[width=0.72\textwidth]{C404_f1.png}{fig:arch}{The CHSRC node architecture. The Kubernetes cluster at CSCS hosts four layers, from hardware to user software. GH200 nodes are not part of the cluster: the platform reaches them on demand, pay-per-use, through FirecREST.}
 
 \subsection{Hardware}
-Alps is a distinct contribution to SRCNet. Beyond the CPU nodes and Ceph storage, CHSRC has access to GH200 nodes through the Daint cluster, connected by the HPE Cray Slingshot-11 interconnect with 200\,Gbps of injection bandwidth per module. The facility runs at a power usage effectiveness of 1.2 on 100\% hydroelectric power. GH200 nodes are a natural fit for the AI/ML-intensive science that the Swiss community wants to pursue; CHSRC therefore does not try to be a general-purpose, storage-heavy node.
+Alps\footnote{\url{https://www.cscs.ch/computers/alps}} is a distinct contribution to SRCNet. CHSRC has access to GH200 nodes through the Daint cluster, on the Slingshot-11 interconnect with 200\,Gbps injection bandwidth per module, in a facility with a power usage effectiveness of 1.2 running on hydroelectric power. GH200 nodes are a natural fit for the AI/ML-intensive science that the Swiss community wants to pursue; CHSRC therefore does not try to be a general-purpose, storage-heavy node.
 
 \subsection{Orchestration and GitOps}
-The platform is managed entirely as infrastructure as code. Changes are scheduled and their impact announced, developed on a feature branch, reviewed through a merge request, and merged to a development branch that ArgoCD deploys to a development cluster. Promotion from the development to the production cluster follows the same path. This keeps a small team able to run, audit and roll back a non-trivial stack.
-
-\subsection{Why a Cloud-native Platform}
-The choice of a cloud-native platform, with HPC nodes integrated into it, balanced the available hardware and the APIs to access it, the budget and user needs, what our operators can realistically run, and the operators' own professional development. It also aligns CHSRC with the Kubernetes-based deployments used across SRCNet.
+The platform is managed entirely as infrastructure as code, in a public deployment repository that also hosts the node roadmap.\footnote{\url{https://gitlab.com/ska-telescope/src/deployments/chsrc/ska-src-chsrc-services-cd}} Changes are announced, developed on a feature branch, reviewed in a merge request and merged to a development branch that ArgoCD deploys to a development cluster. Promotion from the development to the production cluster will follow the same path. This keeps a small team able to run, audit and roll back a non-trivial stack. The cloud-native approach was chosen by balancing the available hardware and its APIs, budget, user needs, what our operators can run, and their professional development.
 
 \section{Bringing Specialised HPC into a Science Platform}
 
-Having the hardware is not the same as having it usable from a science platform. Three considerations dominated. \emph{Cost}: nodes networked permanently into the cluster are expensive, which leads to an inflexible architecture in which they are underused yet paid for when idle. \emph{Access model}: batch HPC scheduling differs from the interactive expectations of platform users. \emph{Identity and policy}: SRCNet AAI must be reconciled with CSCS accounts and policies. Secondary considerations are support for user applications across CPU and GPU architectures (x86 and ARM), and data movement between the HPC and Kubernetes domains.
+Having the hardware is not the same as having it usable from a science platform. \emph{Cost}: nodes networked permanently into the cluster are expensive, which leads to an inflexible architecture in which they are underused yet paid for when idle. \emph{Access model}: batch HPC scheduling differs from the interactive expectations of platform users. \emph{Identity and policy}: SRCNet AAI must be reconciled with CSCS accounts and policies. Secondary considerations are support for user applications across CPU and GPU architectures (x86 and ARM), and data movement between the HPC and Kubernetes domains.
 
 \subsection{FirecREST as the Abstraction Layer}
 FirecREST \citep{Cruz2020FirecREST} is a RESTful API to HPC systems, developed at CSCS, for submitting and monitoring jobs and moving files.\footnote{\url{https://www.cscs.ch/services/products/firecrest}} The science platform, including notebooks, services and workflow engines, targets this single interface, while the hardware underneath (GH200 nodes on Daint, Clariden or Besso) can change. This lets CHSRC use Alps nodes on a pay-per-use basis instead of locking them into the cluster. Flexibility thus lives in the software rather than in the hardware procurement.
 
 \subsection{Keycloak for Authorisation}
-Keycloak is open source, standards-based (OIDC and SAML), federates external identity providers and runs natively on Kubernetes. CHSRC does not run its own identity system: authentication is delegated to SKA IAM or another trusted identity provider, such as SWITCH edu-ID or GitHub. What CHSRC controls locally is authorisation, through the groups, scopes and clients configured in Keycloak. This provides a second, standards-based route into the platform for Swiss community projects, training and testing, alongside SRCNet access.
+Keycloak is open source, standards-based (OIDC, SAML), federates identity providers and runs natively on Kubernetes. It is now deployed at CHSRC for authorisation only: authentication is delegated to SKA IAM or another trusted identity provider, such as SWITCH edu-ID or GitHub, while CHSRC controls access through Keycloak groups, scopes and clients. Services will consume it in future, giving a second, standards-based route into the platform for Swiss community projects, training and testing, alongside SRCNet access. It will also help with the identity-mapping problem noted above, across the SRCNet and CSCS trust boundaries.
 
 \subsection{Simulations with Karabo}
-Until the telescope delivers data, simulated data are what users can work with. Karabo \citep{2026A&C....5401004S} is a Python framework for simulating SKA observations, built by and for the Swiss community and distributed through conda with support for x86 and ARM, including the SKA SDP packages. At CSCS it has been used to produce simulated SKA AA2 visibilities and images. On the platform, a user can run a simulated SKA-Mid observation end to end from JupyterHub on Alps: a test sky of radio sources is observed for one hour at about 1.5\,GHz, written as a Measurement Set, and imaged with SDP software into dirty and cleaned images. This gives a proposer a more complete picture than a sensitivity calculator alone.
+Until the telescope delivers data, simulated data are what users can work with. Karabo \citep{2026A&C....5401004S} is a Python framework\footnote{\url{https://github.com/i4Ds/Karabo-Pipeline}} for simulating SKA observations, built by and for the Swiss community and distributed through conda with support for x86 and ARM, including the SKA SDP packages. A user can run a simulated SKA-Mid observation end to end from JupyterHub on Alps, and we have demonstrated this on ARM nodes: a test sky of radio sources is observed for one hour at about 1.5\,GHz, written as a Measurement Set, and imaged with SDP software into dirty and cleaned images. Going from the sky to the proposer's own image shows users more than a sensitivity calculator can.
 
 \section{Users, Culture and Lessons}
 
-For a small node, user support is how value is extracted from fixed hardware, and so we treat it as a first-class activity. Training moves users from laptop scripts to containerised, versioned workflows, for example through a containerisation workshop. Trust is earned by managing expectations and first impressions, and one-to-one, in-person support has been especially effective; early users need a clear return on their time to avoid fatigue. Engagement relies on surveys, workshops, in-person events such as the CHSRC field test, and making clear whom to contact.
+For a small node, user support is how value is extracted from fixed hardware, and so we treat it as a first-class activity. So far, CHSRC has run user surveys, a workshop and an in-person field test, which also served as operator training; in-person events have been the most useful. Trust is built by managing expectations and first impressions and by making clear whom to contact. Early users also need a clear return on their time to avoid fatigue: a containerisation workshop planned for next year will move users from laptop scripts to containerised, versioned workflows, a skill they keep whatever platform they use. A second field test is also planned for next year.
 
 \section{The Way Ahead}
 
-SV is still ahead of us. On the development side, the SDP--SRCNet interface and the pipeline and data requirements are being defined; CHSRC follows this work and will deploy and support the resulting services. On the operations side, the SV node criteria are still to come; in the meantime we give feedback on policies and are arranging a security audit. For data-hungry use cases such as the Epoch of Reionisation, which will require compute-to-data across SRCNet, the architecture must also support workflows that move between nodes. Beyond SV, our priorities are user engagement, data movement, identity and observability across the HPC and Kubernetes domains, and node resilience through a secondary site at FHNW. That site provides GPU nodes and Slurm access as a test bed before deployment at CSCS, opportunistic use of spare capacity, and possible service failover; it could become a model for putting under-used university resources to work.
+SV is still ahead of us. On the development side, the SDP--SRCNet interface and the pipeline and data requirements are being defined; CHSRC follows this work and will deploy and support the resulting services. On the operations side, the SV node criteria are still to come; in the meantime we give feedback on policies and are arranging a security audit. Data-hungry use cases such as the Epoch of Reionisation will need compute-to-data workflows that move between SRCNet nodes. Beyond SV, our priorities are user engagement, data movement, identity and observability across the HPC and Kubernetes domains, and node resilience through a secondary site at FHNW. It offers GPU nodes and Slurm as a test bed before deployment at CSCS, opportunistic use of spare capacity and possible failover, and could be a model for using under-used university resources.
 
-We believe the platform's flexibility, a human-in-the-loop, AI-assisted development practice and the CSCS hardware and network will allow CHSRC to deploy SV services and support SRCNet. For other SRC nodes and national platforms, we offer four takeaways. First, acknowledge and act on socio-technical challenges, and complement rather than compete. Second, focus on interoperability rather than identical solutions: AI-assisted development makes fast, performant, custom solutions feasible, provided they expose interoperable APIs. Third, document node deployment, service procedures and the roadmap, and use that documentation yourself. Fourth, treat user culture as infrastructure: support is what turns hardware into science.
+Platform flexibility, AI-assisted development with a human in the loop, and the CSCS hardware and network make us confident that CHSRC can deploy SV services. For other nodes and national platforms we offer four takeaways: tackle socio-technical challenges head on, and complement rather than compete; aim for interoperable APIs rather than identical solutions, since AI-assisted development makes fast custom solutions feasible; document deployments, procedures and roadmaps, and use that documentation; and treat user culture as infrastructure, because support is what turns hardware into science.
 
-\acknowledgements SKACH and CHSRC work is funded by the State Secretariat for Education, Research and Innovation (SERI) under the SKACH consortium. We thank the CHSRC team, CSCS, and colleagues across SRCNet. Claude (Anthropic) was used to help prepare the talk slides and to draft this paper from them; the author reviewed and takes responsibility for the content.
+\acknowledgements SKACH and CHSRC work is funded by the State Secretariat for Education, Research and Innovation (SERI) under the SKACH consortium. We thank CSCS and colleagues across SRCNet. Claude (Anthropic) helped prepare the talk slides and draft this paper; the authors reviewed and take responsibility for the content.
 
 \bibliography{C404}
 
