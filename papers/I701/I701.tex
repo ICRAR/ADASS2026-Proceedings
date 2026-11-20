@@ -21,8 +21,8 @@
 % GENERATED FILE -- edit this in the Makefile
 \newcommand{\lsstDocType}{DMTN}
 \newcommand{\lsstDocNum}{361}
-\newcommand{\vcsRevision}{4b36106-dirty}
-\newcommand{\vcsDate}{2026-11-18}
+\newcommand{\vcsRevision}{0d35c8e-dirty}
+\newcommand{\vcsDate}{2026-11-19}
 
 
 % Package imports go here.
@@ -30,7 +30,7 @@
 % Local commands go here.
 
 % See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{William O'Mullane}{Rubin DM: devlivering awr and wonder}
+\markboth{William O'Mullane}{Rubin DM: delivering awe and wonder}
 
 
 \newcommand{\docRef}{DMTN-361}
@@ -42,11 +42,14 @@
 %% Regenerate using:
 %%    python $LSST_TEXMF_DIR/bin/db2authors.py -m adass
 
-\author{William~O'Mullane$^1$}
+\author{William~O'Mullane,$^1$ and Stephen~R.~Pietrowicz$^2$}
 \affil{$^1$NSF-DOE Vera C.\ Rubin Observatory / NSF NOIRLab, La Serena, Chile; \email{william.omullane@noirlab.edu}}
+\affil{$^2$National Center for Supercomputing Applications, University of Illinois at Urbana-Champaign, Urbana, IL, USA}
 \paperauthor{William~O'Mullane}{william.omullane@noirlab.edu}{0000-0003-4141-6195}{NSF-DOE Vera C.\ Rubin Observatory / NSF NOIRLab}{}{La Serena}{}{}{Chile}
+\paperauthor{Stephen~R.~Pietrowicz}{srp@illinois.edu}{0000-0002-2158-6480}{University of Illinois at Urbana-Champaign}{National Center for Supercomputing Applications}{Urbana}{IL}{61801}{USA}
 %% Must be commented out
 %\aindex{O'Mullane,~W.}
+%\aindex{Pietrowicz,~S.~R.}
 
 \title{Rubin Data Management: Delivering awe and wonder and weathering organizational upheaval}
 
@@ -102,24 +105,23 @@ This paper covers, briefly,  how we built and operate a petascale astronomical d
 Rubin uses an 8.4~m mirror to give a 9.6~deg$^2$ field of view  which uses the largest digital camera built so far to capture the details of the sky.
 Most users will never interact with either the telescope or the camera; they will use calibrated images, catalogs, alerts, APIs, notebooks and query services.
 DM is responsible for data from the back of the camera all the way to delivering science-ready products to the data rights holders.
-That includes the 103,000Km of fibre providing a reliable connection betwee the camera to SLAC!
+That includes the 103,000Km of fibre providing a reliable connection between the camera to SLAC!
 
 \subsection{From the camera to Prompt Processing}
 \label{sec:prompt}
 
-Camera readout takes three seconds and produces one FITS image per CCD.
-A Header Service subscribes to the engineering event streams and gathers information the camera does not have, such as pointing metadata, to publish a header.
-Additional metadata are carried in a JSON sidecar.
+A Header Service subscribes to the engineering event streams and gathers information the camera does not have, such as pointing metadata, to publish a header, which the camera receives.
+Camera readout takes three seconds and produces one FITS image per CCD using the header information.
+Additional metadata are carried in a JSON sidecar, and both are written to S3 storage.  The S3 storage sends a Kafka message once each file is written, which notifies a service to gather messages to quickly ingest files into the Butler.
 Preview and rapid-analysis services on the summit render the data within a few seconds allowing operators a very compressed quick look at the massive image.
 
 Image and metadata are sent to SLAC over encrypted links using persistent HTTPS connections and S3-style writes, avoiding repeated connection-setup costs.
 It took many years to acquire the fibre network between the observatory and SLAC, and a few years to get the performance to where it needs to be.
 
-
 The images contain $\approx$ 8GB of information which compresses to  around $\approx 4GB$ on the wire/disk.
 In normal operation more than 95\% of CCD images arrive at the USDF in two to three seconds, without landing on an intermediate disk.
 The data are ingested into the Butler and made available to Prompt Processing, which produces nightly  products and alerts, where a template is available,  within minutes.
-On the first night Rubin issied about 800K alerts.
+On the first night Rubin issued about 800K alerts.
 
 This chain involves camera software, control-system services, networking, summit infrastructure, USDF infrastructure, middleware and science pipelines, and so crosses organizational as well as technical boundaries.
 Manual procedures do not scale here; all must be automated.
@@ -307,11 +309,11 @@ In some areas this makes sense, but not necessarily broadly applied in a scienti
 \subsection{Matrix organization}
 \label{sec:matrix}
 
-NOIRLab chose to be a matrix organization.
-This works for large organizations with repeatable processes where a template is used to open new branches for example like a bank or hotel.
-It is less obvious that it works for a science driven organization with a few facilities, each of which is quite different.
-The matrix has its own issues  and limitations since inception \citep{Davis1978}.
-With good leadership engineering services does seem to have made this work.
+NOIRLab chose to be a matrix organization. In the current implementation this separates functional and administrative reporting lines as well as adding some extra layers of management.
+While matrix management facilitates resource sharing and distribution of responsibility across the organization, it also introduces ambiguity in accountability and decision-making authority.
+When responsibilities or authority aren’t clearly defined, decisions have to be made by management at higher levels, reducing people’s autonomy, and increasing organizational overhead.
+It is not obvious that this works for a science driven organization with a few facilities, each of which is quite different.
+This organizational style has its own issues and limitations since inception  \citep{Davis1978}, but with good leadership engineering services does seem to have made this work.
 
 Most DM teams were not broken up in the transition but reporting lines did change.
 Changing someone's reporting line changes a persons connection to the organization,
@@ -344,7 +346,7 @@ by the next night.
 \section{Measuring the organization}
 \label{sec:metrics}
 
-We measure  many htings on our systems like throughput, latency,  query performance, and availability but not organizational efficiency.
+We measure  many things on our systems like throughput, latency,  query performance, and availability but not organizational efficiency.
 HR introduced hiring metrics but after about a year stopped reporting them as they were so poor and trending in the wrong direction\footnote{It would be nice if someone corrected me and said they just moved, perhaps to the newsletter which we learned recently is the official vehicle for announcing policy.}.
 Shared services should have a service level, even an informal one: what is provided, to whom, how quickly, and what happens when demand exceeds capacity.
 
