@@ -125,7 +125,7 @@ its operation, the opacity of the Earth's atmosphere plays a key role in the fea
 of ground-based and airborne astronomical observations. Among the numerous atmospheric
 transmission models is ATRAN (Atmospheric TRANSmission), developed by Steve Lord (\citet{P809_Lord_1992}). ATRAN
 computes the radiative transfer through a number of model layers characterised by
-constant conditions and aborbant abundances. By specifying an observatory altitude,
+constant conditions and absorbant abundances. By specifying an observatory altitude,
 zenith angle, water vapour overburden, and ozone latitude profile, a transmission spectrum
 can be generated covering wavelengths from 0.8 \textmu m to 10 mm.
 
@@ -140,17 +140,17 @@ AM-modelled telluric profiles. This is shown in Figure \ref{P809_f1} below.
 
 By applying the corresponding transmission profile to a science observation, the wavelength
 regions of divergence will be significantly over-corrected. At the time, no obvious cause
-for the divergence was found or postulated. However, the SDC has since identified
-several issues in the original ATRAN code, including a faulty abundance of the
-molecular oxygen isotopologue $^{17}$O$^{16}$O, which is responsible for the issues
-identified in \citet{FIFI_Fadda_2023}.
+for the divergence was found or postulated. However, the SDC has since identified a number of
+issues with the model, including that the 1998 release of the HITRAN molecular aborption database
+used by ATRAN exhibits a faulty scaling of the molecular oxygen isotopologue $^{17}$O$^{16}$O abundance
+(see \citet{ROTHMAN1998665}), which is responsible for the issues identified in \citet{FIFI_Fadda_2023}.
 
 \articlefigure[width=0.8\textwidth]{P809_f1.png}{P809_f1}{Plot of observed FIFI-LS telluric profile (blue), and AM (orange) and
 ATRAN (green) model transmission spectra. Regions around 139.3, 147.7 and 165 \textmu m demonstrate
 divergence of ATRAN from the AM and observed spectra.}
 
 \section{The ATRAN\_SDC Database}
-With the permission of the author, the SDC released an updated version of the ATRAN
+With the permission of the Steve Lord, the SDC released an updated version of the ATRAN
 model, incorporating a number of upgrades and fixes, including for the aforementioned
 isotopologue error. This model is known as ATRAN\_SDC, and has been used to regenerate
 a full databank of transmission spectra covering mid- to far-infrared wavelengths,
@@ -169,24 +169,24 @@ repository\footnote{github.com/SOFIA-Data-Center/sofia\_redux}.
 
 \section{The ATRAN\_SDC Web Application}
 In order to further improve the accessibility of ATRAN\_SDC spectra to the community, and
-expand their application beyond the correction of SOFIA science data, the SDC have developed
+expand their application beyond the correction of SOFIA science data, the SDC has developed
 a web-based application\footnote{https://atran.sofiadatacenter.de/} for the generation,
 analysis and download of transmission spectra. The application has been tested for support
 of all modern desktop and mobile operating systems.
-A Django-based interface allows for interactive manipulation of all relevant model and display parameters.
-The backend queries the ATRAN\_SDC model, and displays the resulting spectrum in an interactive
+A Javascript interface allows for interactive manipulation of all relevant model and display parameters.
+The Django-based backend queries the ATRAN\_SDC model, and displays the resulting spectrum in an interactive
 plot window, as shown in Figure \ref{P809_f2} below.
 
 Multiple spectra with different parameters can be overplotted for
 comparison, along with other useful display options such as spectral emission line locations.
-Molecular absorbants can be displayed individually, and output as .svg plots.
+Molecular absorbants can be displayed individually, and exported as .svg plots.
 Selected spectra can be downloaded as .FITS files, compatible with the Redux reduction
 suite, or as .dat tables. Parameters also allow customisation of the water vapour and
 ozone overburden values, extending the model to conditions expected in some of the
 higher ground-based observatories. This may be of particular interest to the mid- and far-infrared
 communities, opening up access to these wavelengths in specific windows under optimal weather.
 
-\articlefigure[width=0.9\textwidth]{P809_f2.png}{P809_f2}{Screenshot of the ATRAN\_SDC Web Application, with example transmission spectra displayed for two different parameter sets.}
+\articlefigure[width=0.893\textwidth]{P809_f2.png}{P809_f2}{Screenshot of the ATRAN\_SDC Web Application, with example transmission spectra displayed for two different parameter sets.}
 
 \clearpage
 
