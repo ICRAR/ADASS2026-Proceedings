@@ -2,6 +2,6 @@
 P = P806
 V = 1
 A = Stoehr
-E = you@example.edu
+E = fstoehr@eso.org
 # your figures, named P806_f1.eps, P806_f2.png, ...
 FIGS = $(filter-out P806_inc.tex,$(wildcard P806_*))
