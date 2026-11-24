@@ -1034,7 +1034,7 @@ def VerifyEps (Paper,TexFileName = "",Problems = None,Warnings = None) :
          #  If so, see if they were supplied. 
          
          for FileName in FileListFromTex :
-            if (not FileName.endswith(".eps")) :
+            if (not FileName.endswith(".eps", ".png")) :
             
                #  It didn't end with .eps. See what it did end with.
                
