@@ -59,7 +59,7 @@ Kubernetes-Based Operations}
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Buchholz$^1$, Borra$^1$, Drobek$^1$, and  He\ss{}ling$^1$}
+\author{E. Buchholz$^1$, S. Borra$^1$, M. Drobek$^1$, and  H. He\ss{}ling$^1$}
 \affil{$^1$German Centre for Astrophysics (DZA), G\"{o}rlitz, Saxony, Germany; \email{elsa.buchholz@dzastro.de}}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
@@ -162,7 +162,7 @@ The documentation infrastructure follows the GitOPs-based deployment approach. T
 To provide a central access point for all project-related documentation, a dedicated portal was developed to consolidate the available information in one place.
 
 
-\articlefiguretwo{f3_P406}{f4_P406}{fig3-4}{  Multi-Environment Documentation Deployment with Fully Automated Documentation Updates \emph{Left:} Separate CI/CD pipelines for the development and production repositories build documentation from source code, package it into Docker images, and publish them to the Harbor container registry. The images are deployed on separate Kubernetes clusters: an internally accessible development cluster and a publicly accessible production cluster. \emph{Right:} Two Git repositories separates tool development from Kubernetes infrastructure management. Keel monitors the documentation images and automatically triggers redeployment when an image update is detected, ensuring that the latest documentation is deployed to the Kubernetes cluster without manual intervention.}
+\articlefiguretwo{P406_f3}{P406_f4}{fig3-4}{  Multi-Environment Documentation Deployment with Fully Automated Documentation Updates \emph{Left:} Separate CI/CD pipelines for the development and production repositories build documentation from source code, package it into Docker images, and publish them to the Harbor container registry. The images are deployed on separate Kubernetes clusters: an internally accessible development cluster and a publicly accessible production cluster. \emph{Right:} Two Git repositories separates tool development from Kubernetes infrastructure management. Keel monitors the documentation images and automatically triggers redeployment when an image update is detected, ensuring that the latest documentation is deployed to the Kubernetes cluster without manual intervention.}
 
 \section{Results and Discussion}
 %0.5 sites
