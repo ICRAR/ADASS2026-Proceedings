@@ -49,9 +49,8 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Eric~Jeschke,$^1$ Andrew~Neugarten,$^2$ and Russell~Kackley$^2$}
-\affil{$^1$Subaru~Telescope,~National~Astronomical~Observatory~of~Japan; \email{eric@naoj.org}}
-\affil{$^2$Subaru~Telescope,~National~Astronomical~Observatory~of~Japan}
+\author{Eric~Jeschke,$^1$ Andrew~Neugarten,$^1$ and Russell~Kackley$^1$}
+\affil{$^1$Subaru~Telescope,~National~Astronomical~Observatory~of~Japan}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
 \paperauthor{Eric~Jeschke}{eric@naoj.org}{0000-0001-9586-4482}{Subaru~Telescope,~National~Astronomical~Observatory~of~Japan}{Software Division}{Hilo}{Hawaii}{96720}{USA}
@@ -151,6 +150,8 @@ corresponding VNC server screen at the summit.
 Users would generate and upload a public SSH key and we used a scheduling system
 (shown as ``GERS update daemon'') to rotate the keys in and out of the accounts based on the
 observation schedule.
+In this system the first authentication factor was the key, and the second factor was a TOTP
+code.
 A GERS administration web site and a user self-service site were established for the
 staff and remote users, respectively, to handle the scheduling and uploading/downloading
 of keys and configuration files.  A relational database is used to store the credentials,
@@ -203,9 +204,8 @@ users and schedule when they could connect to the system.
 This obviated the need to upload SSH keys and swap them in and out of a fixed number
 of SSH logins, so the GERS update daemon is changed to simply reading the GERS schedule
 from the GERS database and updating the Guacamole database.
-To increase security we ask the users to download and install a \emph{client} web certificate
-in their browser, which allows the Guacamole server to verify the browser's identity and establish a
-mutual TLS (encrypted) session.
+In addition to the user/password login on the web site, we ask the users to download and install a
+\emph{client} web certificate in their browser, which acts as a second factor authentication.
 
 \articlefigure[width=0.65\textwidth]{P807_f3}{ex_fig3}{Architecture of the third iteration of GERS.}
 
