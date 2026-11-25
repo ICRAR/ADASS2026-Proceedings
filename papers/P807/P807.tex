@@ -34,11 +34,11 @@
 % Use mixed case type for the shortened title
 % Ensure shortened title does not cause an overfull hbox LaTeX error
 % See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Jeschke, Neugarten and Kackley}{Transitioning Subaru's Remote Observing Software to a Web Site}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Transitioning Subaru's Remote Observing Software to a Web Site}
 
 % Note the position of the comma between the author name and the 
 % affiliation number.
@@ -49,14 +49,13 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{Eric~Jeschke,$^1$ Andrew~Neugarten,$^1$ and Russell~Kackley$^1$}
+\affil{$^1$Subaru~Telescope,~National~Astronomical~Observatory~of~Japan}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Eric~Jeschke}{eric@naoj.org}{0000-0001-9586-4482}{Subaru~Telescope,~National~Astronomical~Observatory~of~Japan}{Software Division}{Hilo}{Hawaii}{96720}{USA}
+\paperauthor{Andrew~Neugarten}{aneugart@naoj.org}{}{Subaru~Telescope,~National~Astronomical~Observatory~of~Japan}{Software Division}{Hilo}{Hawaii}{96720}{USA}
+\paperauthor{Russell~Kackley}{rkackley@naoj.org}{}{Subaru~Telescope,~National~Astronomical~Observatory~of~Japan}{Software Division}{Hilo}{Hawaii}{96720}{USA}
 
 % There should be one \aindex line (commented out) for each author. These are used to
 % build up the author index for the Proceedings. The surname must come first, followed by
@@ -65,16 +64,32 @@
 % surname first.
 % The Aindex.py command willl create them for you after you have constructed the \author
 % The first entry should be the first author, for bold-facing the author index page-reference
-
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
+%\aindex{Jeschke,~E.}
+%\aindex{Neugarten,~A.}
+%\aindex{Kackley,~R.}
 
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+  A number of observatories use VNC (Virtual Network Computing) servers and
+  clients to monitor the observation screens from open-use observers
+  connecting from remote locations. Usually this involves a custom software
+  package that must be installed and configured with some sort of security key
+  and/or password to secure the system.  This puts an onus on software
+  developers to support multiple platforms (Linux, Mac OS X and Windows)
+  for the software, and additionally, provide support for installation issues,
+  connection issues and assorted remote troubleshooting.
+
+  We present a case study in transitioning from a remote software package to
+  a secure web site with second factor authentication at Subaru Telescope.
+  The site is supported by all modern browsers on all platforms, and provides
+  excellent viewing capabilities for all screens---without requiring any
+  intrusive changes on the observatory software side.  This transition has
+  allowed us to minimize installation hassles for remote observers and
+  greatly simplify troubleshooting and maintenance because there is no longer
+  any custom remote software for the user to install.  We discuss the
+  architecture of the new system, what pieces needed to be developed for the
+  observatory side and provide some limited anecdotal data on use (the system
+  went into use in August 2026).
 \end{abstract}
 
 % These lines show examples of subject index entries. At this stage these have to commented
@@ -91,138 +106,132 @@ modified to reflect the specific ADASS requirements.
 % Don't leave these in! - replace them with ones relevant to your paper.
 %\ooindex{FOOBAR, ascl:1101.010}
 
+\section{Introduction}
+Subaru Telescope is an 8.2 meter class optical and infrared telescope situated on
+the summit of Maunakea, on the island of Hawai`i.
+Until the advent of the 2020 COVID pandemic, Subaru Telescope only provided for
+remote observation from two dedicated locations: Hilo, Hawai`i and Mitaka, Japan.
+Observers would come to one of those locations to observe during classical
+observations, which at the time constituted a significant portion of all observation
+time (unattended queue observations have increased since then, but still only account for
+a fraction of all observations at Subaru).
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+\subsection{The Motivation}
+With the advent of the pandemic in March 2020, the limitations of this policy became
+starkly apparent: observers could join observations using teleconferencing only, without
+being able to monitor the observation screens.  The observatory could share one screen,
+or point the videocamera at a batch of screens, but neither of these solutions were
+very satisfying.
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+The Software Division began considering how to securely
+allow observations from other locations (basically anywhere with ``reasonable''
+internet service).
+From a technical point of view, this was not conisdered a very difficult problem,
+as the observation control system user interfaces are displayed in a series of VNC
+(Virtual Network Computing) servers, which are then connected to by VNC clients
+running at the summit, Hilo and Mitaka.  VNC security is not particularly
+robust, however, and we wanted to control carefully exactly \emph{who} could connect
+and \emph{when}.
 
-\begin{itemize}
-\checklistitemize
+\section{First iteration: Python + SSH + TigerVNC}
+The first iteration of our Gen2 Extended Remote System (GERS) was rolled out quickly
+(May 2020) and used a small Python package hosted on Github to establish SSH encrypted
+connections to tunnel the VNC connections via a host straddling the Subaru
+firewall.
+As seen in Figure \ref{ex_fig1},
+reverse-forwarding tunnels were established from the observation control system
+hosts and standard forwarding tunnels from the remote user's host.
+The user would then start a VNC client on their computer connected to a
+\emph{local} port and the forwarding ensured that they got connected to the
+corresponding VNC server screen at the summit.
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
+\articlefigure[width=0.65\textwidth]{P807_f1}{ex_fig1}{Architecture of the the first iteration of GERS.}
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
+Users would generate and upload a public SSH key and we used a scheduling system
+(shown as ``GERS update daemon'') to rotate the keys in and out of the accounts based on the
+observation schedule.
+In this system the first authentication factor was the key, and the second factor was a TOTP
+code.
+A GERS administration web site and a user self-service site were established for the
+staff and remote users, respectively, to handle the scheduling and uploading/downloading
+of keys and configuration files.  A relational database is used to store the credentials,
+schedule and public keys.
 
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
+\subsection{Support Issues}
+Supporting a desktop-type package in the current era you need to be able
+to handle Windows, Mac OS, and a few flavors of Linux.  We referred users to the
+download site for the TigerVNC client and to Conda for a reasonable cross-platform
+way to run the Python app.  Many astronomers are now familiar with installing Conda and
+running Python applications, but we still found a number of users to have trouble
+installing the program, running the program or getting the VNC client to install or
+work correctly.  These issues required occasional remote troubleshooting, sometimes
+just before their observation.
 
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
+\section{Second iteration: Python + SSH + web}
+After a couple of semesters running with the first iteration, we made a change to the
+system to use a web application called noVNC\citep{noVNC}.
+noVNC allows you to view a VNC window within a web page using a HTML5 standards-compliant
+browser---no VNC client needed.  Figure \ref{ex_fig2} shows the changes.
 
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
+By adapting the Python program to start up a small local-only web server,
+we could now have the users open up a ``menu page'' from which they could click to
+open any one of the 8 VNC windows as browser tabs.  Several windows can be viewed
+at once, depending on their desktop real-estate, by moving tabs to new browser windows.
+This allowed us to drop the need (and remote support) for installing
+and running a VNC client; users just needed to have a ``reasonable'' web browser installed,
+such as Firefox, Chrome, Safari, Edge, etc.  We still used the Python
+program to handle SSH tunneling and the keys to enforce the time periods in which
+each observer could connect.  This change reduced the support burden somewhat,
+since we no longer had to troubleshoot getting a VNC client installed and running.
 
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
+\articlefigure[width=0.65\textwidth]{P807_f2}{ex_fig2}{Architecture of the the second iteration of GERS.}
 
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
+%% The other addition we made during this period was a VNC fanout program (``vnc\_fanout''),
+%% which sits between the actual VNC server and the noVNC websocket server---this allows
+%% a single VNC connection to be multiplexed between a number of clients,
+%% which reduces the burden on the actual VNC servers of being innundated with too many
+%% connections.
 
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
+\section{Third iteration: web only}
+The third iteration of the GERS system was rolled out in the fall semester of 2026,
+and does away entirely with the need for the user to download and install any software.
+We accomplished this by switching from noVNC to \emph{Guacamole}\citep{Guacamole}---a fully
+web-based system offered under the auspices of the Apache Software Foundation.
+Refer to Figure \ref{ex_fig3} for the following discussion.  
 
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
+Guacamole offers HTTPS for security and a control database that allowed us to register
+users and schedule when they could connect to the system.
+This obviated the need to upload SSH keys and swap them in and out of a fixed number
+of SSH logins, so the GERS update daemon is changed to simply reading the GERS schedule
+from the GERS database and updating the Guacamole database.
+In addition to the user/password login on the web site, we ask the users to download and install a
+\emph{client} web certificate in their browser, which acts as a second factor authentication.
+
+\articlefigure[width=0.65\textwidth]{P807_f3}{ex_fig3}{Architecture of the third iteration of GERS.}
+
+\subsection{Benefits and Summary}
+One of the limitations of the first two iterations was that the user had only a limited
+window in which to verify their connection (typically a few hours before the start of
+their observation).  This late check often led to last-minute troubleshooting by our
+engineers.  Under the Guacamole system we can control which screens the user has access
+to by date, so we can allow them to connect up to a week before their observation to
+a test screen; this is sufficient to show that they have connected successfully.
+On the night of their observation they are able to see any of the 8 observation screens.
+
+Moving to this third iteration has reduced the support required for the GERS remote
+observation, as there is no software to download or install and no need to generate and
+upload an SSH key.  Security is improved on our firewall interface where we no longer need to
+support tunneled forwarded connections, but only secure http.  Furthermore, the Guacamole
+VNC viewer running in the browser is full featured, and allows arbitrary scaling
+of screens to account for different sizes of monitor that each user may be using.
+GERS remote observations are now our default method of observing and the system is very
+popular with observers.
 
 
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
 
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
-\smallskip
-\begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
-\tableline
-\noalign{\smallskip}
-First Column & Second Column & Third Column:\\
-\noalign{\smallskip}
-\tableline
-\noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
-\noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
-\end{tabular}
-}
-\end{center}
-\end{table}
-\noindent These tables can get a little messy, but this format is the most common.
-
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
-
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
-
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
-
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
-
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
-
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
-
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
-
 
 \bibliography{P807}  % For BibTex
 
