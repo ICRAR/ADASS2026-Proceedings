@@ -19,6 +19,15 @@
 \aspSuppressVolSlug
 \resetcounters
 
+% plot articlefiguretwo smaller
+%\renewcommand{\plottwo}[2]{%
+%  \centering
+%  \includegraphics[width=0.4\textwidth]{#1}%
+%  \hspace{0.5cm}
+%  \includegraphics[width=0.4\textwidth]{#2}%
+%}
+
+
 % References must all use BibTeX entries in a .bibfile.
 % References must be cited in the text using \citet{} or \citep{}.
 % Do not use \cite{}.
@@ -34,11 +43,12 @@
 % Use mixed case type for the shortened title
 % Ensure shortened title does not cause an overfull hbox LaTeX error
 % See ASPmanual2010.pdf 2.1.4  and ManuscriptInstructions.pdf for more details
-\markboth{Author1, Author2, and Author3}{Short Title}
+\markboth{Elsa Buchholz, Sagar Borra, Marc Drobek and Hermann He\ss{}ling}{Astronomical Projects with Multiple Repositories}
 
 \begin{document}
 
-\title{ADASS Author Template with Long Title}
+\title{Astronomical Projects with Multiple Repositories: A Portal for Consolidated Information and 
+Kubernetes-Based Operations}
 
 % Note the position of the comma between the author name and the 
 % affiliation number.
@@ -49,14 +59,15 @@
 % authors share an affiliation this should be in a single \affil which can then
 % be referenced for several author names. If only one affiliation, no footnotes are needed.
 % See ManuscriptInstructions.pdf and ASP's manual2010.pdf 3.1.4 for more details
-\author{Sample~Author1,$^1$ Sample~Author2,$^2$ and Sample~Author3$^2$}
-\affil{$^1$Institution Name, Institution City, State/Province, Country; \email{AuthorEmail@email.edu}}
-\affil{$^2$Institution Name, Institution City, State/Province, Country}
+\author{E. Buchholz$^1$, S. Borra$^1$, M. Drobek$^1$, and  H. He\ss{}ling$^1$}
+\affil{$^1$German Centre for Astrophysics (DZA), G\"{o}rlitz, Saxony, Germany; \email{elsa.buchholz@dzastro.de}}
 
 % This section is for ADS Processing.  There must be one line per author. paperauthor has 9 arguments.
-\paperauthor{Sample~Author1}{Author1Email@email.edu}{ORCID_Or_Blank}{Author1 Institution}{Author1 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author2}{Author2Email@email.edu}{ORCID_Or_Blank}{Author2 Institution}{Author2 Department}{City}{State/Province}{Postal Code}{Country}
-\paperauthor{Sample~Author3}{Author3Email@email.edu}{ORCID_Or_Blank}{Author3 Institution}{Author3 Department}{City}{State/Province}{Postal Code}{Country}
+\paperauthor{Elsa Buchholz}{elsa.buchholz@dzastro.de}{}{German Center for Astrophysics (DZA)}{Data Science}{G\"{o}rlitz}{Saxony}{02826}{Germany}
+\paperauthor{Sagar Borra}{sagar.borra@dzastro.de}{}{German Center for Astrophysics (DZA)}{Data Science}{G\"{o}rlitz}{Saxony}{02826}{Germany}
+\paperauthor{Marc Drobek}{marc.drobek@dzastro.de}{}{German Center for Astrophysics (DZA)}{Data Science}{G\"{o}rlitz}{Saxony}{02826}{Germany}
+\paperauthor{Hermann He\ss{}ling}{hermann.hessling@dzastro.de}{}{German Center for Astrophysics (DZA)}{Data Science}{G\"{o}rlitz}{Saxony}{02826}{Germany}
+
 
 % There should be one \aindex line (commented out) for each author. These are used to
 % build up the author index for the Proceedings. The surname must come first, followed by
@@ -66,23 +77,29 @@
 % The Aindex.py command willl create them for you after you have constructed the \author
 % The first entry should be the first author, for bold-facing the author index page-reference
 
-%\aindex{FistAuthor1,~S.~A.}
-%\aindex{Author2,~S.~B.}
-%\aindex{Author3,~S.}
-
+%\aindex{Buchholz,~E.}
+%\aindex{Borra,~S.}
+%\aindex{Drobek,~M.}
+%\aindex{He\ss{}ling,~H.}
 
 \begin{abstract}
-This is the ADASS 2025 author template file.  This is based on the
-Astronomical Society of the Pacific (ASP) 2021 template, but has been
-modified to reflect the specific ADASS requirements.
+Machine Learning-based Pipeline for Pulsar Analysis (ML-PPA) aims to enable automated, real-time pulsar searches during data acquisition. Supporting this approach requires not only an efficient analysis pipeline but also a maintainable software infrastructure that facilitates automated documentation, deployment, and centralized access to project information.
+To address these challanges, ML-PPA adopts modern software engineering practices, including continuous integration and deployment (CI/CD), automated testing and documentation generation. A central information portal consilidates project information and provides access to documentation to all repositories. The infrastructure is containerised and operated using Kubernetes, enabling automated deployment and updates while keeping software and documentation hosted in-house. The poster provides an overview of the software architecture of the ML-PPA project and explains how the portal and documentation for each of the sub-projects are automatically generated from the source code and made available online. Future developments include Large Languages Models (LLMs) to improve access to the growing body of project documentation.
+
+
 \end{abstract}
 
 % These lines show examples of subject index entries. At this stage these have to commented
 % out, and need to be on separate lines. Eventually, they will be automatically uncommented
 % and used to generate entries in the Subject Index at the end of the Proceedings volume.
 % Don't leave these in! - replace them with ones relevant to your paper.
-%\ssindex{FOOBAR!conference!ADASS 2019}
-%\ssindex{FOOBAR!organisations!ASP}
+
+    
+%\ssindex{algorithm!machine learning}
+%\ssindex{software!architecture}
+%\ssindex{computing!cluster!Kubernetes}
+%\ssindex{packages!Singularity}
+%\ssindex{packages!Docker}
 
 % These lines show examples of ASCL index entries. At this stage these have to commented
 % out, and need to be on separate lines. Eventually, they will be automatically uncommented
@@ -91,137 +108,48 @@ modified to reflect the specific ADASS requirements.
 % Don't leave these in! - replace them with ones relevant to your paper.
 %\ooindex{FOOBAR, ascl:1101.010}
 
+\section{Introduction}
+The antennas and telescopes of the Square Kilometre Array Observatory (SKAO) will produce enormous data streams\footnote{SKA Observatory, Science Processing Centers, accessed 2025-11-20, URL: \url{https://www.skao.int/en/explore/big-data/361/science-processing-centres}.},
+making long-term storage of the raw telescope data impractical. 
+Instead, projects such as 'Transients and Pulsars with MeerKAT' (TRAPUM) process the data streams collected per day. They search for pulsars and transients, storing only data of scientific relevance. This processing is performed by a largely automated pipeline, though final steps still require manual inspection \citep{TRAPUM}.
+The Machine Learning-based Pipeline for Pulsar Analysis (ML-PPA) project aims to eliminate the manual steps by providing a fully automated analysis pipeline for pulsar searches, developed by an interdisciplinary team of astronomers, physicists and data scientists.
+As the ML-PPA project continues to grow, the increasing involvement of researchers and the expansion of software have introduced challenges in maintaining a well-organised and scalable software structure. 
 
-\section{The Template}
-To fill in this template, make sure that you read and follow the ASPCS Instructions for Authors and Editors available for download online. Further hints and tips for including graphics, tables, citations, and other formatting helps are available there. With this template, you should have received a copy of the specific ADASS manuscript instructions, and you should also read these.
+\section{ML-PPA: Concept, Architecture and Software}
+The workflow of the ML-PPA pipeline has a simulation pipeline included, where pulsar signals are generated. The pipeline includes as well the influence of noise from electronics telescopes and of the Interstallar Medium (ISM). 
+Digital Twins are used to train the machine learning algorithms. In addition, real observational data from radio telescopes are used to evaluate the quality of the algorithms.  
+This is intended to enable a search for pulsars during data collection.
+Several neural network architectures have already been analyzed; however, further research is still needed. 
 
-\subsection{The Author Checklist}
-The following checklist should be followed when writing a submission to a conference proceedings to be published by the ASP for ADASS. The references are to sections in the ADASS manuscript instructions.\footnote{Most URLs should be in a footnote like this one.  In this case, you can download the online material from \url{http://www.adass.org}.} 
+The ML-PPA components are organised in Git repositories. The software itself follows a three layer architecture. The user interface layer provides Jupyter notebooks that allow users to explore the provided software components. The middle layer provides different respositories. Finally, the container level consists of pre-build apptainer containers containing the complete software stack. This ensures that users won't need to install or configure the software environment  in order to run Jupyter notebooks.
 
-\begin{itemize}
-\checklistitemize
+\articlefiguretwo{P406_f2_a}{P406_f2_b}{fig2ab}{ ML-PPA System Architecture and Implementations: The goal of the ML-PPA software framework is to provide a fully automated pipeline for pulsar search.  \emph{Left:} The conceptual structure of the current ML-PPA approach, \emph{Right:} the implementation of the project's three-layer software architecture are illustrated in the figures.}
 
-\item References must all use BibTeX entries in a .bib file. No use of \verb"\bibitem"! (Even though some older ASP templates have them.) (See References.)
-\item All references must be cited in the text, usually using \verb"\citet" or \verb"\citep".  Do not use \verb"\cite". (See References.)
-\item No LaTeX warnings. Particularly, no overfull hboxes or unresolved references. (See LaTeX warnings and errors.)
-\item No use of \verb"\usepackage" except for \verb"\usepackage{asp2023}". (See LaTeX packages and commands.)
-\item No use of \verb"\renewcommand" or \verb"\renewenvironment". (See LaTeX packages and commands.)
-\item Arguments to \verb"\citep" etc., should use ADS type references where possible, fall back on <author><year> or something suitably unique if not. (See References.)
-\item References in the text are all generated automatically (using \verb"\citep" etc), not put in explicitly as ordinary text that just looks like a generated reference. (See References.)
-\item Definitely no LaTeX errors. (See LaTeX warnings and errors.)
-\item Paper is the right length. References don't spill over into one more page. (See Length of Paper.)
-\item Paper has an abstract. (See Length of Paper.)
-\item References are to things that actually exist and can be expected to continue to exist. Not papers ``in preparation'' or URLs for blog items. (See References.)
-\item Graphics files have to be .eps encapsulated Postscript format. Yes they do! Sorry, but they do. (See Figures.)
-\item Name all the files properly:- figures are <paper>\_f<n>.eps, eg O1-3\_f1.eps. Paper names use dashes not periods, O1-3.tex not O1.3.tex. Posters now use the same naming convention as oral papers, e.g.\ X3-21. (See File names and Paper IDs.)
-\item Figure captions should make sense if the figure is printed in monochrome - because it will be! (See Figures.)
-\item Figures are legible at the size ADASS Proceedings volumes are printed, which is quite small. (See Figures.)
-\item Copyright forms signed and filled out - don't use electronic signatures. (See Miscellany.)
-\item Author lists follow the correct format: comma separated, with an `and' for the final author. (See Authors and Affiliations.)
-\item The first author of the paper must be the person who presented the paper at the conference. (See Authors and Affiliations.)
-\item No repetition of affiliations - list each organisation once, with multiple e-mail addresses if you really must. (See Authors and Affiliations.)
-\item Running heads should fit in the same horizontal space as the text does, not pushing the page numbers over to the right. (See LaTeX warnings and errors.)
-\item Run through a spelling checker. (I know that can be tricky with LaTeX.) (See Content and Typesetting.)
-\item Proofread, or have the text proofread, to check for proper English usage. In particular, note that ``allows to'' is not conventional English, and English uses articles (`a',`an',`the') in places where other languages, particularly Eastern European languages, don't have them. (See Content and Typesetting.)
-\end{itemize}
+Such project needs to adopt modern engineering practices, including a Continuous Integration and Continuous Deployment (CI/CD) pipeline for each repository, test coverage and automated deployment of documentation. 
+In addition to eliminating isolated information silos within the infrastructure, a single portal was set up to centralise all information \citep{ML-PPA_portal}.
 
-\section{Compiling}
-It is highly recommended that all figures be non-`eps' format, i.e., `png' or `jpg.'  For this case, compiling this article is done simply by using the command \texttt{pdflatex} at least twice on the command line from inside the same folder as the article LaTeX `.tex' file.  If there are references to `eps' image files, pdfLaTeX will not work, and the images should be converted to a non-`eps' type of image file format.
-
-\section{Text}
-Sometimes you just need to have different styles of fonts.  \emph{Sometimes you just need to have different styles of fonts.} \textbf{Sometimes you just need to have different styles of fonts.}
-
-Sometimes you just need to have different sizes of fonts.  {\small Sometimes you just need to have different sizes of fonts.} {\footnotesize Sometimes you just need to have different sizes of fonts.}  It would be very rare to require larger fonts within an ASP volume.
-
-Do \emph{not} reduce the size of the main text font to try to squeeze more content into the paper. It will be restored by the editors and the paper will be rejected as too long.
-
-\section{Math}
-Sometimes authors include formulas inside the main text which should always be enclosed within \$ signs.  Look at the Pythagorean Formula $a^2 + b^2 = c^2$.
-
-Sometimes authors include formulas on their own lines.  This example uses the \verb"displaymath" environment which does not include an equation number.  To include an equation number, use the \verb"equation" environment.
-\begin{displaymath}
-c = \sqrt{a^2 + b^2} \qquad \textrm{Pythagorean Theorem}
-\end{displaymath}
-
-\section{Lists}
-\label{ex_lists}
-There are a lot of ways to make lists including itemized lists with bullets, for which you use  (\verb"\begin{itemize}"), numbered lists (\verb"\begin{enumerate}"), and description lists (\verb"\begin{description}").  This is an example of an itemized list.
-
-\subsection{Itemized Lists}
-Here is an itemized list:
-\begin{itemize}
-\item Item 1
-\item Item 2
-\end{itemize}
+\section{ML-PPA: Deployment, Operation and Information Portal}
+The documentation infrastructure follows the GitOPs-based deployment approach. The automated deployment of documentation is implemented using Kubernetes, Helm, Flux and Keel\footnote{Keel, Documentation, accessed 2026-11-16, URL: \url{https://keel.sh/docs/}.}. Kubernetes provides the infrastructure for hosting the documentation web service. Helm is used to package and manage its deployment in the multi-environment Kubernetes cluster, while Flux automates the deployment and reconciliation process. For the documentation deployment, Keel replaces Flux  in the Kubernetes cluster to avoid the need for automated Git commits and pushes whenever a new documentation container image becomes available. Instead, Keel monitors the container registry for changes in the image hash (digest) of the documentation container. Whenever a new image is detected, Keel automatically triggers an update of the corresponding Kubernetes deployment. This ensures that the latest version of the documentation is automatically deployed and made available through the web service.
+To provide a central access point for all project-related documentation, a dedicated portal was developed to consolidate the available information in one place.
 
 
-\section{Table}
-Here is an example table that has three colums with various justification and row spacing.
+\articlefiguretwo{P406_f3}{P406_f4}{fig3-4}{  Multi-Environment Documentation Deployment with Fully Automated Documentation Updates \emph{Left:} Separate CI/CD pipelines for the development and production repositories build documentation from source code, package it into Docker images, and publish them to the Harbor container registry. The images are deployed on separate Kubernetes clusters: an internally accessible development cluster and a publicly accessible production cluster. \emph{Right:} Two Git repositories separates tool development from Kubernetes infrastructure management. Keel monitors the documentation images and automatically triggers redeployment when an image update is detected, ensuring that the latest documentation is deployed to the Kubernetes cluster without manual intervention.}
 
-\begin{table}[!ht]
-\caption{Tables in \LaTeXe}
-\smallskip
-\begin{center}
-{\small
-\begin{tabular}{llc}  % l = left, c = centered
-\tableline
-\noalign{\smallskip}
-First Column & Second Column & Third Column:\\
-\noalign{\smallskip}
-\tableline
-\noalign{\smallskip}
-First Row, First Column & First Row, Second Column & First Row, Third Column \\
-Second Row, First Column & Second Row, Second Column & Second Row, Third Column \\
-Third Row, First Column & Third Row, Second Column & Third Row, Third Column \\
-\noalign{\smallskip}
-\tableline % Sometimes you just need a line between table rows
-\noalign{\smallskip}
-Fourth Row, First Column & ~ & Fourth Row, Third Column \\ % Sometimes you have empty cells
-\noalign{\smallskip} % Sometimes you just need space between table rows
-Fifth Row First Column & Fifth Row, Second Column & Fifth Row, Third Column\\ % No \\ if the last row
-\noalign{\smallskip}
-\tableline\
-\end{tabular}
-}
-\end{center}
-\end{table}
-\noindent These tables can get a little messy, but this format is the most common.
+\section{Results and Discussion}
+Containerisation and a Kubernetes infrastructure are used to operate the entire ML-PPA system. Both the repositories and the documentation remain in-house, which enables automated updates, thereby reducing maintenance costs in particular. 
+The implemented three-layer architecture enables users to access and explore the software through Jupyter notebooks without requiring manual installation of the underlying software stack. Pre-built Apptainer containers ensures a consistent and reproducible execution environment.
+Future additions to ML-PPA will follow this workflow to ensure high-quality, well-documented code that is seamlessly deployed on a modern infrastructure.
 
-\section{Images}
-For some figures, see Figures \ref{ex_fig1}- \ref{ex_fig3}.
 
-These figures have been converted to the `png' image format.  Notice
-that the references to the figures do not need to include the file
-extension and that the pdfLaTeX compiler recognizes the non-`eps'
-image files.
+\articlefigure[width=0.45\textwidth]{P406_f5}{fig1}{ML--PPA -- A Central Information Hub: The ML--PPA portal provides a central access point to project information, linking the documentation and GitLab repositories of individual tools. A QR code enables direct access to the portal.}
 
- 
-\articlefigure[width=0.65\textwidth]{example.jpg}{ex_fig1}{Welcome to 1365.  Size adjusted to be a little smaller than full.}
-% It is possible to reduce the size of a figure among other changes (see the instructions).  Here is an example:
-% \articlefigure[width=.5\textwidth]{example_image}{ex_fig1_reduced}{Welcome to 1953 a little smaller.}
+\section{Conclusion and Outlook}
 
-\articlefiguretwo{example}{example}{ex_fig2}{Now there are two of them.  \emph{Left:} An image from long ago.  \emph{Right:} The same exact thing.}
-% There is a figure command allowing for three figures:
-% \articlefigurethree{example.eps}{example.eps}{example.eps}{ex_fig1_triple}{Now there are three of them.}
+Overall, the developed infrastructure brings together the individual software components into a unified and accessible environment for the ML-PPA project. The infrastructure enables the reproducible and integrated development of machine learning algorithms for pulsar search.
+The already substantial volume of software documentation makes it difficult to extract relevant information. Therefore, LLMs (Large Language Models) are to be integrated in future to facilitate the use of ML-PPA. One possible approach is to extend existing models using a skill-based approach. Skills provide reusable, task-specific instructions and contextual information that guide LLMs in performing specilasied tasks without requiring modifications to the underlying models \citet{agent_skills_specification}. This can help users to find the correct parameters and configuration of the software in addition to the documentation.
 
-\articlefigurefour{example}{example}{example}{example}{ex_fig3}{Now four of them?}
-
-\clearpage % To force this stuff to happen by this point in the text, otherwise these will probably end up after the references.
-
-There are also the landscape versions \verb"\articlelandscapefigure" and \\
-\verb"\articlelandscapefiguretwo" which are further described in the instructions.
-
-\section{References}
-References must be provided in BibTeX format, in a .bib file, and should usually be referenced using \verb"\citet" or \verb"\citep". The file example.bib supplied with this template is taken from an ADASS 2015 paper, and includes references to previous ADASS proceedings 
-\citep[such as][]{1999ASPC..172..487P} and to papers in what was then the current 2015 proceedings (e.g.\ \citet{O11-4_adassxxv}). Note that the `TBD' entries that appear for papers in the current proceedings will be dealt with by the ADASS editors when the final volume is produced. The example .bib file has a large number of references unused by this template file; such unused references have been left in as an example, but should be removed before a paper is submitted.
-
-\section{Conference Photographs}
-
-At the end of this template you may find a commented line with the bookpartphoto where the editors could decided to add a conference photo,
-might there be enough room at the end of your paper. Leave this comment in, do not supply your own photos in this paper but contact the editors
-if you have some interesting shots.
-
-\acknowledgements The ASP would like to thank the dedicated researchers who are publishing with the ASP.  It will make things a lot easier if you keep this text on the same line as the \verb"\acknowledgements" command. Place it just before the bibliography. It's optional of course.
+\acknowledgements 
+The authors gratefully acknowledge the financial support provided by the German Federal Ministry of Research, Technology and Space (BMFTR) in the framework of the Knowledge creates perspectives for the region, for the project StStG -- DZA -- Aufbauphase: Deutsches Zentrum f\"{u}r Astrophysik, Gro\ss{}forschungszentrum in der s\"{a}chsischen Lausitz: Aufbauphase 2026, grant number 03WSP1746."
 
 
 \bibliography{P406}  % For BibTex
